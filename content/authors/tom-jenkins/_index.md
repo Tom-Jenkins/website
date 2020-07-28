@@ -7,7 +7,7 @@ education:
   - course: PhD in Biological Sciences
     institution: University of Exeter
     year: 2018
-  - course: MRes in Biodiversity, Genomics and Informatics
+  - course: MRes in Genomics and Bioinformatics
     institution: Imperial College London
     year: 2014
   - course: BSc in Marine Biology
@@ -16,7 +16,7 @@ education:
 email: "t.l.jenkins@exeter.ac.uk"
 interests:
 - Marine biology
-- Applied science
+- Environmental science
 - Evolutionary genetics
 organizations:
 - name: University of Exeter

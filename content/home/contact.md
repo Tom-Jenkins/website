@@ -20,5 +20,11 @@ email_form = 0
 # Netlify form settings.
 [netlify]
   captcha = false  # Enable CAPTCHA challenge to reduce spam?
+
+[design.spacing]
+  # Customize the section spacing. Order is top, right, bottom, left.
+  padding = ["15px", "0", "15px", "0"]
+
+
 +++
 

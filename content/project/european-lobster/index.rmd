@@ -7,6 +7,7 @@ date: "2020-07-24"
 image:
   caption: "Image credit: Ellie Smart"
   focal_point: "Smart"
+alt_text: "An optional description of the image for screen readers."
 tags:
 - "Homarus gammarus"
 - "Population genetics"

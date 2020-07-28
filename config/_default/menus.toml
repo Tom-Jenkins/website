@@ -6,17 +6,22 @@
 [[main]]
   name = "About"
   url = "#about"
-  weight = 1
+  weight = 10
 
 [[main]]
   name = "Posts"
   url = "post/"
-  weight = 2
+  weight = 20
   
 [[main]]
   name = "Projects"
-  url = "project/"
-  weight = 3
+  url = "project_widget/"
+  weight = 30
+  
+#[[main]]
+  #name = "Projects"
+  #url = "project/"
+  #weight = 30
   
 [[main]]
   name = "Publications"
