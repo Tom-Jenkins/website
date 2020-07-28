@@ -17,12 +17,7 @@
   name = "Projects"
   url = "project_widget/"
   weight = 30
-  
-#[[main]]
-  #name = "Projects"
-  #url = "project/"
-  #weight = 30
-  
+
 [[main]]
   name = "Publications"
   url = "publication/"

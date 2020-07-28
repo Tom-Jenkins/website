@@ -1,0 +1,23 @@
+---
+title: "European lobster population genetics"
+summary: "Investigate the population genetics of European lobster using SNPs."
+author: "Tom Jenkins"
+date: "2018-07-01"
+# Header image (featured.png)
+image:
+  caption: "Image credit: Ellie Smart"
+  focal_point: "Smart"
+alt_text: ""
+tags: ["Lobster","Homarus gammarus","Population genetics","Fisheries management"]
+weight: 1
+
+---
+
+
+## R Markdown
+
+Inserting icons into markdown  
+`r icon::fa("twitter")`
+`r icon::fa("twitter", color = "blue")`
+`r icon::ai("researchgate")`
+

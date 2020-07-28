@@ -26,12 +26,12 @@ subtitle = ""
     tag = "*"
   
   [[content.filter_button]]
-    name = "Deep Learning"
-    tag = "Deep Learning"
+    name = "Lobster"
+    tag = "lobster"
   
   [[content.filter_button]]
-    name = "Other"
-    tag = "Demo"
+    name = "Maerl"
+    tag = "maerl"
 
 [design]
   # Choose how many columns the section has. Valid values: 1 or 2.
