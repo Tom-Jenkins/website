@@ -45,6 +45,6 @@ superuser: true
 title: Tom Jenkins
 ---
 
-I am a marine biologist and geneticist with a broad range of interests in marine ecology, applied science and evolutionary genetics. I currently work as a postdoctoral research scientist at the University of Exeter (UK), where I am investigating how (epi)genetic variation influences growth in the European lobster.
+I am a marine biologist and geneticist with a broad range of interests in marine ecology, environmental science and evolutionary genetics. I currently work as a postdoctoral research scientist at the University of Exeter (UK), where I am investigating how (epi)genetic variation influences growth in the European lobster.
 
-I am also involved with a number of other international collaborative research projects studying marine species, from economically valuable clawed lobsters and scampi, to octocorals and calcifying seaweeds such as maerl which support a variety of life and are important for marine conservation.  
+I am also involved in a number of other international collaborative research projects studying aquatic species, from economically valuable clawed lobsters and scampi, to octocorals and calcifying seaweeds such as maerl which support a variety of life and are vital for marine conservation.  
