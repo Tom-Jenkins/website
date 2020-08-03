@@ -3,7 +3,7 @@
 widget = "experience"  # See https://sourcethemes.com/academic/docs/page-builder/
 headless = true  # This file represents a page section.
 active = true  # Activate this widget? true/false
-weight = 40  # Order that this section will appear.
+weight = 1  # Order that this section will appear.
 
 title = "Experience"
 subtitle = ""
@@ -12,6 +12,10 @@ subtitle = ""
 #   Refer to https://sourcethemes.com/academic/docs/customization/#date-format
 date_format = "Jan 2006"
 
+[design.spacing]
+  # Customize the section spacing. Order is top, right, bottom, left.
+  padding = ["15px", "0", "15px", "0"]
+  
 # Experiences.
 #   Add/remove as many `[[experience]]` blocks below as you like.
 #   Required fields are `title`, `company`, and `date_start`.
@@ -24,7 +28,9 @@ date_format = "Jan 2006"
   location = "Exeter, UK"
   date_start = "2019-03-01"
   date_end = ""
-  description = """AquaLeap lobster project."""
+  #description = """AquaLeap lobster project.
+  #* bullet1
+  #"""
 
 [[experience]]
   title = "Research Associate"
@@ -33,7 +39,7 @@ date_format = "Jan 2006"
   location = "Exeter, UK"
   date_start = "2018-12-01"
   date_end = "2019-02-28"
-  description = """EU Agritech lobster project."""
+  #description = """EU Agritech lobster project."""
 
 [[experience]]
   title = "PhD Research Candidate"
@@ -42,7 +48,7 @@ date_format = "Jan 2006"
   location = "Exeter, UK"
   date_start = "2014-10-01"
   date_end = "2018-10-01"
-  description = """Population genetics and connectivity of benthic marine invertebrates."""
+  #description = """Population genetics and connectivity of benthic marine invertebrates."""
 
 
 +++
