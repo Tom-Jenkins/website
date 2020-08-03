@@ -1,0 +1,23 @@
+---
+title: "Maerl Genomics"
+summary: "Investigate the population structure of maerl beds using whole genome genotyping."
+author: "Tom Jenkins"
+date: "2019-06-01"
+# Header image (featured.png)
+image:
+  caption: "Image credit: Mark Milburn"
+  focal_point: "Smart"
+alt_text: ""
+tags: ["Maerl","Whole genome sequencing"]
+weight: 3
+
+---
+
+
+## R Markdown
+
+Inserting icons into markdown  
+`r icon::fa("twitter")`
+`r icon::fa("twitter", color = "blue")`
+`r icon::ai("researchgate")`
+

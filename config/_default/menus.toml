@@ -24,6 +24,11 @@
   weight = 40
 
 [[main]]
+  name = "R Gallery"
+  url = "gallery_widget/"
+  weight = 45
+  
+[[main]]
   name = "CV"
   url = "cv/"
   weight = 50

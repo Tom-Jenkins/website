@@ -11,7 +11,7 @@ publication_short: ""
 publication_types: ["2"]
 publishDate: "2020-04-28T00:00:00Z"
 slides: ""
-summary: ""
+summary: "The results of our study suggest that restocking small‐scale fisheries such as Corsica with hatchery‐reared juveniles can be beneficial in terms of enhancing local abundance, but also that translocating animals beyond the extent of natural connectivity can have profound and long‐lasting impacts on the genetic makeup of admixed stocks."
 tags: []
 url_code: "https://doi.org/10.5061/dryad.cvdncjt1d"
 url_dataset: "https://doi.org/10.5061/dryad.cvdncjt1d"
