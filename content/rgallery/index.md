@@ -1,5 +1,5 @@
 ---
-title: "Project Page"
+title: ""
 summary: ""
 date: ""
 type: "widget_page"

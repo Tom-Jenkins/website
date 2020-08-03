@@ -25,7 +25,7 @@
 
 [[main]]
   name = "R Gallery"
-  url = "gallery_widget/"
+  url = "rgallery/"
   weight = 45
   
 [[main]]
