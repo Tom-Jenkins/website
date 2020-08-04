@@ -1,15 +1,15 @@
 ---
-title: "Maerl Genomics"
-summary: "Investigate the population structure of maerl beds using whole genome genotyping."
+title: "Pink sea fan connectivity"
+summary: "Explore the population structure and connectivity of pink sea fans."
 author: "Tom Jenkins"
-date: "2019-06-01"
+date: "2017-01-01"
 # Header image (featured.png)
 image:
-  caption: "Image credit: Mark Milburn"
+  caption: "Image credit: Chris Wood"
   focal_point: "Smart"
-alt_text: ""
-tags: ["Maerl","Whole genome sequencing"]
-weight: 3
+  alt_text: "The Manacles"
+tags: ["Pink sea fan","Eunicella verrucosa"]
+weight: 4
 
 ---
 

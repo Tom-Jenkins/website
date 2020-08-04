@@ -27,11 +27,15 @@ subtitle = ""
   
   [[content.filter_button]]
     name = "Lobster"
-    tag = "lobster"
+    tag = "Lobster"
   
   [[content.filter_button]]
     name = "Maerl"
-    tag = "maerl"
+    tag = "Maerl"
+    
+  [[content.filter_button]]
+    name = "Pink sea fan"
+    tag = "Pink sea fan"
 
 [design]
   # Choose how many columns the section has. Valid values: 1 or 2.
