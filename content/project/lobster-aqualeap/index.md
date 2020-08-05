@@ -33,8 +33,12 @@ The [Lobster Grower](http://www.lobstergrower.co.uk/) project found that lobster
 ### Outputs
 
 #### News
-[Genetics expertise could transform fish production](https://phys.org/news/2020-04-genetics-expertise-fish-production.html)
+- [Genetics expertise could transform fish production](https://phys.org/news/2020-04-genetics-expertise-fish-production.html)
 
 #### Articles
-[Harnessing genomics to fast-track genetic improvement in aquaculture]({{< ref "/publication/2020houston-nrg/index.md" >}})
+- [Harnessing genomics to fast-track genetic improvement in aquaculture]({{< ref "/publication/2020houston-nrg/index.md" >}})
+
+### Science communication
+A collection of comic-style summaries to help communicate the findings of our research.
+{{< figure src="DNA_comic.jpg" title="What is a genome?" >}}
 

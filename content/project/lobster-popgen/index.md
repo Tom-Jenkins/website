@@ -2,7 +2,7 @@
 title: "European lobster population genetics"
 summary: "Investigate the population genetics of European lobster using SNPs."
 author: "Tom Jenkins"
-date: "2016-10-01"
+date: "2016-10-01T00:00:00Z"
 # Header image (featured.png)
 image:
   caption: "Image credit: Ellie Smart"
@@ -19,21 +19,34 @@ weight: 2
 <!-- `r icon::ai("researchgate")` -->
 
 ### Project Aim
-Investigate the population genetics of European lobster (_Homarus gammarus_) using single nucleotide polymorphisms.
+Investigate the population structure and connectivity of European lobster (_Homarus gammarus_) using single nucleotide polymorphisms.
 
 ### Description
-Investigate the genetic structure and connectivity of European lobster populations across the northeast Atlantic and the Mediterranean using genome-wide SNP markers isolated using RAD sequencing.
+Individual tissue samples were collected from populations across most of the present-day geographical range of the European lobster (the northeast Atlantic and the Mediterranean). Single nucleotide polymorphisms (SNPs) were isolated from across the genome of the European lobster using RAD sequencing and were subsequently used to assess population structure and connectivity. 
 
 ### Collaborators
-
+[Dr Jamie Stevens](https://biosciences.exeter.ac.uk/staff/profile/index.php?web_id=jamie_stevens)  
+[Dr Charlie Ellis](https://scholar.google.com/citations?user=Ti2Hv2gAAAAJ&hl=en)  
+[National Lobster Hatchery](https://www.nationallobsterhatchery.co.uk/)  
+[Dr Alexandros Triantafyllidis](https://scholar.google.com/citations?user=Pt6HaGIAAAAJ&hl=en)  
+[Dr Eric Durieux](https://scholar.google.fr/citations?user=y5VW55cAAAAJ&hl=en)  
 
 ### Outputs
 
 #### News
-[New test identifies lobster hybrids](https://www.sciencedaily.com/releases/2020/05/200511112543.htm)  
-[Seafood traceability captures lobsters crossing the pond](https://www.technologynetworks.com/tn/news/seafood-traceability-captures-lobsters-crossing-the-pond-334637)
+- [New test identifies lobster hybrids](https://www.sciencedaily.com/releases/2020/05/200511112543.htm)  
+- [Seafood traceability captures lobsters crossing the pond](https://www.technologynetworks.com/tn/news/seafood-traceability-captures-lobsters-crossing-the-pond-334637)
 
 #### Articles
-[Crossing the pond: genetic assignment detects lobster hybridisation]({{< ref "/publication/2020Ellis-hybrid/index.md" >}})
+- [Crossing the pond\: genetic assignment detects lobster hybridisation]({{< ref "/publication/2020Ellis-hybrid/index.md" >}})  
+- [Historical translocations and stocking alter the genetic structure of a Mediterranean lobster fishery](https://doi.org/10.1002/ece3.6304)  
+- [Single nucleotide polymorphisms reveal a genetic cline across the north‐east Atlantic and enable powerful population assignment in the European lobster]({{< ref "/publication/2019jenkins-lobster/index.md" >}})  
+- [Nanopore sequencing and complete assembly of the European lobster (_Homarus gammarus_) mitogenome uncovers the missing nad2 and a new major gene cluster duplication](https://doi.org/10.1186/s12864-019-5704-3)  
+- [SNP discovery in European lobster (_Homarus gammarus_) using RAD sequencing](https://doi.org/10.1007/s12686-018-1001-8)
 
-[Single nucleotide polymorphisms reveal a genetic cline across the north‐east Atlantic and enable powerful population assignment in the European lobster]({{< ref "/publication/2019jenkins-lobster/index.md" >}})
+### Science communication
+A collection of comic-style summaries to help communicate the findings of our research.
+{{< figure src="Lobster_comic1.jpg" title="Lobster Comic #1" >}}
+{{< figure src="Lobster_comic2.jpg" title="Lobster Comic #2" >}}
+{{< figure src="Lobster_comic3_corsica.jpg" title="Lobster Comic #3" >}}
+{{< figure src="Lobster_comic4_hybrid.jpg" title="Lobster Comic #4" >}}
