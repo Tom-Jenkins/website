@@ -8,7 +8,7 @@ image:
   caption: "Image credit: Mark Milburn"
   focal_point: "Smart"
 alt_text: ""
-tags: ["Maerl","Whole genome sequencing"]
+tags: ["Maerl", "Coralline red algae", "Whole genome sequencing", "Mitogenome", "Plastome"]
 weight: 3
 
 ---
@@ -22,7 +22,7 @@ Samples of _Phymatolithon calcareum_ from maerl beds across the northeast Atlant
 This study has been funded by a British Ecological Society Small Research Grant.
 
 ### Maerl beds
-Maerl beds provide a vital habitat for numerous marine invertebrates, juvenile fish and other seaweeds. Below are a few examples of the animals and algae they support:
+Maerl is the generic name for coralline red algae that live unattached on the seafloor. Maerl often aggregate to form extensive maerl beds, a complex 3D biogenic habitat, which provide vital shelter and resources for many marine invertebrates, juvenile fish and other seaweeds. Below are a few examples of the animals and algae they support:
 {{< figure src="SNH.jpg" title="Photo credit: Scottish National Heritage" width=500 height=450 >}}
 {{< figure src="Milburn2.jpg" title="Photo credit: Mark Milburn" width=500 height=450 >}}
 {{< figure src="Milburn3.jpg" title="Photo credit: Mark Milburn" width=500 height=450 >}}

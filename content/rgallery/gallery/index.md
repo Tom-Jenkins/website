@@ -11,5 +11,5 @@ subtitle = "Images created using R"
 
 {{< gallery >}}
 
-Animation created using Python {{< icon name="python" pack="fab" >}} code
+Animation created using Python {{< icon name="python" pack="fab" >}}
 {{< video src="pylag_anim_14days_Twitter.mp4" controls="yes" >}}

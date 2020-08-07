@@ -1,6 +1,6 @@
 ---
-title: "European lobster population genetics"
-summary: "Investigate the population genetics of European lobster using SNPs."
+title: "European lobster popgen"
+summary: "Investigate the population genetics of European lobster using single nucleotide polymorphisms."
 author: "Tom Jenkins"
 date: "2016-10-01T00:00:00Z"
 # Header image (featured.png)
@@ -27,7 +27,7 @@ Individual tissue samples were collected from populations across most of the pre
 ### Collaborators
 [Dr Jamie Stevens](https://biosciences.exeter.ac.uk/staff/profile/index.php?web_id=jamie_stevens)  
 [Dr Charlie Ellis](https://scholar.google.com/citations?user=Ti2Hv2gAAAAJ&hl=en)  
-[National Lobster Hatchery](https://www.nationallobsterhatchery.co.uk/)  
+[The National Lobster Hatchery](https://www.nationallobsterhatchery.co.uk/)  
 [Dr Alexandros Triantafyllidis](https://scholar.google.com/citations?user=Pt6HaGIAAAAJ&hl=en)  
 [Dr Eric Durieux](https://scholar.google.fr/citations?user=y5VW55cAAAAJ&hl=en)  
 
