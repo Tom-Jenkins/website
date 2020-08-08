@@ -25,11 +25,12 @@ Investigate the population structure and connectivity of European lobster (_Homa
 Individual tissue samples were collected from populations across most of the present-day geographical range of the European lobster (the northeast Atlantic and the Mediterranean). Single nucleotide polymorphisms (SNPs) were isolated from across the genome of the European lobster using RAD sequencing and were subsequently used to assess population structure and connectivity. 
 
 ### Collaborators
-[Dr Jamie Stevens](https://biosciences.exeter.ac.uk/staff/profile/index.php?web_id=jamie_stevens)  
-[Dr Charlie Ellis](https://scholar.google.com/citations?user=Ti2Hv2gAAAAJ&hl=en)  
+[Jamie Stevens](https://biosciences.exeter.ac.uk/staff/profile/index.php?web_id=jamie_stevens)  
+[Charlie Ellis](https://scholar.google.com/citations?user=Ti2Hv2gAAAAJ&hl=en)  
 [The National Lobster Hatchery](https://www.nationallobsterhatchery.co.uk/)  
-[Dr Alexandros Triantafyllidis](https://scholar.google.com/citations?user=Pt6HaGIAAAAJ&hl=en)  
-[Dr Eric Durieux](https://scholar.google.fr/citations?user=y5VW55cAAAAJ&hl=en)  
+[Alexandros Triantafyllidis](https://scholar.google.com/citations?user=Pt6HaGIAAAAJ&hl=en)  
+[Eric Durieux](https://scholar.google.fr/citations?user=y5VW55cAAAAJ&hl=en) 
+[]
 
 ### Outputs
 
@@ -38,10 +39,10 @@ Individual tissue samples were collected from populations across most of the pre
 - [Seafood traceability captures lobsters crossing the pond](https://www.technologynetworks.com/tn/news/seafood-traceability-captures-lobsters-crossing-the-pond-334637)
 
 #### Articles
-- [Crossing the pond\: genetic assignment detects lobster hybridisation]({{< ref "/publication/2020Ellis-hybrid/index.md" >}})  
+- [Crossing the pond\: genetic assignment detects lobster hybridisation](https://doi.org/10.1038/s41598-020-64692-z) 
 - [Historical translocations and stocking alter the genetic structure of a Mediterranean lobster fishery](https://doi.org/10.1002/ece3.6304)  
 - [Single nucleotide polymorphisms reveal a genetic cline across the north‐east Atlantic and enable powerful population assignment in the European lobster]({{< ref "/publication/2019jenkins-lobster/index.md" >}})  
-- [Nanopore sequencing and complete assembly of the European lobster (_Homarus gammarus_) mitogenome uncovers the missing nad2 and a new major gene cluster duplication](https://doi.org/10.1186/s12864-019-5704-3)  
+- [Nanopore sequencing and complete assembly of the European lobster (_Homarus gammarus_) mitogenome uncovers the missing _nad2_ and a new major gene cluster duplication](https://doi.org/10.1186/s12864-019-5704-3)  
 - [SNP discovery in European lobster (_Homarus gammarus_) using RAD sequencing](https://doi.org/10.1007/s12686-018-1001-8)
 
 ### Science communication

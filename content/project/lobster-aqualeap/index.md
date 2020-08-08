@@ -18,10 +18,10 @@ weight: 1
 <!-- `r icon::fa("twitter", color = "blue")` -->
 <!-- `r icon::ai("researchgate")` -->
 
-{{< figure src="aqualeap.png" title="Part of the [AquaLeap](https://twitter.com/aqua_leap) Consortium" >}}
+{{< figure src="aqualeap.jpg" title="Part of the [AquaLeap](https://twitter.com/aqua_leap) Consortium" width=200 height=100 >}}
 
 ### Project Aim
-Determine the molecular mechanisms underpinning growth in European lobster (_Homarus gammarus_).
+Determine the molecular mechanisms underpinning growth in the European lobster (_Homarus gammarus_).
 
 ### Description
 The [Lobster Grower](http://www.lobstergrower.co.uk/) project found that lobsters cultured at sea grow at different rates despite being exposed to almost identical environmental conditions. We have taken tissue samples from these animals and are using a combination of whole genome sequencing, RAD sequencing and methylation sequencing to explore the role of genetic and epigenetic variation in growth.
@@ -39,6 +39,7 @@ The [Lobster Grower](http://www.lobstergrower.co.uk/) project found that lobster
 - [Harnessing genomics to fast-track genetic improvement in aquaculture]({{< ref "/publication/2020houston-nrg/index.md" >}})
 
 ### Science communication
-A collection of comic-style summaries to help communicate the findings of our research.
-{{< figure src="DNA_comic.jpg" title="What is a genome?" >}}
+
+#### What is a genome?
+{{< figure src="DNA_comic.jpg" title="" >}}
 

@@ -11,5 +11,8 @@ subtitle = "Images created using R"
 
 {{< gallery >}}
 
-Animation created using Python {{< icon name="python" pack="fab" >}}
+<br/>
+<br/>
+Simulation showing the passive movement of particles as they are released from sites across southwest England in August 2010. This animation was created from the outputs of ocean drift models using Python {{< icon name="python" pack="fab" >}}
 {{< video src="pylag_anim_14days_Twitter.mp4" controls="yes" >}}
+<sub><sup>This simulation used the FVCOM ocean model and the particle tracking algorithm developed and implemented by Jim Clark (Plymouth Marine Laboratory).</sup></sub>

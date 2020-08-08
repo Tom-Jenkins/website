@@ -14,14 +14,14 @@ weight: 4
 ---
 
 ### Project Aim
-Investigate marine connectivity, population genetics, and adaptation in the pink sea fan.
+Investigate marine connectivity and population genetics in the pink sea fan.
 
 ### Description
-Samples of the pink sea fan (_Eunicella verrucosa_) have been collected from populations across the northwest Atlantic and western Mediterranean. Microsatellite markers have previously been used to assess population structure and connectivity ([Holland et al. 2017](https://doi.org/10.1038/hdy.2017.14)). We found that population of pink sea fans from southern Portugal, Britain/France, and northwest Ireland were genetically differentiated, possibly because of reduced connectivity between these areas. Now, [Kirsty Macleod](http://projects.exeter.ac.uk/meeg/kirsty-macleod) is using mesocosm experiments and genomics to study larval dispersal, population structure and connectivity, and how these processes may be affected by fluctuations in sea temperatures induced by global climate change.
+Samples of the pink sea fan (_Eunicella verrucosa_) have been collected from populations across the northwest Atlantic and western Mediterranean. Microsatellite markers have previously been developed and used to assess population structure and connectivity in this species (Holland et al. 2017). In this study, we found that population of pink sea fans from southern Portugal, Britain/France, and northwest Ireland were genetically differentiated, possibly because of reduced connectivity between these areas. Currently, [Kirsty Macleod](http://projects.exeter.ac.uk/meeg/kirsty-macleod) is using mesocosm experiments and genomics to study larval dispersal, population structure and connectivity, and how these processes may be affected by fluctuations in sea temperatures induced by global climate change.
 
 ### Collaborators
-[Kirsty Macleod](http://projects.exeter.ac.uk/meeg/kirsty-macleod)
-[Dr Jamie Stevens](https://biosciences.exeter.ac.uk/staff/profile/index.php?web_id=jamie_stevens)
+[Kirsty Macleod](http://projects.exeter.ac.uk/meeg/kirsty-macleod)  
+[Jamie Stevens](https://biosciences.exeter.ac.uk/staff/profile/index.php?web_id=jamie_stevens)  
 [The Aquatic Resources Centre](https://biosciences.exeter.ac.uk/exeter/facilities/aquaticresourcescentre/)
 
 ### Outputs
