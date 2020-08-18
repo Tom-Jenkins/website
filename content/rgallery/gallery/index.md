@@ -7,12 +7,15 @@ weight = 1  # Order that this section will appear.
 
 title = "Data Vis Gallery"
 subtitle = "Images created using R"
+
+[design.spacing]
+  # Customize the section spacing. Order is top, right, bottom, left.
+  padding = ["20px", "0", "20px", "0"]
+  
 +++
 
 {{< gallery >}}
 
-<br/>
-<br/>
-Simulation showing the passive movement of particles as they are released from sites across southwest England in August 2010. This animation was created from the outputs of ocean drift models using Python {{< icon name="python" pack="fab" >}}
-{{< video src="pylag_anim_14days_Twitter.mp4" controls="yes" >}}
-<sub><sup>This simulation used the FVCOM ocean model and the particle tracking algorithm developed and implemented by Jim Clark (Plymouth Marine Laboratory).</sup></sub>
+
+
+
