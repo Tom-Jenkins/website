@@ -47,3 +47,6 @@ graph LR;
 [DNeasy PowerClean CleanUp Kit](https://www.qiagen.com/gb/products/new-products/dneasy-powerclean-cleanup-kit/)
 
 
+### Twitter thread
+{{< tweet 1295276044228976642 >}}
+
