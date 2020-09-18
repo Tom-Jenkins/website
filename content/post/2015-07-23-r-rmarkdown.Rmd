@@ -1,5 +1,5 @@
 ---
-title: "This rmarkdown doc works 1a"
+title: "This rmarkdown doc works 1b"
 date: 2020-09-10
 math: true
 diagram: true
