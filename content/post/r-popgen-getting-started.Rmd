@@ -701,13 +701,13 @@ library(stringr)
 ```
 
 Export genind object in genepop format.
-```{r warning=FALSE, message=FALSE}
+```{r warning=FALSE, message=FALSE, eval=FALSE}
 source_url("https://raw.githubusercontent.com/Tom-Jenkins/utility_scripts/master/TJ_genind2genepop_function.R")
 genind2genepop(lobster_gen_sub, file = "lobster_genotypes.gen")
 ```
 
 Export genind object in STRUCTURE format. If you want to run STRUCTURE in Linux then use `unix = TRUE` which exports a Unix text file (Windows text file default).
-```{r warning=FALSE, message=FALSE}
+```{r warning=FALSE, message=FALSE, eval=FALSE}
 source_url("https://raw.githubusercontent.com/Tom-Jenkins/utility_scripts/master/TJ_genind2structure_function.R")
 genind2structure(lobster_gen_sub, file = "lobster_genotypes.str", pops = TRUE, markers = TRUE, unix = FALSE)
 ```
