@@ -1,23 +1,19 @@
 ---
 title: "Getting started with population genetics using R"
-date: '2020-09-21'
+date: 2020-09-21
 diagram: yes
-image:
-  caption: Genomic DNA submitted for PacBio sequencing
-  placement: 1
 math: yes
-slug: r-popgen-getting-started
-summary: R provides a wealth of packages and resources for analysing population
-  genetic data. This post aims to help scientists at any research level get started
-  with analysis of genetic data using R and its packages.
-tags:
-- Population genetics
-- R
-- adegenet
-- genind object
-- SNP
-- Microsatellite
-categories: R
+image:
+# Featured image placement options:
+#   1 = Full column width
+#   2 = Out-set
+#   3 = Screen-width
+  caption: "Genomic DNA submitted for PacBio sequencing"
+  placement: 1
+slug: "r-popgen-getting-started"
+summary: "R provides a wealth of packages and resources for analysing population genetic data. This post aims to help scientists at any research level get started with analysis of genetic data using R and its packages."
+tags: ["Population genetics", "R", "adegenet", "genind object", "SNP", "microsatellite"]
+categories: ["R"]
 ---
 
 ```{r setup, include=FALSE}
@@ -59,7 +55,7 @@ This post assumes that you have installed R and RStudio and that you have some s
 [2. Pink sea fan microsatellite genotypes in genepop format](./Pinkseafan_13MicrosatLoci.gen)
 
 **References**  
-Jenkins TL, Ellis CD, Triantafyllidis A, Stevens JR (2019). [Single nucleotide polymorphisms reveal a genetic cline across the north-east Atlantic and enable powerful population assignment in the European lobster](https://doi.org/https://doi.org/10.1111/eva.12849). _Evolutionary Applications_ 12, 1881--1899.  
+Jenkins TL, Ellis CD, Triantafyllidis A, Stevens JR (2019). [Single nucleotide polymorphisms reveal a genetic cline across the north‐east Atlantic and enable powerful population assignment in the European lobster](https://doi.org/https://doi.org/10.1111/eva.12849). _Evolutionary Applications_ 12, 1881--1899.  
 Holland LP, Jenkins TL, Stevens JR (2017). [Contrasting patterns of population structure and gene flow facilitate exploration of connectivity in two widely distributed temperate octocorals](https://doi.org/https://doi.org/10.1038/hdy.2017.14). _Heredity_ 119, 35--48.
 
 [Back to Contents](#contents)
