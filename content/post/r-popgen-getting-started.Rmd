@@ -1,24 +1,20 @@
 ---
 title: "Getting started with population genetics using R"
-date: '2020-09-21'
+date: 2020-09-21
+math: yes
 diagram: yes
 image:
-  caption: Genomic DNA submitted for PacBio sequencing
+# Featured image placement options:
+#   1 = Full column width
+#   2 = Out-set
+#   3 = Screen-width
+  caption: "NA"
   placement: 1
-math: yes
-slug: r-popgen-getting-started
-summary: R provides a wealth of packages and resources for analysing population genetic
-  data. This post aims to help scientists at any research level get started with analysis
-  of genetic data using R and its packages.
-tags:
-- Population genetics
-- R
-- adegenet
-- genind object
-- SNP
-- microsatellite
-categories: R
-output: blogdown::html_page
+summary: "R provides a wealth of packages and resources for analysing population genetic data. This post aims to help scientists at any research level get started with analysis of genetic data using R and its packages."
+tags: ["Population genetics", "R", "adegenet", "genind object", "SNP", "microsatellite"]
+categories: ["R"]
+slug: "r-popgen-getting-started"
+
 ---
 
 ```{r setup, include=FALSE}
@@ -649,7 +645,9 @@ american$pop = as.factor(substr(indNames(american), 1, 3))
 #### Conduct outlier tests using OutFLANK
 Conduct _F_~ST~ differentiation-based outlier tests on `genind` objects using [OutFLANK](https://github.com/whitlock/OutFLANK) using a wrapper script from the [dartR](https://cran.r-project.org/web/packages/dartR/vignettes/IntroTutorial_dartR.pdf) package.
 ```{r warning=FALSE, message=FALSE}
-# Load dartR package
+# Load packages
+library(OutFLANK)
+library(qvalue)
 library(dartR)
 
 # Run OutFLANK using dartR wrapper script
