@@ -1,5 +1,5 @@
 ---
-title: "Getting started with population genetics using R"
+title: "This rmarkdown doc works"
 date: 2020-09-10
 math: true
 diagram: true
@@ -9,8 +9,8 @@ image:
 #   2 = Out-set
 #   3 = Screen-width
   placement: 1
-  caption: "Genomic DNA submitted for PacBio sequencing"
-summary: "R provides a wealth of packages and resources for analysis of population genetic data. This post aims to help scientists at any research level get started with analysis of genetic data using R and its packages." 
+  caption: "NA"
+summary: "TEST" 
 categories: ["R"]
 tags: ["Population genetics", "R", "Adegenet"]
 slug: "r-popgen-getting-started"
