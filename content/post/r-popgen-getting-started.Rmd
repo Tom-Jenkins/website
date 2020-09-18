@@ -350,10 +350,15 @@ custom_theme = theme(
   axis.title.x = element_blank(),
   axis.line.y = element_line(size = 0.5),
   legend.title = element_blank(),
+  legend.text = element_text(size = 12),
   panel.grid = element_blank(),
   panel.background = element_blank(),
   plot.title = element_text(hjust = 0.5, size = 15, face="bold")
   )
+
+# Italic label
+hetlab.o = expression(italic("H")[o])
+hetlab.e = expression(italic("H")[e])
 ```
 
 ```{r}
@@ -361,7 +366,7 @@ custom_theme = theme(
 ggplot(data = Het_lobster_df, aes(x = Site, y = value, fill = variable))+
   geom_bar(stat = "identity", position = position_dodge(width = 0.6), colour = "black")+
   scale_y_continuous(expand = c(0,0), limits = c(0,0.50))+
-  scale_fill_manual(values = c("royalblue", "#bdbdbd"))+
+  scale_fill_manual(values = c("royalblue", "#bdbdbd"), labels = c(hetlab.o, hetlab.e))+
   ylab("Heterozygosity")+
   ggtitle("European lobster")+
   custom_theme
@@ -369,7 +374,7 @@ ggplot(data = Het_lobster_df, aes(x = Site, y = value, fill = variable))+
 ggplot(data = Het_seafan_df, aes(x = Site, y = value, fill = variable))+
   geom_bar(stat = "identity", position = "dodge", colour = "black")+
   scale_y_continuous(expand = c(0,0), limits = c(0,0.60), breaks = c(0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60))+
-  scale_fill_manual(values = c("pink", "#bdbdbd"))+
+  scale_fill_manual(values = c("pink", "#bdbdbd"), labels = c(hetlab.o, hetlab.e))+
   ylab("Heterozygosity")+
   ggtitle("Pink sea fan")+
   custom_theme
