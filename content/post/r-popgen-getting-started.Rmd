@@ -52,8 +52,8 @@ In this post, I cover some 'bread-and-butter' analyses for typical popgen data s
 This post assumes that you have installed R and RStudio and that you have some skills in R coding and functionality. To follow along, I recommend that you download the example data sets to a directory of your choice, create a new R script in the same directory and then set your working directory to the location of these files. To set your working directory in RStudio, for example, click Session > Set Working Directory > To Source File Location.
 
 **Download example data sets**  
-[1. European lobster SNP genotypes in data.frame format](./Lobster_SNP_Genotypes.csv)  
-[2. Pink sea fan microsatellite genotypes in genepop format](./Pinkseafan_13MicrosatLoci.gen)
+[1. European lobster SNP genotypes in data.frame format](/files/Lobster_SNP_Genotypes.csv)  
+[2. Pink sea fan microsatellite genotypes in genepop format](/files/Pinkseafan_13MicrosatLoci.gen)
 
 **References**  
 Jenkins TL, Ellis CD, Triantafyllidis A, Stevens JR (2019). [Single nucleotide polymorphisms reveal a genetic cline across the north‐east Atlantic and enable powerful population assignment in the European lobster](https://doi.org/https://doi.org/10.1111/eva.12849). _Evolutionary Applications_ 12, 1881--1899.  
