@@ -1,20 +1,20 @@
 ---
 title: "Getting started with population genetics using R"
-date: 2020-09-17
-math: yes
+date: '2020-09-17'
 diagram: yes
-image:
-# Featured image placement options:
-#   1 = Full column width
-#   2 = Out-set
-#   3 = Screen-width
-  caption: "NA"
-  placement: 1
-summary: "R provides a wealth of packages and resources for analysing population genetic data. This post aims to help scientists at any research level get started with analysis of genetic data using R and its packages."
-tags: ["Population genetics", "R", "adegenet", "genind object", "SNP", "microsatellite"]
-categories: ["R"]
-slug: "r-popgen-getting-started"
-
+math: yes
+slug: r-popgen-getting-started
+summary: R provides a wealth of packages and resources for analysing population genetic
+  data. This post aims to help scientists at any research level get started with analysis
+  of genetic data using R and its packages.
+tags:
+- Population genetics
+- R
+- adegenet
+- genind object
+- SNP
+- microsatellite
+categories: R
 ---
 
 
@@ -33,6 +33,7 @@ slug: "r-popgen-getting-started"
 <li><a href="#vcf">Import VCF file</a></li>
 <li><a href="#outlier">Conduct outlier tests using OutFLANK</a></li>
 <li><a href="#export">Export biallelic SNP genind object</a></li>
+<li><a href="#resources">Further resources and R session info</a></li>
 </ul></li>
 </ol>
 <div id="1"/>
@@ -50,7 +51,7 @@ slug: "r-popgen-getting-started"
 <li>Cross platform compatibility</li>
 <li>Free!</li>
 </ul>
-<p>Nowadays, popgen R has dozens of packages that often allow you to do similar things but different packages can have their own formatting requirements and R objects. I recommend choosing one type of R object to conduct all your analyses with because converting between R objects can be difficult and frustrating (I work with <code>genind</code> objects from the <code>adegenet</code> package).</p>
+<p>Nowadays, popgen R has dozens of packages that often allow you to do similar things but different packages can have their own formatting requirements and R objects. I recommend choosing one type of R object to conduct all your analyses with because converting between R objects can be difficult and frustrating (I work with <code>genind</code> objects from the <a href="https://github.com/thibautjombart/adegenet">adegenet</a> package).</p>
 <p>In this post, I cover some ‘bread-and-butter’ analyses for typical popgen data sets and highlight some of the R packages and functions I use to analyse such data using example data sets from published studies.</p>
 <p><strong>Assumptions</strong><br />
 This post assumes that you have installed R and RStudio and that you have some skills in R coding and functionality. To follow along, I recommend that you download the example data sets to a directory of your choice, create a new R script in the same directory and then set your working directory to the location of these files. To set your working directory in RStudio, for example, click Session &gt; Set Working Directory &gt; To Source File Location.</p>
@@ -441,6 +442,18 @@ summary(seafan_gen$pop)
 ##    Vol    Wtn 
 ##      0      0</code></pre>
 </div>
+<div id="print-mean-allelic-richness-per-site-across-all-loci" class="section level4">
+<h4>Print mean allelic richness per site across all loci</h4>
+<pre class="r"><code>allelic.richness(genind2hierfstat(seafan_gen))$Ar %&gt;%
+  apply(MARGIN = 2, FUN = mean) %&gt;% 
+  round(digits = 3)
+##   ArmI  ArmII ArmIII    Bla    Bov    Bre    Far    Fla    Han    Lao    Lio 
+##  2.771  2.720  2.748  2.635  2.784  2.837  2.807  2.698  3.030  2.809  2.957 
+##    Lun    Men    Mew    Moh   PorI  PorII    Rag   RosI  RosII    Sko    Thu 
+##  2.915  2.824  2.895  2.791  2.900  2.833  2.895  2.831  2.966  2.905  2.650 
+##    Vol    Wtn 
+##  2.767  3.032</code></pre>
+</div>
 <div id="calculate-heterozygosity-per-site" class="section level4">
 <h4>Calculate heterozygosity per site</h4>
 <pre class="r"><code># Calculate basic stats using hierfstat
@@ -514,18 +527,20 @@ custom_theme = theme(
 ggplot(data = Het_lobster_df, aes(x = Site, y = value, fill = variable))+
   geom_bar(stat = &quot;identity&quot;, position = position_dodge(width = 0.6), colour = &quot;black&quot;)+
   scale_y_continuous(expand = c(0,0), limits = c(0,0.50))+
+  scale_fill_manual(values = c(&quot;royalblue&quot;, &quot;#bdbdbd&quot;))+
   ylab(&quot;Heterozygosity&quot;)+
   ggtitle(&quot;European lobster&quot;)+
   custom_theme</code></pre>
-<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
 <pre class="r"><code># Pink sea fan heterozygosity barplot
 ggplot(data = Het_seafan_df, aes(x = Site, y = value, fill = variable))+
   geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, colour = &quot;black&quot;)+
   scale_y_continuous(expand = c(0,0), limits = c(0,0.60), breaks = c(0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60))+
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;#bdbdbd&quot;))+
   ylab(&quot;Heterozygosity&quot;)+
   ggtitle(&quot;Pink sea fan&quot;)+
   custom_theme</code></pre>
-<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-35-2.png" width="672" /></p>
+<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-36-2.png" width="672" /></p>
 </div>
 <div id="inbreeding-coefficient-fis" class="section level4">
 <h4>Inbreeding coefficient (<em>F</em><sub>IS</sub>)</h4>
@@ -566,22 +581,22 @@ seafan_gen_sub = popsub(seafan_gen, sublist = c(&quot;Bla&quot;,&quot;Bov&quot;,
 
 # Compute pairwise Fsts
 lobster_fst = genet.dist(lobster_gen_sub, method = &quot;WC84&quot;)
-lobster_fst
-##               Ale         Ber         Brd         Pad       Sar17
-## Ber   0.119557035                                                
-## Brd   0.130523156 0.006721256                                    
-## Pad   0.140365604 0.025300925 0.007555736                        
-## Sar17 0.066279018 0.173531832 0.171035158 0.160834883            
-## Vig   0.117463849 0.063912055 0.037762993 0.017551276 0.112494497
+lobster_fst %&gt;% round(digits = 3)
+##         Ale   Ber   Brd   Pad Sar17
+## Ber   0.120                        
+## Brd   0.131 0.007                  
+## Pad   0.140 0.025 0.008            
+## Sar17 0.066 0.174 0.171 0.161      
+## Vig   0.117 0.064 0.038 0.018 0.112
 
 seafan_fst = genet.dist(seafan_gen_sub, method = &quot;WC84&quot;)
-seafan_fst
-##                Bla           Bov           Bre           Lun          PorI
-## Bov   0.0986723972                                                        
-## Bre   0.1052334513  0.0051689929                                          
-## Lun   0.0953223887 -0.0024514939  0.0121254202                            
-## PorI  0.1139870017  0.0518479848  0.0449212903  0.0447524951              
-## Sko   0.0942341100 -0.0015319284  0.0055830865 -0.0008248049  0.0409832767</code></pre>
+seafan_fst %&gt;% round(digits = 3)
+##         Bla    Bov    Bre    Lun   PorI
+## Bov   0.099                            
+## Bre   0.105  0.005                     
+## Lun   0.095 -0.002  0.012              
+## PorI  0.114  0.052  0.045  0.045       
+## Sko   0.094 -0.002  0.006 -0.001  0.041</code></pre>
 <p>Visualise pairwise <em>F</em><sub>ST</sub> for lobster.</p>
 <pre class="r"><code># Convert dist object to data.frame
 fst.matrix = as.matrix(lobster_fst)
@@ -621,7 +636,7 @@ ggplot(data = fst.df, aes(x = Site1, y = Site2, fill = Fst))+
         legend.title = element_text(size = 14, face = &quot;bold&quot;),
         legend.text = element_text(size = 10)
         )</code></pre>
-<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
 <p>Visualise pairwise <em>F</em><sub>ST</sub> for pink sea fan.</p>
 <pre class="r"><code># Convert dist object to data.frame
 fst.matrix = as.matrix(seafan_fst)
@@ -661,7 +676,7 @@ ggplot(data = fst.df, aes(x = Site1, y = Site2, fill = Fst))+
         legend.title = element_text(size = 14, face = &quot;bold&quot;),
         legend.text = element_text(size = 10)
         )</code></pre>
-<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
 </div>
 <div id="pca" class="section level4">
 <h4>PCA</h4>
@@ -676,7 +691,7 @@ pca1 = dudi.pca(x, scannf = FALSE, scale = FALSE, nf = 3)
 percent = pca1$eig/sum(pca1$eig)*100
 barplot(percent, ylab = &quot;Genetic variance explained by eigenvectors (%)&quot;,
         names.arg = round(percent, 1), ylim = c(0, 12))</code></pre>
-<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
 <p>Visualise PCA results.</p>
 <pre class="r"><code># Create a data.frame containing individual coordinates
 ind_coords = as.data.frame(pca1$li)
@@ -730,7 +745,7 @@ ggplot(data = ind_coords, aes(x = Axis1, y = Axis2))+
   ggtitle(&quot;Lobster PCA&quot;)+
   # custom theme
   ggtheme</code></pre>
-<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
 </div>
 <div id="dapc" class="section level4">
 <h4>DAPC</h4>
@@ -739,7 +754,7 @@ ggplot(data = ind_coords, aes(x = Axis1, y = Axis2))+
 set.seed(123)
 x = tab(seafan_gen_sub, NA.method = &quot;mean&quot;)
 crossval = xvalDapc(x, seafan_gen_sub$pop, result = &quot;groupMean&quot;, xval.plot = TRUE)</code></pre>
-<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
 <pre class="r"><code># Number of PCs with best stats (lower score = better)
 crossval$`Root Mean Squared Error by Number of PCs of PCA`
 ##        10        20        30        40        50        60        70 
@@ -756,7 +771,7 @@ dapc1 = dapc(seafan_gen_sub, seafan_gen_sub$pop, n.pca = numPCs, n.da = 3)
 percent = dapc1$eig/sum(dapc1$eig)*100
 barplot(percent, ylab = &quot;Genetic variance explained by eigenvectors (%)&quot;, 
         names.arg = round(percent, 1))</code></pre>
-<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
 <p>Visualise DAPC results.</p>
 <pre class="r"><code># Create a data.frame containing individual coordinates
 ind_coords = as.data.frame(dapc1$ind.coord)
@@ -801,7 +816,7 @@ ggplot(data = ind_coords, aes(x = Axis1, y = Axis2))+
   ggtitle(&quot;Pink sea fan DAPC&quot;)+
   # custom theme
   ggtheme</code></pre>
-<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
 <p><a href="#contents">Back to Contents</a></p>
 <div id="6"/>
 </div>
@@ -836,17 +851,16 @@ american$pop = as.factor(substr(indNames(american), 1, 3))</code></pre>
 </div>
 <div id="conduct-outlier-tests-using-outflank" class="section level4">
 <h4>Conduct outlier tests using OutFLANK</h4>
-<p>Conduct <em>F</em><sub>ST</sub> differentiation-based outlier tests on <code>genind</code> objects using <a href="https://github.com/whitlock/OutFLANK">OutFLANK</a> using a wrapper script from the <a href="https://cran.r-project.org/web/packages/dartR/vignettes/IntroTutorial_dartR.pdf">dartR</a> package.</p>
+<p>Conduct <em>F</em><sub>ST</sub> differentiation-based outlier tests on <code>genind</code> object using <a href="https://github.com/whitlock/OutFLANK">OutFLANK</a> using a wrapper script from the <a href="https://cran.r-project.org/web/packages/dartR/vignettes/IntroTutorial_dartR.pdf">dartR</a> package.</p>
 <pre class="r"><code># Load packages
 library(OutFLANK)
 library(qvalue)
-library(dartR)
-
-# Run OutFLANK using dartR wrapper script
+library(dartR)</code></pre>
+<pre class="r"><code># Run OutFLANK using dartR wrapper script
 outflnk = gl.outflank(american, qthreshold = 0.05, plot = FALSE)
 ## Calculating FSTs, may take a few minutes...
 
-# OutFLANK results
+# Extract OutFLANK results
 outflnk.df = outflnk$outflank$results
 
 # Remove duplicated rows for each SNP locus
@@ -856,9 +870,8 @@ outflnk.df = outflnk.df[-rowsToRemove, ]
 # Print number of outliers (TRUE)
 outflnk.df$OutlierFlag %&gt;% summary
 ##    Mode   FALSE    TRUE 
-## logical    2968      32
-
-# Extract outlier IDs
+## logical    2968      32</code></pre>
+<pre class="r"><code># Extract outlier IDs
 outlier_indexes = which(outflnk.df$OutlierFlag == TRUE)
 outlierID = locNames(american)[outlier_indexes]
 outlierID
@@ -867,9 +880,8 @@ outlierID
 ## [13] &quot;un-288280&quot; &quot;un-288327&quot; &quot;un-342055&quot; &quot;un-395275&quot; &quot;un-395276&quot; &quot;un-424882&quot;
 ## [19] &quot;un-433799&quot; &quot;un-493905&quot; &quot;un-525474&quot; &quot;un-531991&quot; &quot;un-541424&quot; &quot;un-561940&quot;
 ## [25] &quot;un-581802&quot; &quot;un-631261&quot; &quot;un-631875&quot; &quot;un-649002&quot; &quot;un-676856&quot; &quot;un-679035&quot;
-## [31] &quot;un-691876&quot; &quot;un-734068&quot;
-
-# Convert Fsts &lt;0 to zero
+## [31] &quot;un-691876&quot; &quot;un-734068&quot;</code></pre>
+<pre class="r"><code># Convert Fsts &lt;0 to zero
 outflnk.df$FST[outflnk.df$FST &lt; 0] = 0 
 
 # Italic labels
@@ -886,7 +898,7 @@ ggplot(data = outflnk.df)+
   theme(legend.title = element_blank(),
         plot.title = element_text(hjust = 0.5, size = 15, face = &quot;bold&quot;)
         )</code></pre>
-<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+<p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
 <p><a href="#contents">Back to Contents</a></p>
 <div id="export"/>
 </div>
@@ -902,6 +914,89 @@ genind2genepop(lobster_gen_sub, file = &quot;lobster_genotypes.gen&quot;)</code>
 <p>Export genind object in STRUCTURE format. If you want to run STRUCTURE in Linux then use <code>unix = TRUE</code> which exports a Unix text file (Windows text file default).</p>
 <pre class="r"><code>source_url(&quot;https://raw.githubusercontent.com/Tom-Jenkins/utility_scripts/master/TJ_genind2structure_function.R&quot;)
 genind2structure(lobster_gen_sub, file = &quot;lobster_genotypes.str&quot;, pops = TRUE, markers = TRUE, unix = FALSE)</code></pre>
+<p><a href="#contents">Back to Contents</a></p>
+<div id="resources"/>
+</div>
+<div id="further-resources" class="section level4">
+<h4>Further resources</h4>
+<p><a href="https://github.com/Tom-Jenkins/admixture_pie_chart_map_tutorial">Conduct and visualise admixture analyses in R</a><br />
+<a href="https://grunwaldlab.github.io/Population_Genetics_in_R/TOC.html">Population genetics and genomics in R</a><br />
+<a href="https://popgen.nescent.org/2018-03-27_RDA_GEA.html">Detecting multilocus adaptation using redundancy analysis</a><br />
+<a href="https://bcm-uga.github.io/pcadapt/articles/pcadapt.html">Using pcadapt to detect local adaptation</a><br />
+<a href="https://grunwaldlab.github.io/poppr/articles/mlg.html">Analysis of multilocus genotypes and lineages in poppr</a><br />
+<a href="http://adegenet.r-forge.r-project.org/files/tutorial-spca.pdf">Spatial analysis of principal components analysis using adegenet</a><br />
+<a href="https://github.com/Tom-Jenkins/utility_scripts/blob/master/calculate_marine_lc_distances.R">Calculate geographic distances (km) across seas using marmap</a></p>
+</div>
+<div id="r-session-info" class="section level4">
+<h4>R session info</h4>
+<pre class="r"><code>sessionInfo()
+## R version 4.0.2 (2020-06-22)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 19041)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=English_United Kingdom.1252 
+## [2] LC_CTYPE=English_United Kingdom.1252   
+## [3] LC_MONETARY=English_United Kingdom.1252
+## [4] LC_NUMERIC=C                           
+## [5] LC_TIME=English_United Kingdom.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] stringr_1.4.0      miscTools_0.6-26   devtools_2.3.1     usethis_1.6.1     
+##  [5] dartR_1.8.3        OutFLANK_0.2       qvalue_2.20.0      vcfR_1.12.0       
+##  [9] scales_1.1.1       RColorBrewer_1.1-2 ggplot2_3.3.2      reshape2_1.4.4    
+## [13] hierfstat_0.5-7    dplyr_1.0.2        poppr_2.8.6        adegenet_2.1.3    
+## [17] ade4_1.7-15       
+## 
+## loaded via a namespace (and not attached):
+##   [1] backports_1.1.9     fastmatch_1.1-0     StAMPP_1.6.1       
+##   [4] plyr_1.8.6          igraph_1.2.5        sp_1.4-2           
+##   [7] splines_4.0.2       digest_0.6.25       foreach_1.5.0      
+##  [10] htmltools_0.5.0     gdata_2.18.0        fansi_0.4.1        
+##  [13] magrittr_1.5        memoise_1.1.0       cluster_2.1.0      
+##  [16] doParallel_1.0.15   PopGenReport_3.0.4  remotes_2.2.0      
+##  [19] gmodels_2.18.1      R.utils_2.10.1      prettyunits_1.1.1  
+##  [22] colorspace_1.4-1    mmod_1.3.3          xfun_0.16          
+##  [25] rgdal_1.5-16        callr_3.4.3         crayon_1.3.4       
+##  [28] phangorn_2.5.5      iterators_1.0.12    ape_5.4-1          
+##  [31] glue_1.4.2          gtable_0.3.0        seqinr_3.6-1       
+##  [34] polysat_1.7-4       pkgbuild_1.1.0      DEoptimR_1.0-8     
+##  [37] mvtnorm_1.1-1       DBI_1.1.0           GGally_2.0.0       
+##  [40] Rcpp_1.0.5          viridisLite_0.3.0   xtable_1.8-4       
+##  [43] spData_0.3.8        units_0.6-7         spdep_1.1-5        
+##  [46] dismo_1.1-4         genetics_1.3.8.1.2  calibrate_1.7.7    
+##  [49] ellipsis_0.3.1      pkgconfig_2.0.3     reshape_0.8.8      
+##  [52] R.methodsS3_1.8.1   farver_2.0.3        deldir_0.1-28      
+##  [55] tidyselect_1.1.0    labeling_0.3        rlang_0.4.7        
+##  [58] later_1.1.0.1       munsell_0.5.0       tools_4.0.2        
+##  [61] cli_2.0.2           generics_0.0.2      evaluate_0.14      
+##  [64] fastmap_1.0.1       yaml_2.2.1          processx_3.4.3     
+##  [67] knitr_1.29          fs_1.5.0            gdsfmt_1.24.1      
+##  [70] robustbase_0.93-6   purrr_0.3.4         RgoogleMaps_1.4.5.3
+##  [73] nlme_3.1-148        mime_0.9            R.oo_1.24.0        
+##  [76] gap_1.2.2           compiler_4.0.2      png_0.1-7          
+##  [79] testthat_2.3.2      e1071_1.7-3         tibble_3.0.3       
+##  [82] stringi_1.4.6       ps_1.3.4            gdistance_1.3-6    
+##  [85] blogdown_0.20       desc_1.2.0          memuse_4.1-0       
+##  [88] lattice_0.20-41     Matrix_1.2-18       classInt_0.4-3     
+##  [91] vegan_2.5-6         permute_0.9-5       vctrs_0.3.4        
+##  [94] pillar_1.4.6        LearnBayes_2.15.1   lifecycle_0.2.0    
+##  [97] combinat_0.0-8      data.table_1.13.0   SNPRelate_1.22.0   
+## [100] raster_3.3-13       httpuv_1.5.4        R6_2.4.1           
+## [103] bookdown_0.20       promises_1.1.1      KernSmooth_2.23-17 
+## [106] gridExtra_2.3       sessioninfo_1.1.1   codetools_0.2-16   
+## [109] pkgload_1.1.0       boot_1.3-25         MASS_7.3-51.6      
+## [112] gtools_3.8.2        assertthat_0.2.1    rprojroot_1.3-2    
+## [115] withr_2.2.0         pinfsc50_1.2.0      pegas_0.13         
+## [118] mgcv_1.8-31         expm_0.999-5        parallel_4.0.2     
+## [121] quadprog_1.5-8      grid_4.0.2          tidyr_1.1.2        
+## [124] coda_0.19-3         class_7.3-17        rmarkdown_2.3      
+## [127] sf_0.9-5            shiny_1.5.0</code></pre>
 <p><a href="#contents">Back to Contents</a></p>
 </div>
 </div>

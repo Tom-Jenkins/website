@@ -1,20 +1,20 @@
 ---
 title: "Getting started with population genetics using R"
-date: 2020-09-17
-math: yes
+date: '2020-09-17'
 diagram: yes
-image:
-# Featured image placement options:
-#   1 = Full column width
-#   2 = Out-set
-#   3 = Screen-width
-  caption: "NA"
-  placement: 1
-summary: "R provides a wealth of packages and resources for analysing population genetic data. This post aims to help scientists at any research level get started with analysis of genetic data using R and its packages."
-tags: ["Population genetics", "R", "adegenet", "genind object", "SNP", "microsatellite"]
-categories: ["R"]
-slug: "r-popgen-getting-started"
-
+math: yes
+slug: r-popgen-getting-started
+summary: R provides a wealth of packages and resources for analysing population genetic
+  data. This post aims to help scientists at any research level get started with analysis
+  of genetic data using R and its packages.
+tags:
+- Population genetics
+- R
+- adegenet
+- genind object
+- SNP
+- microsatellite
+categories: R
 ---
 
 ```{r setup, include=FALSE}
@@ -32,6 +32,7 @@ knitr::opts_chunk$set(collapse = TRUE)
     - [Import VCF file](#vcf)
     - [Conduct outlier tests using OutFLANK](#outlier)
     - [Export biallelic SNP genind object](#export)
+    - [Further resources and R session info](#resources)
 
 <div id="1"/>
 ### 1. Why bother with R?
@@ -44,7 +45,7 @@ There are so many programs and software out there for analysing population genet
 * Cross platform compatibility
 * Free!
 
-Nowadays, popgen R has dozens of packages that often allow you to do similar things but different packages can have their own formatting requirements and R objects. I recommend choosing one type of R object to conduct all your analyses with because converting between R objects can be difficult and frustrating (I work with `genind` objects from the `adegenet` package).
+Nowadays, popgen R has dozens of packages that often allow you to do similar things but different packages can have their own formatting requirements and R objects. I recommend choosing one type of R object to conduct all your analyses with because converting between R objects can be difficult and frustrating (I work with `genind` objects from the [adegenet](https://github.com/thibautjombart/adegenet) package).
 
 In this post, I cover some 'bread-and-butter' analyses for typical popgen data sets and highlight some of the R packages and functions I use to analyse such data using example data sets from published studies.
 
@@ -295,6 +296,13 @@ summary(seafan_gen$pop)
 private_alleles(seafan_gen) %>% apply(MARGIN = 1, FUN = sum)
 ```
 
+#### Print mean allelic richness per site across all loci
+```{r}
+allelic.richness(genind2hierfstat(seafan_gen))$Ar %>%
+  apply(MARGIN = 2, FUN = mean) %>% 
+  round(digits = 3)
+```
+
 #### Calculate heterozygosity per site
 ```{r}
 # Calculate basic stats using hierfstat
@@ -353,6 +361,7 @@ custom_theme = theme(
 ggplot(data = Het_lobster_df, aes(x = Site, y = value, fill = variable))+
   geom_bar(stat = "identity", position = position_dodge(width = 0.6), colour = "black")+
   scale_y_continuous(expand = c(0,0), limits = c(0,0.50))+
+  scale_fill_manual(values = c("royalblue", "#bdbdbd"))+
   ylab("Heterozygosity")+
   ggtitle("European lobster")+
   custom_theme
@@ -360,6 +369,7 @@ ggplot(data = Het_lobster_df, aes(x = Site, y = value, fill = variable))+
 ggplot(data = Het_seafan_df, aes(x = Site, y = value, fill = variable))+
   geom_bar(stat = "identity", position = "dodge", colour = "black")+
   scale_y_continuous(expand = c(0,0), limits = c(0,0.60), breaks = c(0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60))+
+  scale_fill_manual(values = c("pink", "#bdbdbd"))+
   ylab("Heterozygosity")+
   ggtitle("Pink sea fan")+
   custom_theme
@@ -391,10 +401,10 @@ seafan_gen_sub = popsub(seafan_gen, sublist = c("Bla","Bov","Bre","Lun","PorI","
 
 # Compute pairwise Fsts
 lobster_fst = genet.dist(lobster_gen_sub, method = "WC84")
-lobster_fst
+lobster_fst %>% round(digits = 3)
 
 seafan_fst = genet.dist(seafan_gen_sub, method = "WC84")
-seafan_fst
+seafan_fst %>% round(digits = 3)
 ```
 
 Visualise pairwise _F_~ST~ for lobster.
@@ -545,7 +555,7 @@ ggplot(data = ind_coords, aes(x = Axis1, y = Axis2))+
   ggtheme
 ```
 
-#### DAPC
+#### DAPC  
 Perform a DAPC (discriminant analysis of principal components) on the seafan data set.
 ```{r}
 # Perform cross validation to find the optimal number of PCs to retain in DAPC
@@ -622,7 +632,7 @@ ggplot(data = ind_coords, aes(x = Axis1, y = Axis2))+
 ### 6. Extras
 
 <div id="vcf"/>
-#### Import VCF file
+#### Import VCF file  
 To illustrate importing VCF files and conducting OutFLANK outlier selection tests in R, we will use an [American lobster SNP data set](https://doi.org/10.5061/dryad.q771r) available from the Dryad Digital Repository.
 ```{r warning=FALSE, message=FALSE}
 # Load vcfR package
@@ -642,18 +652,20 @@ american$pop = as.factor(substr(indNames(american), 1, 3))
 [Back to Contents](#contents)
 
 <div id="outlier"/>
-#### Conduct outlier tests using OutFLANK
-Conduct _F_~ST~ differentiation-based outlier tests on `genind` objects using [OutFLANK](https://github.com/whitlock/OutFLANK) using a wrapper script from the [dartR](https://cran.r-project.org/web/packages/dartR/vignettes/IntroTutorial_dartR.pdf) package.
+#### Conduct outlier tests using OutFLANK  
+Conduct _F_~ST~ differentiation-based outlier tests on `genind` object using [OutFLANK](https://github.com/whitlock/OutFLANK) using a wrapper script from the [dartR](https://cran.r-project.org/web/packages/dartR/vignettes/IntroTutorial_dartR.pdf) package.
 ```{r warning=FALSE, message=FALSE}
 # Load packages
 library(OutFLANK)
 library(qvalue)
 library(dartR)
+```
 
+```{r}
 # Run OutFLANK using dartR wrapper script
 outflnk = gl.outflank(american, qthreshold = 0.05, plot = FALSE)
 
-# OutFLANK results
+# Extract OutFLANK results
 outflnk.df = outflnk$outflank$results
 
 # Remove duplicated rows for each SNP locus
@@ -662,12 +674,16 @@ outflnk.df = outflnk.df[-rowsToRemove, ]
 
 # Print number of outliers (TRUE)
 outflnk.df$OutlierFlag %>% summary
+```
 
+```{r}
 # Extract outlier IDs
 outlier_indexes = which(outflnk.df$OutlierFlag == TRUE)
 outlierID = locNames(american)[outlier_indexes]
 outlierID
+```
 
+```{r}
 # Convert Fsts <0 to zero
 outflnk.df$FST[outflnk.df$FST < 0] = 0 
 
@@ -691,7 +707,7 @@ ggplot(data = outflnk.df)+
 [Back to Contents](#contents)
 
 <div id="export"/>
-#### Export biallelic SNP genind object 
+#### Export biallelic SNP genind object  
 Load required packages.
 ```{r warning=FALSE, message=FALSE}
 library(devtools)
@@ -709,6 +725,23 @@ Export genind object in STRUCTURE format. If you want to run STRUCTURE in Linux 
 ```{r warning=FALSE, message=FALSE, eval=FALSE}
 source_url("https://raw.githubusercontent.com/Tom-Jenkins/utility_scripts/master/TJ_genind2structure_function.R")
 genind2structure(lobster_gen_sub, file = "lobster_genotypes.str", pops = TRUE, markers = TRUE, unix = FALSE)
+```
+
+[Back to Contents](#contents)
+
+<div id="resources"/>
+#### Further resources  
+[Conduct and visualise admixture analyses in R](https://github.com/Tom-Jenkins/admixture_pie_chart_map_tutorial)  
+[Population genetics and genomics in R](https://grunwaldlab.github.io/Population_Genetics_in_R/TOC.html)  
+[Detecting multilocus adaptation using redundancy analysis](https://popgen.nescent.org/2018-03-27_RDA_GEA.html)  
+[Using pcadapt to detect local adaptation](https://bcm-uga.github.io/pcadapt/articles/pcadapt.html)  
+[Analysis of multilocus genotypes and lineages in poppr](https://grunwaldlab.github.io/poppr/articles/mlg.html)  
+[Spatial analysis of principal components analysis using adegenet](http://adegenet.r-forge.r-project.org/files/tutorial-spca.pdf)  
+[Calculate geographic distances (km) across seas using marmap](https://github.com/Tom-Jenkins/utility_scripts/blob/master/calculate_marine_lc_distances.R)  
+
+#### R session info  
+```{r}
+sessionInfo()
 ```
 
 [Back to Contents](#contents)
