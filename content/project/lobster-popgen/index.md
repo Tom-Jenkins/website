@@ -29,8 +29,8 @@ Individual tissue samples were collected from populations across most of the pre
 [Charlie Ellis](https://scholar.google.com/citations?user=Ti2Hv2gAAAAJ&hl=en)  
 [The National Lobster Hatchery](https://www.nationallobsterhatchery.co.uk/)  
 [Alexandros Triantafyllidis](https://scholar.google.com/citations?user=Pt6HaGIAAAAJ&hl=en)  
-[Eric Durieux](https://scholar.google.fr/citations?user=y5VW55cAAAAJ&hl=en) 
-[]
+[Eric Durieux](https://scholar.google.fr/citations?user=y5VW55cAAAAJ&hl=en)  
+[Linda Svanberg](https://www.gu.se/om-universitetet/hitta-person/lindasvanberg)
 
 ### Outputs
 

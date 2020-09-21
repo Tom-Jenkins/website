@@ -1,6 +1,6 @@
 ---
 title: "Getting started with population genetics using R"
-date: '2020-09-17'
+date: '2020-09-21'
 diagram: yes
 math: yes
 slug: r-popgen-getting-started
@@ -36,7 +36,7 @@ knitr::opts_chunk$set(collapse = TRUE)
 
 <div id="1"/>
 ### 1. Why bother with R?
-There are so many programs and software out there for analysing population genetic data and generating summary statistics. At first I was quite overwhelmed and unsure which path to take. Then I started learning and using R and I have not looked back since. Aside from the fact that R was the first programming language I learnt, there are several reasons why I like to use R for popgen analysis:
+There are so many programs and software out there for analysing population genetic data and generating summary statistics. At first I was quite overwhelmed and unsure which path to take. Then I started learning and using R and I've not looked back since. Aside from the fact that R was the first programming language I learnt, there are several reasons why I like to use R for popgen analysis:
 
 * A wealth of online help resources and tutorials
 * Analyses easily replicated on new data sets  
