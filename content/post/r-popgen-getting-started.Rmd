@@ -558,6 +558,8 @@ ggplot(data = ind_coords, aes(x = Axis1, y = Axis2))+
   ggtitle("Lobster PCA")+
   # custom theme
   ggtheme
+# Export plot
+# ggsave("Figure1.png", width = 12, height = 8, dpi = 600)
 ```
 
 #### DAPC  
@@ -629,6 +631,8 @@ ggplot(data = ind_coords, aes(x = Axis1, y = Axis2))+
   ggtitle("Pink sea fan DAPC")+
   # custom theme
   ggtheme
+# Export plot
+# ggsave("Figure2.png", width = 12, height = 8, dpi = 600)
 ```
 
 [Back to Contents](#contents)
