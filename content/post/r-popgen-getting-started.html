@@ -694,8 +694,8 @@ pca1 = dudi.pca(x, scannf = FALSE, scale = FALSE, nf = 3)
 
 # Analyse how much percent of genetic variance is explained by each axis
 percent = pca1$eig/sum(pca1$eig)*100
-barplot(percent, ylab = &quot;Genetic variance explained by eigenvectors (%)&quot;,
-        names.arg = round(percent, 1), ylim = c(0, 12))</code></pre>
+barplot(percent, ylab = &quot;Genetic variance explained by eigenvectors (%)&quot;, ylim = c(0,12),
+        names.arg = round(percent, 1))</code></pre>
 <p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
 <p>Visualise PCA results.</p>
 <pre class="r"><code># Create a data.frame containing individual coordinates
@@ -776,7 +776,7 @@ dapc1 = dapc(seafan_gen_sub, seafan_gen_sub$pop, n.pca = numPCs, n.da = 3)
 
 # Analyse how much percent of genetic variance is explained by each axis
 percent = dapc1$eig/sum(dapc1$eig)*100
-barplot(percent, ylab = &quot;Genetic variance explained by eigenvectors (%)&quot;, 
+barplot(percent, ylab = &quot;Genetic variance explained by eigenvectors (%)&quot;, ylim = c(0,60),
         names.arg = round(percent, 1))</code></pre>
 <p><img src="/post/r-popgen-getting-started_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
 <p>Visualise DAPC results.</p>

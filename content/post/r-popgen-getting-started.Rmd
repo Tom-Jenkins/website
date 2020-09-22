@@ -500,8 +500,8 @@ pca1 = dudi.pca(x, scannf = FALSE, scale = FALSE, nf = 3)
 
 # Analyse how much percent of genetic variance is explained by each axis
 percent = pca1$eig/sum(pca1$eig)*100
-barplot(percent, ylab = "Genetic variance explained by eigenvectors (%)",
-        names.arg = round(percent, 1), ylim = c(0, 12))
+barplot(percent, ylab = "Genetic variance explained by eigenvectors (%)", ylim = c(0,12),
+        names.arg = round(percent, 1))
 ```
 
 Visualise PCA results.
@@ -582,7 +582,7 @@ dapc1 = dapc(seafan_gen_sub, seafan_gen_sub$pop, n.pca = numPCs, n.da = 3)
 
 # Analyse how much percent of genetic variance is explained by each axis
 percent = dapc1$eig/sum(dapc1$eig)*100
-barplot(percent, ylab = "Genetic variance explained by eigenvectors (%)", 
+barplot(percent, ylab = "Genetic variance explained by eigenvectors (%)", ylim = c(0,60),
         names.arg = round(percent, 1))
 ```
 
