@@ -31,7 +31,8 @@ Samples of the pink sea fan (_Eunicella verrucosa_) have been collected from pop
 - [Soft coral species exhibit strikingly different patterns of connectivity around the British Isles](https://www.exeter.ac.uk/news/featurednews/title_574226_en.html)
 
 #### Articles
-- [Contrasting patterns of population structure and gene flow facilitate exploration of connectivity in two widely distributed temperate octocorals](https://doi.org/10.1038/hdy.2017.14)
+- [Contrasting patterns of population structure and gene flow facilitate exploration of connectivity in two widely distributed temperate octocorals](https://doi.org/10.1038/hdy.2017.14)  
+- [Assessing connectivity between MPAs: selecting taxa and translating genetic data to inform policy](https://doi.org/10.1016/j.marpol.2018.04.022)
 
 ### Science communication
 New insights into marine conservation - Dr Jamie Stevens
