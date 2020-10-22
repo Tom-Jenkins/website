@@ -746,7 +746,10 @@ genind2structure(lobster_gen_sub, file = "lobster_genotypes.str", pops = TRUE, m
 [Using pcadapt to detect local adaptation](https://bcm-uga.github.io/pcadapt/articles/pcadapt.html)  
 [Analysis of multilocus genotypes and lineages in poppr](https://grunwaldlab.github.io/poppr/articles/mlg.html)  
 [Spatial analysis of principal components analysis using adegenet](http://adegenet.r-forge.r-project.org/files/tutorial-spca.pdf)  
-[Calculate geographic distances (km) across seas using marmap](https://github.com/Tom-Jenkins/utility_scripts/blob/master/calculate_marine_lc_distances.R)  
+[Calculate geographic distances (km) across seas using marmap](https://github.com/Tom-Jenkins/utility_scripts/blob/master/calculate_marine_lc_distances.R)
+
+#### Download a PDF of this post
+[Download PDF](/files/r-popgen-getting-started-pdf.pdf)
 
 #### R session info  
 ```{r}
