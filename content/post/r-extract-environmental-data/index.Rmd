@@ -1,14 +1,15 @@
 ---
 title: "Extracting marine data from Bio-ORACLE"
-date: '2020-11-01'
+date: '2020-11-02'
 diagram: yes
 math: yes
 slug: r-extract-marine-data
-summary: This will be a summary.
+summary: This post covers how to extract marine biotic, geophysical and environmental data at points of interest using R and Bio-ORACLE.
 tags:
+- Bio-ORACLE
+- Marine
 - R
 - Raster
-- Marine
 categories: R
 image:
 # Featured image placement options:
@@ -35,7 +36,7 @@ knitr::opts_chunk$set(collapse = TRUE, cache = TRUE)
 <div id="1"/>
 ### 1. Explore Bio-ORACLE data sets
 
-[Bio-ORACLE](https://www.bio-oracle.org/) is website that allow users to download biotic, geophysical and environmental data for surface and benthic marine realms in raster format. All data layers are available globally at the same spatial resolution of 5 arcmin (approximately 9.2 km at the equator). At the time of writing, Bio-ORACLE also allows future layers of four variables to be downloaded: temperature, salinity, current velocity and ice thickness. A list of all available data sets for surface and benthic layers can be found [here](https://www.bio-oracle.org/downloads-to-email.php).
+[Bio-ORACLE](https://www.bio-oracle.org/) is a website that allow users to download biotic, geophysical and environmental data for surface and benthic marine realms in raster format. All data layers are available globally at the same spatial resolution of 5 arcmin (approximately 9.2 km at the equator). At the time of writing, Bio-ORACLE also allows future layers for four variables to be downloaded: sea temperature, salinity, current velocity and ice thickness. A list of all available data sets for surface and benthic layers can be found [here](https://www.bio-oracle.org/downloads-to-email.php).
 
 **Example applications of Bio-ORACLE marine layers**
 
@@ -54,7 +55,9 @@ library(sp)
 library(dismo)
 ```
 
-#### Export a csv file containing variables of interest
+#### Export a csv file containing marine variables of interest
+
+The code below uses the `tidyverse` packages and regular expressions to extract information for the following variables: sea temperature, salinity, bathymetry, current velocity, dissolved oxygen, primary production, phosphate concentration, pH and silicate concentration. The exported files contain useful information such as the layer codes and descriptions, the units of measurement, and the resolution.
 
 ```{r}
 # List marine data sets
@@ -69,10 +72,14 @@ present = list_layers(datasets) %>%
   dplyr::select(dataset_code, layer_code, name, units, description, contains("cellsize"), version) %>%
   # keep variables of interest using a regular expression
   dplyr::filter(grepl(paste(variables, collapse = "|"), layer_code))
+```
 
+```{r eval=FALSE}
 # Export present-day data sets to csv file
 write_csv(present, path = "bio-oracle-present-datasets.csv")
+```
 
+```{r}
 # Future Representative Concentration Pathway (RCP) scenarios of interest
 rcp = c("RCP26","RCP45","RCP60","RCP85")
 
@@ -84,13 +91,12 @@ future = list_layers_future(datasets) %>%
   dplyr::filter(year == 2050 | year == 2100) %>% 
   # keep variables of interest using a regular expression
   dplyr::filter(grepl(paste(variables, collapse = "|"), layer_code))
-
-# Export future data sets to csv file
-write_csv(future, path = "bio-oracle-future-datasets.csv")
-
 ```
 
-The code above uses the `tidyverse` packages and regular expressions to extract information for the following variables: temperature, salinity, bathymetry, current velocity, dissolved oxygen, primary production, phosphate concentration, pH and silicate concentration. The exported files contain useful information such as the layer codes and descriptions, the units of measurement, and the resolution.
+```{r eval=FALSE}
+# Export future data sets to csv file
+write_csv(future, path = "bio-oracle-future-datasets.csv")
+```
 
 For the remainder of this post, we will focus on bathymetry and sea temperature but all of the code should be directly applicable to any of the other raster layers. 
 
@@ -100,23 +106,23 @@ For the remainder of this post, we will focus on bathymetry and sea temperature 
 Variables that are correlated with each other can affect the performance of models downstream. Therefore, if two variables are deemed to be correlated then usually only one of these is used in the analysis. In the example below, we specify the layer codes of our variables of interest and then assess their correlation.
 
 ```{r}
-# Create vectors of temperature layers
+# Create vectors of sea temperature layers
 temp.bottom = c("BO2_tempmax_bdmean","BO2_tempmean_bdmean","BO2_tempmin_bdmean","BO2_temprange_bdmean")
 temp.surface = c("BO2_tempmax_ss","BO2_tempmean_ss","BO2_tempmin_ss","BO2_temprange_ss")
 temp.bottom.surface = c(temp.bottom, temp.surface)
 
-# Check correlation between temperature layers
+# Check correlation between sea temperature layers
 layers_correlation(temp.bottom.surface) %>% plot_correlation
 ```
 
 ```{r}
-# Select layers that are not correlated (-0.6 > x < 0.6)
+# Re-examine layers that are not correlated (-0.6 > x < 0.6)
 temp.present = c("BO2_tempmean_bdmean","BO2_temprange_bdmean","BO2_tempmean_ss","BO2_temprange_ss")
 layers_correlation(temp.present) %>% round(digits = 2)
 layers_correlation(temp.present) %>% plot_correlation
 ```
 
-> The version of the `layers_correlation()` function used in this post currently does not accept version 2.1 of the layers (e.g. BO21_tempmean_bdmean) so version 2.0 was used to illustrate the code above.
+Note that the version of the `layers_correlation()` function used in this post does not accept version 2.1 of the layers (e.g. BO21_tempmean_bdmean) so version 2.0 was used to illustrate the code above.
 
 [Back to Contents](#contents)
 
@@ -136,7 +142,7 @@ temp.future = c("BO21_RCP26_2050_tempmean_bdmean","BO21_RCP45_2050_tempmean_bdme
                 "BO21_RCP26_2100_tempmean_ss","BO21_RCP45_2100_tempmean_ss","BO21_RCP60_2100_tempmean_ss","BO21_RCP85_2100_tempmean_ss",
                 "BO21_RCP26_2050_temprange_ss","BO21_RCP45_2050_temprange_ss","BO21_RCP60_2050_temprange_ss","BO21_RCP85_2050_temprange_ss",
                 "BO21_RCP26_2100_temprange_ss","BO21_RCP45_2100_temprange_ss","BO21_RCP60_2100_temprange_ss","BO21_RCP85_2100_temprange_ss"
-)
+                )
 
 # Combine present-day and future vectors
 temp = c(temp.present, temp.future)
@@ -146,10 +152,9 @@ Download raster layers to the sdmpredictors/Meta folder and import the rasters i
 ```{r}
 # Download rasters to sdmpredictors/Meta folder and import into R
 options(sdmpredictors_datadir = "C:/R-4.0.2/library/sdmpredictors/Meta/")
-temp.rasters = load_layers(temp)
-
 bathy.raster = load_layers("MS_bathy_5m")
 names(bathy.raster) = "MS_bathy_5m"
+temp.rasters = load_layers(temp)
 ```
 
 [Back to Contents](#contents)
@@ -205,7 +210,7 @@ sp::spplot(bathy.raster, zlim = c(-200, 0), main = names(bathy.raster),
 
 #### Prepare point data
 
-Create or import a data containing longitude and latitude points. In this example, we will create 100 random points directly from the rasters.
+Create or import a file containing longitude and latitude points. In this example, we will create 100 random points directly from a raster layer.
 ```{r}
 set.seed(123)
 random.pts = randomPoints(bathy.raster, n = 100) %>% as_tibble()
@@ -268,7 +273,7 @@ marine.data
 
 Check for NA values and drop rows if required.
 ```{r}
-# Check for NA values
+# Check each column for NA values
 na.check = map_int(marine.data, ~sum(is.na(.)))
 summary(na.check > 0)
 ```
@@ -293,7 +298,7 @@ theme1 = theme(
   axis.title = element_text(size = 12, face = "bold")
   )
 
-# Violin plot and raw point data
+# Violin plot and raw data
 marine.data %>% 
   # select only columns 5-8 (present-day sea temperature variables)
   dplyr::select(5:8) %>% 
@@ -317,7 +322,7 @@ marine.data %>%
 ```
 
 Export data to a csv file.
-```{r}
+```{r eval=FALSE}
 write_csv(marine.data, path = "marine_data.csv")
 ```
 

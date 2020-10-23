@@ -1,14 +1,15 @@
 ---
 title: "Extracting marine data from Bio-ORACLE"
-date: '2020-11-01'
+date: '2020-11-02'
 diagram: yes
 math: yes
 slug: r-extract-marine-data
-summary: This will be a summary.
+summary: This post covers how to extract marine biotic, geophysical and environmental data at points of interest using R and Bio-ORACLE.
 tags:
+- Bio-ORACLE
+- Marine
 - R
 - Raster
-- Marine
 categories: R
 image:
 # Featured image placement options:
@@ -16,7 +17,7 @@ image:
 #   2 = Out-set
 #   3 = Screen-width
   placement: 1
-  caption: "Genomic DNA submitted for PacBio sequencing"
+  caption: ""
 ---
 
 
@@ -34,8 +35,8 @@ image:
 <div id="1"/>
 <div id="explore-bio-oracle-data-sets" class="section level3">
 <h3>1. Explore Bio-ORACLE data sets</h3>
-<p><a href="https://www.bio-oracle.org/">Bio-ORACLE</a> is website that allow users to download biotic, geophysical and environmental data for surface and benthic marine realms in raster format. All data layers are available globally at the same spatial resolution of 5 arcmin (approximately 9.2 km at the equator). At the time of writing, bio-ORACLE also allows future layers of four variables to be downloaded: temperature, salinity, current velocity and ice thickness. A list of all available data sets for surface and benthic layers can be found <a href="https://www.bio-oracle.org/downloads-to-email.php">here</a>.</p>
-<p><strong>Example applications of bio-ORACLE marine layers</strong></p>
+<p><a href="https://www.bio-oracle.org/">Bio-ORACLE</a> is a website that allow users to download biotic, geophysical and environmental data for surface and benthic marine realms in raster format. All data layers are available globally at the same spatial resolution of 5 arcmin (approximately 9.2 km at the equator). At the time of writing, Bio-ORACLE also allows future layers for four variables to be downloaded: sea temperature, salinity, current velocity and ice thickness. A list of all available data sets for surface and benthic layers can be found <a href="https://www.bio-oracle.org/downloads-to-email.php">here</a>.</p>
+<p><strong>Example applications of Bio-ORACLE marine layers</strong></p>
 <ul>
 <li>Species distribution modelling / Ecological niche modelling</li>
 <li>Seascape genomics</li>
@@ -50,8 +51,9 @@ library(raster)
 library(sp)
 library(dismo)</code></pre>
 </div>
-<div id="export-a-csv-file-containing-variables-of-interest" class="section level4">
-<h4>Export a csv file containing variables of interest</h4>
+<div id="export-a-csv-file-containing-marine-variables-of-interest" class="section level4">
+<h4>Export a csv file containing marine variables of interest</h4>
+<p>The code below uses the <code>tidyverse</code> packages and regular expressions to extract information for the following variables: sea temperature, salinity, bathymetry, current velocity, dissolved oxygen, primary production, phosphate concentration, pH and silicate concentration. The exported files contain useful information such as the layer codes and descriptions, the units of measurement, and the resolution.</p>
 <pre class="r"><code># List marine data sets
 datasets = list_datasets(terrestrial = FALSE, marine = TRUE)
 
@@ -63,12 +65,10 @@ present = list_layers(datasets) %&gt;%
   # select certain columns
   dplyr::select(dataset_code, layer_code, name, units, description, contains(&quot;cellsize&quot;), version) %&gt;%
   # keep variables of interest using a regular expression
-  dplyr::filter(grepl(paste(variables, collapse = &quot;|&quot;), layer_code))
-
-# Export present-day data sets to csv file
-write_csv(present, path = &quot;bio-oracle-present-datasets.csv&quot;)
-
-# Future Representative Concentration Pathway (RCP) scenarios of interest
+  dplyr::filter(grepl(paste(variables, collapse = &quot;|&quot;), layer_code))</code></pre>
+<pre class="r"><code># Export present-day data sets to csv file
+write_csv(present, path = &quot;bio-oracle-present-datasets.csv&quot;)</code></pre>
+<pre class="r"><code># Future Representative Concentration Pathway (RCP) scenarios of interest
 rcp = c(&quot;RCP26&quot;,&quot;RCP45&quot;,&quot;RCP60&quot;,&quot;RCP85&quot;)
 
 # Extract future data sets
@@ -78,25 +78,23 @@ future = list_layers_future(datasets) %&gt;%
   # keep data for 2050 and 2100
   dplyr::filter(year == 2050 | year == 2100) %&gt;% 
   # keep variables of interest using a regular expression
-  dplyr::filter(grepl(paste(variables, collapse = &quot;|&quot;), layer_code))
-
-# Export future data sets to csv file
+  dplyr::filter(grepl(paste(variables, collapse = &quot;|&quot;), layer_code))</code></pre>
+<pre class="r"><code># Export future data sets to csv file
 write_csv(future, path = &quot;bio-oracle-future-datasets.csv&quot;)</code></pre>
-<p>The code above uses the <code>tidyverse</code> packages and regular expressions to extract information for the following variables: temperature, salinity, bathymetry, current velocity, dissolved oxygen, primary production, phosphate concentration, pH and silicate concentration. The exported files contain useful information such as the layer codes and descriptions, the units of measurement, and the resolution.</p>
 <p>For the remainder of this post, we will focus on bathymetry and sea temperature but all of the code should be directly applicable to any of the other raster layers.</p>
 </div>
 <div id="check-collinearity-between-sea-temperature-layers" class="section level4">
 <h4>Check collinearity between sea temperature layers</h4>
 <p>Variables that are correlated with each other can affect the performance of models downstream. Therefore, if two variables are deemed to be correlated then usually only one of these is used in the analysis. In the example below, we specify the layer codes of our variables of interest and then assess their correlation.</p>
-<pre class="r"><code># Create vectors of temperature layers
+<pre class="r"><code># Create vectors of sea temperature layers
 temp.bottom = c(&quot;BO2_tempmax_bdmean&quot;,&quot;BO2_tempmean_bdmean&quot;,&quot;BO2_tempmin_bdmean&quot;,&quot;BO2_temprange_bdmean&quot;)
 temp.surface = c(&quot;BO2_tempmax_ss&quot;,&quot;BO2_tempmean_ss&quot;,&quot;BO2_tempmin_ss&quot;,&quot;BO2_temprange_ss&quot;)
 temp.bottom.surface = c(temp.bottom, temp.surface)
 
-# Check correlation between temperature layers
+# Check correlation between sea temperature layers
 layers_correlation(temp.bottom.surface) %&gt;% plot_correlation</code></pre>
-<p><img src="/post/r-extract-environmental-data/index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<pre class="r"><code># Select layers that are not correlated (-0.6 &gt; x &lt; 0.6)
+<p><img src="/post/r-extract-environmental-data/index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code># Re-examine layers that are not correlated (-0.6 &gt; x &lt; 0.6)
 temp.present = c(&quot;BO2_tempmean_bdmean&quot;,&quot;BO2_temprange_bdmean&quot;,&quot;BO2_tempmean_ss&quot;,&quot;BO2_temprange_ss&quot;)
 layers_correlation(temp.present) %&gt;% round(digits = 2)
 ##                      BO2_tempmean_bdmean BO2_temprange_bdmean BO2_tempmean_ss
@@ -110,10 +108,8 @@ layers_correlation(temp.present) %&gt;% round(digits = 2)
 ## BO2_tempmean_ss                 -0.11
 ## BO2_temprange_ss                 1.00
 layers_correlation(temp.present) %&gt;% plot_correlation</code></pre>
-<p><img src="/post/r-extract-environmental-data/index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<blockquote>
-<p>The version of the <code>layers_correlation()</code> function used in this post currently does not accept version 2.1 of the layers (e.g. BO21_tempmean_bdmean) so version 2.0 was used to illustrate the code above.</p>
-</blockquote>
+<p><img src="/post/r-extract-environmental-data/index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Note that the version of the <code>layers_correlation()</code> function used in this post does not accept version 2.1 of the layers (e.g. BO21_tempmean_bdmean) so version 2.0 was used to illustrate the code above.</p>
 <p><a href="#contents">Back to Contents</a></p>
 <div id="2"/>
 </div>
@@ -131,19 +127,18 @@ temp.future = c(&quot;BO21_RCP26_2050_tempmean_bdmean&quot;,&quot;BO21_RCP45_205
                 &quot;BO21_RCP26_2100_tempmean_ss&quot;,&quot;BO21_RCP45_2100_tempmean_ss&quot;,&quot;BO21_RCP60_2100_tempmean_ss&quot;,&quot;BO21_RCP85_2100_tempmean_ss&quot;,
                 &quot;BO21_RCP26_2050_temprange_ss&quot;,&quot;BO21_RCP45_2050_temprange_ss&quot;,&quot;BO21_RCP60_2050_temprange_ss&quot;,&quot;BO21_RCP85_2050_temprange_ss&quot;,
                 &quot;BO21_RCP26_2100_temprange_ss&quot;,&quot;BO21_RCP45_2100_temprange_ss&quot;,&quot;BO21_RCP60_2100_temprange_ss&quot;,&quot;BO21_RCP85_2100_temprange_ss&quot;
-)
+                )
 
 # Combine present-day and future vectors
 temp = c(temp.present, temp.future)</code></pre>
 <p>Download raster layers to the sdmpredictors/Meta folder and import the rasters into R. If the rasters have already been downloaded then R will only import the data.</p>
 <pre class="r"><code># Download rasters to sdmpredictors/Meta folder and import into R
 options(sdmpredictors_datadir = &quot;C:/R-4.0.2/library/sdmpredictors/Meta/&quot;)
+bathy.raster = load_layers(&quot;MS_bathy_5m&quot;)
+names(bathy.raster) = &quot;MS_bathy_5m&quot;
 temp.rasters = load_layers(temp)
 ## Warning in load_layers(temp): Layers from different eras (current, future,
-## paleo) are being loaded together
-
-bathy.raster = load_layers(&quot;MS_bathy_5m&quot;)
-names(bathy.raster) = &quot;MS_bathy_5m&quot;</code></pre>
+## paleo) are being loaded together</code></pre>
 <p><a href="#contents">Back to Contents</a></p>
 <div id="3"/>
 </div>
@@ -163,20 +158,20 @@ cols = colorRampPalette(c(&quot;#5E85B8&quot;,&quot;#EDF0C0&quot;,&quot;#C13127&
 # Plot mean bottom mean temperature
 raster::subset(temp.rasters, grep(&quot;tempmean_bdmean&quot;, names(temp.rasters), value = TRUE)) %&gt;%
   plot(col = cols(100), zlim = c(0,17), axes = FALSE, box = FALSE)</code></pre>
-<p><img src="/post/r-extract-environmental-data/index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="/post/r-extract-environmental-data/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <pre class="r"><code># Plot sea surface mean temperature
 raster::subset(temp.rasters, grep(&quot;tempmean_ss&quot;, names(temp.rasters), value = TRUE)) %&gt;%
   plot(col = cols(100), zlim = c(9,17), axes = FALSE, box = FALSE)</code></pre>
-<p><img src="/post/r-extract-environmental-data/index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="/post/r-extract-environmental-data/index_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <pre class="r"><code># Plot mean bottom temperature range
 raster::subset(temp.rasters, grep(&quot;temprange_bdmean&quot;, names(temp.rasters), value = TRUE)) %&gt;%
   plot(col = cols(100), zlim = c(0,16), axes = FALSE, box = FALSE)</code></pre>
-<p><img src="/post/r-extract-environmental-data/index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="/post/r-extract-environmental-data/index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>Plot rasters using <code>sp::spplot()</code> function.</p>
 <pre class="r"><code># Plot bathymetry up to 200 m depth
 sp::spplot(bathy.raster, zlim = c(-200, 0), main = names(bathy.raster),
            scales = list(draw=TRUE), col.regions = topo.colors(100))</code></pre>
-<p><img src="/post/r-extract-environmental-data/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="/post/r-extract-environmental-data/index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p><a href="#contents">Back to Contents</a></p>
 <div id="4"/>
 </div>
@@ -184,7 +179,7 @@ sp::spplot(bathy.raster, zlim = c(-200, 0), main = names(bathy.raster),
 <h3>4. Extract data from rasters</h3>
 <div id="prepare-point-data" class="section level4">
 <h4>Prepare point data</h4>
-<p>Create or import a data containing longitude and latitude points. In this example, we will create 100 random points directly from the rasters.</p>
+<p>Create or import a file containing longitude and latitude points. In this example, we will create 100 random points directly from a raster layer.</p>
 <pre class="r"><code>set.seed(123)
 random.pts = randomPoints(bathy.raster, n = 100) %&gt;% as_tibble()</code></pre>
 <p>Convert <code>tibble</code> to a <code>SpatialPoints</code> object and set coordinate reference system (CRS).</p>
@@ -204,7 +199,7 @@ sp::spplot(bathy.raster, zlim = c(-200, 0), main = names(bathy.raster),
            scales = list(draw=TRUE), col.regions = topo.colors(100),
            sp.layout = c(&quot;sp.points&quot;, random.pts, pch = 21, cex = 1, fill = &quot;yellow&quot;, col = &quot;black&quot;)
            )</code></pre>
-<p><img src="/post/r-extract-environmental-data/index_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><img src="/post/r-extract-environmental-data/index_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>Create a <code>tibble</code> or <code>data.frame</code> to store Bio-ORACLE marine data for each point.</p>
 <pre class="r"><code>marine.data = tibble(ID = 1:nrow(random.pts@coords),
                      Lon = random.pts$x,
@@ -281,7 +276,7 @@ marine.data
 ## #   BO21_RCP45_2100_temprange_ss &lt;dbl&gt;, BO21_RCP60_2100_temprange_ss &lt;dbl&gt;,
 ## #   BO21_RCP85_2100_temprange_ss &lt;dbl&gt;</code></pre>
 <p>Check for NA values and drop rows if required.</p>
-<pre class="r"><code># Check for NA values
+<pre class="r"><code># Check each column for NA values
 na.check = map_int(marine.data, ~sum(is.na(.)))
 summary(na.check &gt; 0)
 ##    Mode   FALSE 
@@ -299,7 +294,7 @@ theme1 = theme(
   axis.title = element_text(size = 12, face = &quot;bold&quot;)
   )
 
-# Violin plot and raw point data
+# Violin plot and raw data
 marine.data %&gt;% 
   # select only columns 5-8 (present-day sea temperature variables)
   dplyr::select(5:8) %&gt;% 
@@ -314,7 +309,7 @@ marine.data %&gt;%
     xlab(&quot;Raster layer&quot;)+
     ylab(expression(bold(&quot;Temperature (&quot;^o*&quot;C)&quot;)))+
     theme1</code></pre>
-<p><img src="/post/r-extract-environmental-data/index_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p><img src="/post/r-extract-environmental-data/index_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 <p>Calculate the deepest and shallowest point.</p>
 <pre class="r"><code>marine.data %&gt;%
   summarise(deepest = min(MS_bathy_5m), shallowest = max(MS_bathy_5m))
