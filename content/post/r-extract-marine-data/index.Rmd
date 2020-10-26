@@ -21,7 +21,7 @@ image:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(collapse = TRUE, cache = TRUE)
+knitr::opts_chunk$set(collapse = TRUE)
 ```
 
 <div id="contents"/>
@@ -30,12 +30,12 @@ knitr::opts_chunk$set(collapse = TRUE, cache = TRUE)
 1. [Download and import Bio-ORACLE rasters](#2)
 1. [Plot rasters](#3)
 1. [Extract data from rasters](#4)
-1. [Download PDF and R session info](#5)
+1. [Download pdf and R session info](#5)
 
 <div id="1"/>
 ### 1. Explore Bio-ORACLE data sets
 
-[Bio-ORACLE](https://www.bio-oracle.org/) is a website that allow users to download biotic, geophysical and environmental data for surface and benthic marine realms in raster format. All data layers are available globally at the same spatial resolution of 5 arcmin (approximately 9.2 km at the equator). At the time of writing, Bio-ORACLE also allows future layers for four variables to be downloaded: sea temperature, salinity, current velocity and ice thickness. A list of all available data sets for surface and benthic layers can be found [here](https://www.bio-oracle.org/downloads-to-email.php).
+[Bio-ORACLE](https://www.bio-oracle.org/) is a website that allow users to download biotic, geophysical and environmental data for surface and benthic marine realms in raster format. All data layers are available globally at the same spatial resolution of 5 arcmin (approximately 9.2 km at the equator). At the time of writing, Bio-ORACLE also allows you to download future layers for four variables: sea temperature, salinity, current velocity and ice thickness. A list of all available data sets for surface and benthic layers can be found [here](https://www.bio-oracle.org/downloads-to-email.php).
 
 **Example applications of Bio-ORACLE marine layers**
 
@@ -331,7 +331,7 @@ write_csv(marine.data, path = "marine_data.csv")
 <div id="5"/>
 ### 5. Download pdf and R session info
 
-Download a PDF of this post [here]().
+Download a PDF of this post [here](/files/r-extract-marine-data-pdf.pdf)
 
 ```{r}
 sessionInfo()
