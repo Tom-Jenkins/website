@@ -1,8 +1,8 @@
 ---
 title: "European Fisheries"
-summary: ""
+summary: "A series of data visualisations on key UK and EU fisheries"
 author: "Tom Jenkins"
-date: "2020-02-01"
+date: "2020-01-04"
 # Header image (featured.png)
 image:
   caption: "Image credit: Tom Jenkins"
