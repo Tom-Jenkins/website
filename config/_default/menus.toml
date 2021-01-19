@@ -24,8 +24,8 @@
   weight = 40
 
 [[main]]
-  name = "R Gallery"
-  url = "rgallery/"
+  name = "Data Vis Gallery"
+  url = "data-vis-gallery/"
   weight = 45
   
 [[main]]

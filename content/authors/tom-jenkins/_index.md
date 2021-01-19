@@ -17,8 +17,8 @@ email: "t.l.jenkins@exeter.ac.uk"
 interests:
 - Marine ecology
 - Environmental science
-- Evolutionary genetics
-- R programming and data visualisation
+- Conservation genetics
+- Data visualisation and R programming
 organizations:
 - name: University of Exeter
   url: ""

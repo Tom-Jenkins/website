@@ -5,8 +5,8 @@ headless = true  # This file represents a page section.
 active = true  # Activate this widget? true/false
 weight = 1  # Order that this section will appear.
 
-title = "Data Vis Gallery"
-subtitle = "Images created using R"
+title = "Images created using R"
+subtitle = ""
 
 [design.spacing]
   # Customize the section spacing. Order is top, right, bottom, left.

@@ -24,7 +24,11 @@ subtitle = ""
   [[content.filter_button]]
     name = "All"
     tag = "*"
-  
+
+  [[content.filter_button]]
+    name = "Data Visualisation"
+    tag = "Datavis"
+	
   [[content.filter_button]]
     name = "Lobster"
     tag = "Lobster"
