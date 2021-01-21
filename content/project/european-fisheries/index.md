@@ -18,15 +18,3 @@ weight: 1
 <!-- `r icon::fa("twitter", color = "blue")` -->
 <!-- `r icon::ai("researchgate")` -->
 
-### Project title
-Determine the molecular mechanisms underpinning growth in the European lobster (_Homarus gammarus_).
-
-#### Insert image
-{{< figure src="team.jpg" title="" >}}
-
-#### External link
-- [GitHub data vis projects](https://github.com/Tom-Jenkins)
-
-#### Internal link
-- [Harnessing genomics to fast-track genetic improvement in aquaculture]({{< ref "/publication/2020houston-nrg/index.md" >}})
-
