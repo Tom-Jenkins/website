@@ -21,25 +21,39 @@ date_format = "Jan 2006"
 #   Required fields are `title`, `company`, and `date_start`.
 #   Leave `date_end` empty if it's your current employer.
 #   Begin/end multi-line descriptions with 3 quotes `"""`.
+
 [[experience]]
-  title = "Postdoctoral Research Associate"
+  title = "Senior Advisor"
+  company = "Natural England"
+  company_url = "https://www.gov.uk/government/organisations/natural-england"
+  location = "Exeter, UK"
+  date_start = "2021-02-01"
+  date_end = ""
+  description = "Work with partners to develop a Local Nature Recovery Strategy for Cornwall's landscapes and seascapes."
+  #* bullet1
+  #* bullet2
+  #"""
+  
+[[experience]]
+  title = "Postdoctoral Research Scientist"
   company = "University of Exeter"
   company_url = "http://biosciences.exeter.ac.uk/staff/profile/?web_id=Tom_Jenkins"
   location = "Exeter, UK"
   date_start = "2019-03-01"
-  date_end = ""
-  #description = """AquaLeap lobster project.
+  date_end = "2021-01-31"
+  description = "AquaLeap lobster project."
   #* bullet1
+  #* bullet2
   #"""
 
 [[experience]]
-  title = "Research Associate"
+  title = "Research Scientist"
   company = "University of Exeter"
   company_url = ""
   location = "Exeter, UK"
   date_start = "2018-12-01"
   date_end = "2019-02-28"
-  #description = """EU Agritech lobster project."""
+  description = "EU Agritech lobster project."
 
 [[experience]]
   title = "PhD Research Candidate"
@@ -48,7 +62,7 @@ date_format = "Jan 2006"
   location = "Exeter, UK"
   date_start = "2014-10-01"
   date_end = "2018-10-01"
-  #description = """Population genetics and connectivity of benthic marine invertebrates."""
+  description = "Investigate the population genetics and marine connectivity of two benthic marine invertebrates, the pink sea fan and the European lobster."
 
 
 +++

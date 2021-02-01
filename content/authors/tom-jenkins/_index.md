@@ -20,9 +20,9 @@ interests:
 - Conservation genetics
 - Data visualisation and R programming
 organizations:
-- name: University of Exeter
-  url: ""
-role: Postdoctoral Research Scientist
+- name: Natural England
+  url: "https://www.gov.uk/government/organisations/natural-england"
+role: Senior Advisor
 social:
 - icon: envelope
   icon_pack: fas
@@ -46,6 +46,8 @@ superuser: true
 title: Tom Jenkins
 ---
 
-I am a research scientist with a broad range of interests in marine ecology, environmental science and evolutionary genetics. I currently work as a postdoctoral research scientist at the University of Exeter (UK), where I am investigating how genetic and epigenetic variation influences growth in the European lobster.
+I am a research scientist with a broad range of interests in marine ecology, environmental science and conservation genetics. 
 
-I am also involved in a number of other international collaborative research projects studying marine species, from economically valuable clawed lobsters, to octocorals and calcifying seaweeds such as maerl which support a variety of life and are vital for marine conservation.  
+Update: On Feb 1st I started a new job at Natural England where I will be working with partners to develop a Local Nature Recovery Strategy for Cornwall's landscapes and seascapes.
+
+Previously, I worked as a postdoctoral research scientist at the University of Exeter where I investigated how genetic and epigenetic variation influences growth in the European lobster. I am also involved in a number of other international collaborative research projects studying marine species, from economically valuable clawed lobsters, to octocorals and calcifying seaweeds such as maerl which support a variety of life and are vital for marine conservation.  
