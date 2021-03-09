@@ -28,5 +28,5 @@ height = ""
 
 <br/>
 
-<iframe height="600" width="100%" frameborder="yes"
+<iframe height="700" width="100%" frameborder="yes"
 src="https://tomjenkins.shinyapps.io/cornwall_mpa_mapping_app/"></iframe>
