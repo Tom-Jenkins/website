@@ -88,7 +88,7 @@ show_related = {docs = true, page = false, post = true, project = true, publicat
 ############################
 
 # Enter contact details (optional). To hide a field, clear it to "".
-email = "t.l.jenkins@exeter.ac.uk"
+email = "tom.l.jenkins@outlook.com"
 #phone = "888 888 88 88"
 
 # Contact links
@@ -103,11 +103,11 @@ contact_links = [
 
 # Address
 # For country_code, use the 2-letter ISO code (see https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2 )
-address = {street = "Hatherly Laboratories, University of Exeter", city = "Exeter", region = "Devon", postcode = "EX4 4PS", country = "United Kingdom"}
+address = {street = "Sterling House, Dix's Field", city = "Exeter", region = "Devon", postcode = "EX1 1QA", country = "United Kingdom"}
 
 # Geographic coordinates
 # To get your coordinates, right-click on Google Maps and choose "What's here?". The coords will show up at the bottom.
-coordinates = {latitude = "50.734267", longitude = "-3.533123"}
+coordinates = {latitude = "50.72416626935505", longitude = "-3.525238919244449"}
 
 # Directions for visitors to locate you.
 #directions = "Enter Building 1 and take the stairs to Office 200 on Floor 2"

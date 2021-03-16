@@ -56,7 +56,7 @@ date_format = "Jan 2006"
   description = "EU Agritech lobster project."
 
 [[experience]]
-  title = "PhD Research Candidate"
+  title = "PhD Research Scientist"
   company = "University of Exeter"
   company_url = "http://biosciences.exeter.ac.uk/staff/profile/?web_id=Tom_Jenkins"
   location = "Exeter, UK"
