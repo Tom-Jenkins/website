@@ -45,7 +45,7 @@ Individual tissue samples were collected from populations across most of the pre
 - [Nanopore sequencing and complete assembly of the European lobster (_Homarus gammarus_) mitogenome uncovers the missing _nad2_ and a new major gene cluster duplication](https://doi.org/10.1186/s12864-019-5704-3)  
 - [SNP discovery in European lobster (_Homarus gammarus_) using RAD sequencing](https://doi.org/10.1007/s12686-018-1001-8)
 
-### Science communication
+### Science Communication
 A collection of comic-style summaries to help communicate the findings of our research.
 {{< figure src="Lobster_comic1.jpg" title="Lobster Comic #1" >}}
 {{< figure src="Lobster_comic2.jpg" title="Lobster Comic #2" >}}

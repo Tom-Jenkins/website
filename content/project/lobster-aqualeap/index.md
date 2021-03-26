@@ -38,7 +38,7 @@ The [Lobster Grower](http://www.lobstergrower.co.uk/) project found that lobster
 #### Articles
 - [Harnessing genomics to fast-track genetic improvement in aquaculture]({{< ref "/publication/2020houston-nrg/index.md" >}})
 
-### Science communication
+### Science Communication
 
 #### What is a genome?
 {{< figure src="DNA_comic.jpg" title="" >}}

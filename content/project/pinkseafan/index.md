@@ -34,7 +34,7 @@ Samples of the pink sea fan (_Eunicella verrucosa_) have been collected from pop
 - [Contrasting patterns of population structure and gene flow facilitate exploration of connectivity in two widely distributed temperate octocorals](https://doi.org/10.1038/hdy.2017.14)  
 - [Assessing connectivity between MPAs: selecting taxa and translating genetic data to inform policy](https://doi.org/10.1016/j.marpol.2018.04.022)
 
-### Science communication
+### Science Communication
 New insights into marine conservation - Dr Jamie Stevens
 {{< youtube Najhka0bHt0 >}}
 
