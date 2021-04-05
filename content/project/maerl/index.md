@@ -1,5 +1,5 @@
 ---
-title: "Maerl Whole Genome Genotyping"
+title: "Maerl whole genome genotyping"
 summary: "Investigate the genetic diversity and population structure of maerl beds"
 author: "Tom Jenkins"
 date: "2019-06-01"
