@@ -5,13 +5,13 @@ abstract: Maerl beds are vital habitats for a diverse array of marine species ac
 date: "2021-03-13T00:00:00Z"
 doi: "https://doi.org/10.1111/eva.13219"
 featured: true
-projects: []
+projects: ["maerl"]
 publication: Evolutionary Applications
 publication_short: ""
 publication_types: ["2"]
 publishDate: "2021-03-13T00:00:00Z"
 slides: ""
-summary: ""
+summary: "Samples of _Phymatolithon calcareum_ were collected from maerl beds across the north-east Atlantic and whole genomes were sequenced to explore genetic diversity and population structure. The results showed that _P. calcareum_ maerl beds are structured geogephically and that _P. calcareum_ maerl from the Fal Estuary is genetically distinct compared to all other sites sampled."
 tags: []
 url_code: "https://github.com/Tom-Jenkins/maerl_genomics"
 url_dataset: "https://www.ncbi.nlm.nih.gov/bioproject/PRJNA682082"

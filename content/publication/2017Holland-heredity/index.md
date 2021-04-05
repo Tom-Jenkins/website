@@ -5,7 +5,7 @@ abstract: "Connectivity is an important component of metapopulation dynamics in 
 date: "2017-03-07T00:00:00Z"
 doi: "https://doi.org/10.1038/hdy.2017.14"
 featured: false
-projects: []
+projects: ["pinkseafan"]
 publication: Heredity **119**, 35–48
 publication_short: ""
 publication_types: ["2"]

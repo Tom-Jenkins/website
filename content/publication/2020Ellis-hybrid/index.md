@@ -5,7 +5,7 @@ abstract: "American lobsters (Homarus americanus) imported live into Europe as a
 date: "2020-05-08T00:00:00Z"
 doi: "https://doi.org/10.1038/s41598-020-64692-z"
 featured: false
-projects: []
+projects: ["lobster-popgen"]
 publication: Scientific Reports **10**, 7781
 publication_short: ""
 publication_types: ["2"]

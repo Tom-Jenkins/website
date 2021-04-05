@@ -5,7 +5,7 @@ abstract: "Connectivity is frequently cited as a vital component of Marine Prote
 date: "2018-05-26T00:00:00Z"
 doi: "https://doi.org/10.1016/j.marpol.2018.04.022"
 featured: false
-projects: []
+projects: ["pinkseafan"]
 publication: Marine Policy **94**, 165-173
 publication_short: ""
 publication_types: ["2"]

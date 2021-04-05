@@ -5,7 +5,7 @@ abstract: "Resolving stock structure is crucial for fisheries conservation to en
 date: "2019-07-29T00:00:00Z"
 doi: "https://doi.org/10.1111/eva.12849"
 featured: false
-projects: []
+projects: ["lobster-popgen"]
 publication: Evolutionary Applications **12**, 1881-1899
 publication_short: ""
 publication_types: ["2"]

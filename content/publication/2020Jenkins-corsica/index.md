@@ -5,7 +5,7 @@ abstract: Stocking is often used to supplement wild populations that are overexp
 date: "2020-04-28T00:00:00Z"
 doi: "https://doi.org/10.1002/ece3.6304"
 featured: true
-projects: []
+projects: ["lobster-popgen"]
 publication: Ecology and Evolution **10**, 5631--5636
 publication_short: ""
 publication_types: ["2"]

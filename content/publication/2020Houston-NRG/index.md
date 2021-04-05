@@ -5,7 +5,7 @@ abstract: Aquaculture is the fastest-growing farmed food sector and will soon be
 date: "2020-04-16T00:00:00Z"
 doi: "https://doi.org/10.1038/s41576-020-0227-y"
 featured: false
-projects: []
+projects: ["lobster-aqualeap"]
 publication: Nature Reviews Genetics **21**, 389–409
 publication_short: ""
 publication_types: ["2"]

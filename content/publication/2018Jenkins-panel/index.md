@@ -5,7 +5,7 @@ abstract: "The European lobster (Homarus gammarus) is a decapod crustacean with 
 date: "2018-01-31T00:00:00Z"
 doi: "https://doi.org/10.1007/s12686-018-1001-8"
 featured: false
-projects: []
+projects: ["lobster-popgen"]
 publication: Conservation Genetics Resources **11**, 253–257
 publication_short: ""
 publication_types: ["2"]
