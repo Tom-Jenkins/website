@@ -8,7 +8,7 @@ image:
   caption: "Image credit: Tom Jenkins"
   focal_point: "Smart"
 alt_text: ""
-tags: ["Datavis"]
+# tags: ["Datavis"]
 weight: 1
 
 ---
