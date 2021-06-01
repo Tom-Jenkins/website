@@ -13,7 +13,6 @@ education:
   - course: BSc in Marine Biology
     institution: Swansea University
     year: 2013
-email: "t.l.jenkins@exeter.ac.uk"
 interests:
 - Marine ecology
 - Environmental science
@@ -22,7 +21,7 @@ interests:
 organizations:
 - name: Natural England
   url: "https://www.gov.uk/government/organisations/natural-england"
-role: Senior Advisor
+role: Senior Data Analyst
 social:
 - icon: envelope
   icon_pack: fas
@@ -48,6 +47,6 @@ title: Tom Jenkins
 
 I am a research scientist with a broad range of interests in marine ecology, environmental science and conservation genetics. 
 
-Update: On Feb 1st I started a new job at Natural England where I will be working with partners to develop a Local Nature Recovery Strategy for Cornwall's landscapes and seascapes.
+Update: On 1st Feb 2021 I started a new job at Natural England.
 
 Previously, I worked as a postdoctoral research scientist at the University of Exeter where I investigated how genetic and epigenetic variation influences growth in the European lobster. I am also involved in a number of other international collaborative research projects studying marine species, from economically valuable clawed lobsters, to octocorals and calcifying seaweeds such as maerl which support a variety of life and are vital for marine conservation.  

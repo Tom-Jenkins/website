@@ -23,13 +23,25 @@ date_format = "Jan 2006"
 #   Begin/end multi-line descriptions with 3 quotes `"""`.
 
 [[experience]]
+  title = "Senior Data Analyst"
+  company = "Natural England"
+  company_url = "https://www.gov.uk/government/organisations/natural-england"
+  location = "Exeter, UK"
+  date_start = "2021-06-01"
+  date_end = ""
+  description = "Senior Advisor in data analysis, modelling and statistics working on the Natural Capital & Ecosystems Assessment project"
+  #* bullet1
+  #* bullet2
+  #"""
+  
+[[experience]]
   title = "Senior Advisor"
   company = "Natural England"
   company_url = "https://www.gov.uk/government/organisations/natural-england"
   location = "Exeter, UK"
   date_start = "2021-02-01"
-  date_end = ""
-  description = "Work with partners to develop a Local Nature Recovery Strategy for Cornwall's landscapes and seascapes."
+  date_end = "2021-05-31"
+  description = "Senior Advisor working on the Cornwall Local Nature Recovery Strategy (LNRS) pilot project."
   #* bullet1
   #* bullet2
   #"""
@@ -39,21 +51,12 @@ date_format = "Jan 2006"
   company = "University of Exeter"
   company_url = "http://biosciences.exeter.ac.uk/staff/profile/?web_id=Tom_Jenkins"
   location = "Exeter, UK"
-  date_start = "2019-03-01"
+  date_start = "2018-12-01"
   date_end = "2021-01-31"
-  description = "AquaLeap lobster project."
+  description = "BBSRC/NERC AquaLeap project: Innovation in Genetics and Breeding to Advance UK Aquaculture Production. In this project, I assessed the heritability of growth in European lobsters reared in sea-based container systems."
   #* bullet1
   #* bullet2
   #"""
-
-[[experience]]
-  title = "Research Scientist"
-  company = "University of Exeter"
-  company_url = ""
-  location = "Exeter, UK"
-  date_start = "2018-12-01"
-  date_end = "2019-02-28"
-  description = "EU Agritech lobster project."
 
 [[experience]]
   title = "PhD Research Scientist"
@@ -62,7 +65,7 @@ date_format = "Jan 2006"
   location = "Exeter, UK"
   date_start = "2014-10-01"
   date_end = "2018-10-01"
-  description = "Investigate the population genetics and marine connectivity of two benthic marine invertebrates, the pink sea fan and the European lobster."
+  description = "[PhD Thesis](http://hdl.handle.net/10871/35541): Connectivity between MPAs: selecting appropriate taxa and assessing genetic connectivity in two benthic marine invertebrates."
 
 
 +++
