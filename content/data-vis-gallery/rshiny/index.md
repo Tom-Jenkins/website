@@ -25,7 +25,7 @@ height = ""
 <br/>
 
 <iframe height="700" width="100%" frameborder="yes"
-src="https://tomjenkins.shinyapps.io/devon_cornwall_scilly_mpa_app/"></iframe>
+src="https://tomjenkins.shinyapps.io/shiny_mpa_app/"></iframe>
 
 <br/>
 
