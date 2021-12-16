@@ -5,7 +5,7 @@ headless = true
 active = true
 weight = 2
 
-title = "Apps created using R Shiny"
+title = "R Shiny Apps"
 subtitle = ""
 
 # Slide height (optional).
@@ -24,7 +24,7 @@ height = ""
 
 <br/>
 
-<iframe height="1000" width="100%" frameborder="yes"
+<iframe height="800" width="100%" frameborder="yes"
 src="https://tomjenkins.shinyapps.io/shiny_fao_app/"></iframe>
 
 <br/>

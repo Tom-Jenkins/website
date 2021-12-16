@@ -1,11 +1,11 @@
 +++
-# Shiny widget
+# Interactive widget
 widget = "blank"
 headless = true
 active = false
 weight = 3
 
-title = "Apps created using R Shiny"
+title = "Interactive Graphics"
 subtitle = ""
 
 # Slide height (optional).
@@ -24,11 +24,6 @@ height = ""
 
 <br/>
 
-<iframe height="1000" width="100%" frameborder="yes"
-src="https://tomjenkins.shinyapps.io/shiny_fao_app/"></iframe>
-
-<br/>
-
-<iframe height="600" width="100%" frameborder="yes" src="https://tomjenkins.shinyapps.io/particle_drift_app/"> </iframe>
-
+<iframe height="600" width="600" frameborder="yes"
+src="pondX_hc_sunburst.html"></iframe>
 
