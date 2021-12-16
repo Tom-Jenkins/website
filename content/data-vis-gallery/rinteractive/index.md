@@ -2,8 +2,8 @@
 # Shiny widget
 widget = "blank"
 headless = true
-active = true
-weight = 2
+active = false
+weight = 3
 
 title = "Apps created using R Shiny"
 subtitle = ""
@@ -24,7 +24,7 @@ height = ""
 
 <br/>
 
-<iframe height="700" width="100%" frameborder="yes"
+<iframe height="1000" width="100%" frameborder="yes"
 src="https://tomjenkins.shinyapps.io/shiny_fao_app/"></iframe>
 
 <br/>

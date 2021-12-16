@@ -24,7 +24,7 @@ height = ""
 
 <br/>
 
-<iframe height="700" width="100%" frameborder="yes"
+<iframe height="1000" width="100%" frameborder="yes"
 src="https://tomjenkins.shinyapps.io/shiny_fao_app/"></iframe>
 
 <br/>
