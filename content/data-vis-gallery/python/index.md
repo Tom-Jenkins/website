@@ -2,7 +2,7 @@
 # Python widget
 widget = "blank"
 headless = true
-active = true
+active = false
 weight = 3
 
 title = "Media created using Python"
