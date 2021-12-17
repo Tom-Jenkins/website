@@ -12,3 +12,10 @@ command = "hugo -F -b $DEPLOY_PRIME_URL"
 [context.production]
 [context.production.environment]
 HUGO_ENV = "production"
+
+[[redirects]]
+  from = "https://tomjenkins.netlify.app/2020/08/17/dna-extraction/"
+  to = "https://tomjenkins.netlify.app/project/dna-extraction/"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
