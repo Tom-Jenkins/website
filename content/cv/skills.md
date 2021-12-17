@@ -3,14 +3,14 @@
 widget = "featurette"  # See https://sourcethemes.com/academic/docs/page-builder/
 headless = true  # This file represents a page section.
 active = true  # Activate this widget? true/false
-weight = 2  # Order that this section will appear.
+weight = 1  # Order that this section will appear.
 
 title = "Skills"
 subtitle = " "
 
 [design.spacing]
   # Customize the section spacing. Order is top, right, bottom, left.
-  padding = ["15px", "0", "15px", "0"]
+  padding = ["50px", "0", "50px", "0"]
   
 # Showcase personal skills or business features.
 # 
@@ -23,35 +23,47 @@ subtitle = " "
   icon_pack = "fab"
   name = "R"
   description = ""
+
+# [[feature]]
+#   icon = "chart-line"
+#   icon_pack = "fas"
+#   name = "Data analysis"
+#   description = ""
+  
+[[feature]]
+  icon = "chart-bar"
+  icon_pack = "fas"
+  name = "Data Visualisation"
+  description = ""
+ 
+[[feature]]
+  icon = "layer-group"
+  icon_pack = "fas"
+  name = "Geocomputation"
+  description = ""
   
 [[feature]]
   icon = "linux"
   icon_pack = "fab"
   name = "Linux"
-  description = ""  
+  description = "" 
+  
+[[feature]]
+  icon = "dna"
+  icon_pack = "fas"
+  name = "Bioinformatics"
+  description = "" 
 
-[[feature]]
-  icon = "microsoft"
-  icon_pack = "fab"
-  name = "Microsoft Office"
-  description = ""
-  
-[[feature]]
-  icon = "chart-line"
-  icon_pack = "fas"
-  name = "Data analysis"
-  description = ""
-  
-[[feature]]
-  icon = "chart-bar"
-  icon_pack = "fas"
-  name = "Data visualisation"
-  description = ""
+# [[feature]]
+#   icon = "microsoft"
+#   icon_pack = "fab"
+#   name = "Microsoft Office"
+#   description = ""
   
 [[feature]]
   icon = "bullhorn"
   icon_pack = "fas"
-  name = "Science communication"
+  name = "Science Communication"
   description = ""
   
   

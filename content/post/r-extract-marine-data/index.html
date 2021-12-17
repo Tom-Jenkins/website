@@ -20,6 +20,7 @@ image:
   caption: ""
 ---
 
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
 
 
 <div id="contents"/>
@@ -93,7 +94,7 @@ temp.bottom.surface = c(temp.bottom, temp.surface)
 
 # Check correlation between sea temperature layers
 layers_correlation(temp.bottom.surface) %&gt;% plot_correlation</code></pre>
-<p><img src="/post/r-extract-marine-data/index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <pre class="r"><code># Re-examine layers that are not correlated (-0.6 &gt; x &lt; 0.6)
 temp.present = c(&quot;BO2_tempmean_bdmean&quot;,&quot;BO2_temprange_bdmean&quot;,&quot;BO2_tempmean_ss&quot;,&quot;BO2_temprange_ss&quot;)
 layers_correlation(temp.present) %&gt;% round(digits = 2)
@@ -108,7 +109,7 @@ layers_correlation(temp.present) %&gt;% round(digits = 2)
 ## BO2_tempmean_ss                 -0.11
 ## BO2_temprange_ss                 1.00
 layers_correlation(temp.present) %&gt;% plot_correlation</code></pre>
-<p><img src="/post/r-extract-marine-data/index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>Note that the version of the <code>layers_correlation()</code> function used in this post does not accept version 2.1 of the layers (e.g. BO21_tempmean_bdmean) so version 2.0 was used to illustrate the code above.</p>
 <p><a href="#contents">Back to Contents</a></p>
 <div id="2"/>
@@ -158,20 +159,20 @@ cols = colorRampPalette(c(&quot;#5E85B8&quot;,&quot;#EDF0C0&quot;,&quot;#C13127&
 # Plot mean bottom mean temperature
 raster::subset(temp.rasters, grep(&quot;tempmean_bdmean&quot;, names(temp.rasters), value = TRUE)) %&gt;%
   plot(col = cols(100), zlim = c(0,17), axes = FALSE, box = FALSE)</code></pre>
-<p><img src="/post/r-extract-marine-data/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <pre class="r"><code># Plot sea surface mean temperature
 raster::subset(temp.rasters, grep(&quot;tempmean_ss&quot;, names(temp.rasters), value = TRUE)) %&gt;%
   plot(col = cols(100), zlim = c(9,17), axes = FALSE, box = FALSE)</code></pre>
-<p><img src="/post/r-extract-marine-data/index_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <pre class="r"><code># Plot mean bottom temperature range
 raster::subset(temp.rasters, grep(&quot;temprange_bdmean&quot;, names(temp.rasters), value = TRUE)) %&gt;%
   plot(col = cols(100), zlim = c(0,16), axes = FALSE, box = FALSE)</code></pre>
-<p><img src="/post/r-extract-marine-data/index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>Plot rasters using <code>sp::spplot()</code> function.</p>
 <pre class="r"><code># Plot bathymetry up to 200 m depth
 sp::spplot(bathy.raster, zlim = c(-200, 0), main = names(bathy.raster),
            scales = list(draw=TRUE), col.regions = topo.colors(100))</code></pre>
-<p><img src="/post/r-extract-marine-data/index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p><a href="#contents">Back to Contents</a></p>
 <div id="4"/>
 </div>
@@ -199,7 +200,7 @@ sp::spplot(bathy.raster, zlim = c(-200, 0), main = names(bathy.raster),
            scales = list(draw=TRUE), col.regions = topo.colors(100),
            sp.layout = c(&quot;sp.points&quot;, random.pts, pch = 21, cex = 1, fill = &quot;yellow&quot;, col = &quot;black&quot;)
            )</code></pre>
-<p><img src="/post/r-extract-marine-data/index_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>Create a <code>tibble</code> or <code>data.frame</code> to store Bio-ORACLE marine data for each point.</p>
 <pre class="r"><code>marine.data = tibble(ID = 1:nrow(random.pts@coords),
                      Lon = random.pts$x,
@@ -238,43 +239,25 @@ names(store_data) = names(rasters)
 marine.data = bind_cols(marine.data, as_tibble(store_data))
 marine.data
 ## # A tibble: 100 x 40
-##       ID     Lon   Lat MS_bathy_5m BO21_tempmean_b~ BO21_temprange_~
-##    &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
-##  1     1   2.21   52.3         -37            10.2            12.3  
-##  2     2  -0.125  56.3         -89             7.92            5.78 
-##  3     3  -9.88   53.1         -61            10.2             4.52 
-##  4     4  -3.62   49.9         -64            11.3             5.90 
-##  5     5 -10.6    55.0       -2101             3.32            0.627
-##  6     6  -3.71   53.7         -32            11.0             9.62 
-##  7     7 -10.2    53.5         -21            11.4             7.40 
-##  8     8  -3.96   51.4         -28            11.8             9.32 
-##  9     9  -7.88   51.0        -103            10.4             2.86 
-## 10    10 -10.8    50.3        -187            10.8             0.970
+##       ID     Lon   Lat MS_bathy_5m BO21_tempmean_bdmean BO21_temprange_bdmean
+##    &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;                &lt;dbl&gt;                 &lt;dbl&gt;
+##  1     1   2.21   52.3         -37                10.2                  10.2 
+##  2     2  -0.125  56.3         -89                 7.92                  7.92
+##  3     3  -9.88   53.1         -61                10.2                  10.2 
+##  4     4  -3.62   49.9         -64                11.3                  11.3 
+##  5     5 -10.6    55.0       -2101                 3.32                  3.32
+##  6     6  -3.71   53.7         -32                11.0                  11.0 
+##  7     7 -10.2    53.5         -21                11.4                  11.4 
+##  8     8  -3.96   51.4         -28                11.8                  11.8 
+##  9     9  -7.88   51.0        -103                10.4                  10.4 
+## 10    10 -10.8    50.3        -187                10.8                  10.8 
 ## # ... with 90 more rows, and 34 more variables: BO21_tempmean_ss &lt;dbl&gt;,
 ## #   BO21_temprange_ss &lt;dbl&gt;, BO21_RCP26_2050_tempmean_bdmean &lt;dbl&gt;,
 ## #   BO21_RCP45_2050_tempmean_bdmean &lt;dbl&gt;,
 ## #   BO21_RCP60_2050_tempmean_bdmean &lt;dbl&gt;,
 ## #   BO21_RCP85_2050_tempmean_bdmean &lt;dbl&gt;,
 ## #   BO21_RCP26_2100_tempmean_bdmean &lt;dbl&gt;,
-## #   BO21_RCP45_2100_tempmean_bdmean &lt;dbl&gt;,
-## #   BO21_RCP60_2100_tempmean_bdmean &lt;dbl&gt;,
-## #   BO21_RCP85_2100_tempmean_bdmean &lt;dbl&gt;,
-## #   BO21_RCP26_2050_temprange_bdmean &lt;dbl&gt;,
-## #   BO21_RCP45_2050_temprange_bdmean &lt;dbl&gt;,
-## #   BO21_RCP60_2050_temprange_bdmean &lt;dbl&gt;,
-## #   BO21_RCP85_2050_temprange_bdmean &lt;dbl&gt;,
-## #   BO21_RCP26_2100_temprange_bdmean &lt;dbl&gt;,
-## #   BO21_RCP45_2100_temprange_bdmean &lt;dbl&gt;,
-## #   BO21_RCP60_2100_temprange_bdmean &lt;dbl&gt;,
-## #   BO21_RCP85_2100_temprange_bdmean &lt;dbl&gt;, BO21_RCP26_2050_tempmean_ss &lt;dbl&gt;,
-## #   BO21_RCP45_2050_tempmean_ss &lt;dbl&gt;, BO21_RCP60_2050_tempmean_ss &lt;dbl&gt;,
-## #   BO21_RCP85_2050_tempmean_ss &lt;dbl&gt;, BO21_RCP26_2100_tempmean_ss &lt;dbl&gt;,
-## #   BO21_RCP45_2100_tempmean_ss &lt;dbl&gt;, BO21_RCP60_2100_tempmean_ss &lt;dbl&gt;,
-## #   BO21_RCP85_2100_tempmean_ss &lt;dbl&gt;, BO21_RCP26_2050_temprange_ss &lt;dbl&gt;,
-## #   BO21_RCP45_2050_temprange_ss &lt;dbl&gt;, BO21_RCP60_2050_temprange_ss &lt;dbl&gt;,
-## #   BO21_RCP85_2050_temprange_ss &lt;dbl&gt;, BO21_RCP26_2100_temprange_ss &lt;dbl&gt;,
-## #   BO21_RCP45_2100_temprange_ss &lt;dbl&gt;, BO21_RCP60_2100_temprange_ss &lt;dbl&gt;,
-## #   BO21_RCP85_2100_temprange_ss &lt;dbl&gt;</code></pre>
+## #   BO21_RCP45_2100_tempmean_bdmean &lt;dbl&gt;, ...</code></pre>
 <p>Check for NA values and drop rows if required.</p>
 <pre class="r"><code># Check each column for NA values
 na.check = map_int(marine.data, ~sum(is.na(.)))
@@ -309,7 +292,7 @@ marine.data %&gt;%
     xlab(&quot;Raster layer&quot;)+
     ylab(expression(bold(&quot;Temperature (&quot;^o*&quot;C)&quot;)))+
     theme1</code></pre>
-<p><img src="/post/r-extract-marine-data/index_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 <p>Calculate the deepest and shallowest point.</p>
 <pre class="r"><code>marine.data %&gt;%
   summarise(deepest = min(MS_bathy_5m), shallowest = max(MS_bathy_5m))
@@ -327,9 +310,9 @@ marine.data %&gt;%
 <h3>5. Download pdf and R session info</h3>
 <p>Download a PDF of this post <a href="/files/r-extract-marine-data-pdf.pdf">here</a></p>
 <pre class="r"><code>sessionInfo()
-## R version 4.0.2 (2020-06-22)
+## R version 4.1.1 (2021-08-10)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 19041)
+## Running under: Windows 10 x64 (build 19043)
 ## 
 ## Matrix products: default
 ## 
@@ -344,27 +327,28 @@ marine.data %&gt;%
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] dismo_1.1-4         sdmpredictors_0.2.8 rgdal_1.5-16       
-##  [4] raster_3.3-13       sp_1.4-2            forcats_0.5.0      
-##  [7] stringr_1.4.0       dplyr_1.0.2         purrr_0.3.4        
-## [10] readr_1.3.1         tidyr_1.1.2         tibble_3.0.3       
-## [13] ggplot2_3.3.2       tidyverse_1.3.0    
+##  [1] dismo_1.3-5          sdmpredictors_0.2.10 rgdal_1.5-27        
+##  [4] raster_3.5-2         sp_1.4-5             forcats_0.5.1       
+##  [7] stringr_1.4.0        dplyr_1.0.7          purrr_0.3.4         
+## [10] readr_2.0.2          tidyr_1.1.4          tibble_3.1.5        
+## [13] ggplot2_3.3.5        tidyverse_1.3.1     
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] tidyselect_1.1.0 xfun_0.16        reshape2_1.4.4   haven_2.3.1     
-##  [5] lattice_0.20-41  colorspace_1.4-1 vctrs_0.3.4      generics_0.0.2  
-##  [9] htmltools_0.5.0  yaml_2.2.1       utf8_1.1.4       blob_1.2.1      
-## [13] rlang_0.4.7      pillar_1.4.6     glue_1.4.2       withr_2.2.0     
-## [17] DBI_1.1.0        dbplyr_1.4.4     modelr_0.1.8     readxl_1.3.1    
-## [21] plyr_1.8.6       lifecycle_0.2.0  munsell_0.5.0    blogdown_0.20   
-## [25] gtable_0.3.0     cellranger_1.1.0 rvest_0.3.6      codetools_0.2-16
-## [29] evaluate_0.14    knitr_1.29       fansi_0.4.1      broom_0.7.0     
-## [33] Rcpp_1.0.5       scales_1.1.1     backports_1.1.9  jsonlite_1.7.0  
-## [37] farver_2.0.3     fs_1.5.0         hms_0.5.3        digest_0.6.25   
-## [41] stringi_1.4.6    bookdown_0.20    grid_4.0.2       cli_2.0.2       
-## [45] tools_4.0.2      magrittr_1.5     crayon_1.3.4     pkgconfig_2.0.3 
-## [49] ellipsis_0.3.1   xml2_1.3.2       reprex_0.3.0     lubridate_1.7.9 
-## [53] assertthat_0.2.1 rmarkdown_2.3    httr_1.4.2       rstudioapi_0.11 
-## [57] R6_2.4.1         compiler_4.0.2</code></pre>
+##  [1] Rcpp_1.0.7       lubridate_1.8.0  lattice_0.20-44  assertthat_0.2.1
+##  [5] digest_0.6.28    utf8_1.2.2       plyr_1.8.6       R6_2.5.1        
+##  [9] cellranger_1.1.0 backports_1.2.1  reprex_2.0.1     evaluate_0.14   
+## [13] highr_0.9        httr_1.4.2       blogdown_1.6     pillar_1.6.4    
+## [17] rlang_0.4.12     readxl_1.3.1     rstudioapi_0.13  jquerylib_0.1.4 
+## [21] rmarkdown_2.11   munsell_0.5.0    broom_0.7.9      compiler_4.1.1  
+## [25] modelr_0.1.8     xfun_0.27        pkgconfig_2.0.3  htmltools_0.5.2 
+## [29] tidyselect_1.1.1 bookdown_0.24    codetools_0.2-18 fansi_0.5.0     
+## [33] crayon_1.4.2     tzdb_0.1.2       dbplyr_2.1.1     withr_2.4.2     
+## [37] grid_4.1.1       jsonlite_1.7.2   gtable_0.3.0     lifecycle_1.0.1 
+## [41] DBI_1.1.1        magrittr_2.0.1   scales_1.1.1     cli_3.0.1       
+## [45] stringi_1.7.5    farver_2.1.0     reshape2_1.4.4   fs_1.5.0        
+## [49] xml2_1.3.2       bslib_0.3.1      ellipsis_0.3.2   generics_0.1.0  
+## [53] vctrs_0.3.8      tools_4.1.1      glue_1.4.2       hms_1.1.1       
+## [57] fastmap_1.1.0    yaml_2.2.1       colorspace_2.0-2 terra_1.4-11    
+## [61] rvest_1.0.2      knitr_1.36       haven_2.4.3      sass_0.4.0</code></pre>
 </div>
 </div>

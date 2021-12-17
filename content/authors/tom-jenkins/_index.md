@@ -6,22 +6,22 @@ education:
   courses:
   - course: PhD in Biological Sciences
     institution: University of Exeter
-    year: 2018
   - course: MRes in Genomics and Bioinformatics
     institution: Imperial College London
-    year: 2014
   - course: BSc in Marine Biology
     institution: Swansea University
-    year: 2013
+    
 interests:
-- Marine ecology
-- Environmental science
-- Conservation genetics
-- Data visualisation and R programming
+- Marine biology
+- Genetics
+- R programming
+- Data visualisation
+
 organizations:
 - name: Natural England
   url: "https://www.gov.uk/government/organisations/natural-england"
 role: Senior Data Analyst
+
 social:
 - icon: envelope
   icon_pack: fas
@@ -45,8 +45,6 @@ superuser: true
 title: Tom Jenkins
 ---
 
-I am a research scientist with a broad range of interests in marine ecology, environmental science and conservation genetics. 
+I am a research scientist and analyst with a broad range of interests in marine biology, genetics, programming and data science. 
 
-Update: On 1st Feb 2021 I started a new job at Natural England.
-
-Previously, I worked as a postdoctoral research scientist at the University of Exeter where I investigated how genetic and epigenetic variation influences growth in the European lobster. I am also involved in a number of other international collaborative research projects studying marine species, from economically valuable clawed lobsters, to octocorals and calcifying seaweeds such as maerl which support a variety of life and are vital for marine conservation.  
+I currently work for Natural England as a data analyst where I mainly do geocomputation, data visualisation and statistics. Prior to this, I worked as a research scientist for the University of Exeter where I studied the genetics and biology of marine invertebrates and algae using DNA sequencing data and bioinformatics.

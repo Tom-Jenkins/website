@@ -1,0 +1,1005 @@
+---
+title: "Getting started with population genetics using R"
+date: '2020-09-21'
+diagram: yes
+math: yes
+slug: r-popgen-getting-started
+summary: R provides a wealth of packages and resources for analysing population genetic data. This tutorial aims to help scientists at any research level get started with analysis of genetic data using R and its packages.
+categories: R
+weight: 1
+---
+
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+
+
+<div id="contents"/>
+<div id="contents" class="section level2">
+<h2>Contents</h2>
+<ol style="list-style-type: decimal">
+<li><a href="#1">Why bother with R?</a></li>
+<li><a href="#2">Import genetic data</a></li>
+<li><a href="#3">Filtering</a></li>
+<li><a href="#4">Summary statistics</a></li>
+<li><a href="#5"><em>F</em><sub>ST</sub>, PCA &amp; DAPC</a></li>
+<li><a href="#6">Extras</a>
+<ul>
+<li><a href="#vcf">Import VCF file</a></li>
+<li><a href="#outlier">Conduct outlier tests using OutFLANK</a></li>
+<li><a href="#export">Export biallelic SNP genind object</a></li>
+<li><a href="#resources">Further resources and R session info</a></li>
+</ul></li>
+</ol>
+<div id="1"/>
+<div id="why-bother-with-r" class="section level3">
+<h3>1. Why bother with R?</h3>
+<p>There are so many programs and software out there for analysing population genetic data and generating summary statistics. At first I was quite overwhelmed and unsure which path to take. Then I started learning and using R and I’ve not looked back since. Aside from the fact that R was the first programming language I learnt, there are several reasons why I like to use R for popgen analysis:</p>
+<ul>
+<li>A wealth of online help resources and tutorials</li>
+<li>Analyses easily replicated on new data sets<br />
+</li>
+<li>Many options for creating publication quality figures and visualisations<br />
+</li>
+<li>Code can be uploaded to online repositories for other people to reproduce your analysis</li>
+<li>Cross platform compatibility</li>
+<li>Free!</li>
+</ul>
+<p>Nowadays, popgen R has dozens of packages that often allow you to do similar things but different packages can have their own formatting requirements and R objects. I recommend choosing one type of R object to conduct all your analyses with because converting between R objects can be difficult and frustrating (I work with <code>genind</code> objects from the <a href="https://github.com/thibautjombart/adegenet">adegenet</a> package).</p>
+<p>In this post, I cover some ‘bread-and-butter’ analyses for typical popgen data sets and highlight some of the R packages and functions I use to analyse such data using example data sets from published studies.</p>
+<p><strong>Assumptions</strong><br />
+This post assumes that you have installed R and RStudio and that you have some skills in R coding and functionality. To follow along, I recommend that you download the example data sets to a directory of your choice, create a new R script in the same directory and then set your working directory to the location of these files. To set your working directory in RStudio, for example, click Session &gt; Set Working Directory &gt; To Source File Location.</p>
+<p><strong>Download example data sets</strong><br />
+<a href="/files/Lobster_SNP_Genotypes.csv">1. European lobster SNP genotypes in data.frame format</a><br />
+<a href="/files/Pinkseafan_13MicrosatLoci.gen">2. Pink sea fan microsatellite genotypes in genepop format</a></p>
+<p><strong>References</strong><br />
+Jenkins TL, Ellis CD, Triantafyllidis A, Stevens JR (2019). <a href="https://doi.org/https://doi.org/10.1111/eva.12849">Single nucleotide polymorphisms reveal a genetic cline across the north‐east Atlantic and enable powerful population assignment in the European lobster</a>. <em>Evolutionary Applications</em> 12, 1881–1899.<br />
+Holland LP, Jenkins TL, Stevens JR (2017). <a href="https://doi.org/https://doi.org/10.1038/hdy.2017.14">Contrasting patterns of population structure and gene flow facilitate exploration of connectivity in two widely distributed temperate octocorals</a>. <em>Heredity</em> 119, 35–48.</p>
+<p><a href="#contents">Back to Contents</a></p>
+<div id="2"/>
+</div>
+<div id="import-genetic-data" class="section level3">
+<h3>2. Import genetic data</h3>
+<div id="install-and-load-r-packages" class="section level4">
+<h4>Install and load R packages</h4>
+<pre class="r"><code>library(adegenet)
+library(poppr)
+library(dplyr)
+library(hierfstat)
+library(reshape2)
+library(ggplot2)
+library(RColorBrewer)
+library(scales)</code></pre>
+</div>
+<div id="import-lobster-snp-genotypes" class="section level4">
+<h4>Import lobster SNP genotypes</h4>
+<p>Import csv file containing SNP (single nucleotide polymorphism) genotypes.</p>
+<pre class="r"><code>lobster = read.csv(&quot;Lobster_SNP_Genotypes.csv&quot;)
+str(lobster)
+## &#39;data.frame&#39;:    125280 obs. of  4 variables:
+##  $ Site    : chr  &quot;Ale&quot; &quot;Ale&quot; &quot;Ale&quot; &quot;Ale&quot; ...
+##  $ ID      : chr  &quot;Ale04&quot; &quot;Ale04&quot; &quot;Ale04&quot; &quot;Ale04&quot; ...
+##  $ Locus   : int  3441 4173 6157 7502 7892 8953 9441 11071 11183 11291 ...
+##  $ Genotype: chr  &quot;GG&quot; NA NA NA ...</code></pre>
+<p>Convert <code>data.frame</code> from long to wide format. The wide format contains one row for each individual and one column for each locus as well as a column for the ID and site labels.</p>
+<pre class="r"><code>lobster_wide = reshape(lobster, idvar = c(&quot;ID&quot;,&quot;Site&quot;), timevar = &quot;Locus&quot;, direction = &quot;wide&quot;, sep = &quot;&quot;)
+## Warning in reshapeWide(data, idvar = idvar, timevar = timevar, varying =
+## varying, : multiple rows match for Locus=3441: first taken
+
+# Remove &quot;Genotype&quot; from column names
+colnames(lobster_wide) = gsub(&quot;Genotype&quot;, &quot;&quot;, colnames(lobster_wide))</code></pre>
+<p>Subset genotypes and only keep SNP loci used in Jenkins et al. 2019.</p>
+<pre class="r"><code># Subset genotypes
+snpgeno = lobster_wide[ , 3:ncol(lobster_wide)]
+
+# Keep only SNP loci used in Jenkins et al. 2019
+snps_to_remove = c(&quot;25580&quot;,&quot;32362&quot;,&quot;41521&quot;,&quot;53889&quot;,&quot;65376&quot;,&quot;8953&quot;,&quot;21197&quot;,&quot;15531&quot;,&quot;22740&quot;,&quot;28357&quot;,&quot;33066&quot;,&quot;51507&quot;,&quot;53052&quot;,&quot;53263&quot;,&quot;21880&quot;,&quot;22323&quot;,&quot;22365&quot;)
+snpgeno = snpgeno[ , !colnames(snpgeno) %in% snps_to_remove]</code></pre>
+<p>Create vectors of individual and site labels.</p>
+<pre class="r"><code>ind = as.character(lobster_wide$ID) # individual ID
+site = as.character(lobster_wide$Site) # site ID</code></pre>
+<p>Convert <code>data.frame</code> to <code>genind</code> object. Check that the genotypes for the first five individuals and loci are as expected.</p>
+<pre class="r"><code>lobster_gen = df2genind(snpgeno, ploidy = 2, ind.names = ind, pop = site, sep = &quot;&quot;)
+lobster_gen$tab[1:5, 1:10]
+##       3441.G 3441.A 4173.C 4173.T 6157.G 6157.C 7502.T 7502.C 7892.T 7892.A
+## Ale04      2      0     NA     NA     NA     NA     NA     NA      2      0
+## Ale05      1      1      2      0      1      1      2      0      1      1
+## Ale06     NA     NA      2      0      2      0     NA     NA      2      0
+## Ale08     NA     NA      0      2      2      0      2      0     NA     NA
+## Ale13      2      0     NA     NA      2      0     NA     NA      2      0</code></pre>
+<p>Print basic info of the <code>genind</code> object.</p>
+<pre class="r"><code>lobster_gen
+## /// GENIND OBJECT /////////
+## 
+##  // 1,305 individuals; 79 loci; 158 alleles; size: 945.1 Kb
+## 
+##  // Basic content
+##    @tab:  1305 x 158 matrix of allele counts
+##    @loc.n.all: number of alleles per locus (range: 2-2)
+##    @loc.fac: locus factor for the 158 columns of @tab
+##    @all.names: list of allele names for each locus
+##    @ploidy: ploidy of each individual  (range: 2-2)
+##    @type:  codom
+##    @call: df2genind(X = snpgeno, sep = &quot;&quot;, ind.names = ind, pop = site, 
+##     ploidy = 2)
+## 
+##  // Optional content
+##    @pop: population of each individual (group size range: 7-41)
+
+popNames(lobster_gen)
+##  [1] &quot;Ale&quot;   &quot;Ber&quot;   &quot;Brd&quot;   &quot;Cor&quot;   &quot;Cro&quot;   &quot;Eye&quot;   &quot;Flo&quot;   &quot;Gul&quot;   &quot;Heb&quot;  
+## [10] &quot;Hel&quot;   &quot;Hoo&quot;   &quot;Idr16&quot; &quot;Idr17&quot; &quot;Iom&quot;   &quot;Ios&quot;   &quot;Jer&quot;   &quot;Kav&quot;   &quot;Kil&quot;  
+## [19] &quot;Laz&quot;   &quot;Loo&quot;   &quot;Lyn&quot;   &quot;Lys&quot;   &quot;Mul&quot;   &quot;Oos&quot;   &quot;Ork&quot;   &quot;Pad&quot;   &quot;Pem&quot;  
+## [28] &quot;Sar13&quot; &quot;Sar17&quot; &quot;Sbs&quot;   &quot;She&quot;   &quot;Sin&quot;   &quot;Sky&quot;   &quot;Sul&quot;   &quot;Tar&quot;   &quot;The&quot;  
+## [37] &quot;Tor&quot;   &quot;Tro&quot;   &quot;Ven&quot;   &quot;Vig&quot;</code></pre>
+</div>
+<div id="import-pink-sea-fan-microsatellite-genotypes" class="section level4">
+<h4>Import pink sea fan microsatellite genotypes</h4>
+<p>Import genepop file and convert to <code>genind</code> object. Check that the genotypes at locus Ever002 for three randomly selected individuals are as expected.</p>
+<pre class="r"><code>seafan_gen = import2genind(&quot;Pinkseafan_13MicrosatLoci.gen&quot;, ncode = 3, quiet = TRUE)
+set.seed(1)
+tab(seafan_gen[loc = &quot;Ever002&quot;])[runif(3, 1, nInd(seafan_gen)), ]
+##       Ever002.114 Ever002.117 Ever002.109 Ever002.105 Ever002.121
+## Far10           2           0           0           0           0
+## Han36           2           0           0           0           0
+## Moh5            1           1           0           0           0</code></pre>
+<p>Print basic info of the <code>genind</code> object.</p>
+<pre class="r"><code>seafan_gen
+## /// GENIND OBJECT /////////
+## 
+##  // 877 individuals; 13 loci; 114 alleles; size: 478.2 Kb
+## 
+##  // Basic content
+##    @tab:  877 x 114 matrix of allele counts
+##    @loc.n.all: number of alleles per locus (range: 2-18)
+##    @loc.fac: locus factor for the 114 columns of @tab
+##    @all.names: list of allele names for each locus
+##    @ploidy: ploidy of each individual  (range: 2-2)
+##    @type:  codom
+##    @call: read.genepop(file = file, ncode = 3, quiet = quiet)
+## 
+##  // Optional content
+##    @pop: population of each individual (group size range: 22-48)
+
+popNames(seafan_gen)
+##  [1] &quot;ArmI_27&quot;   &quot;ArmII_43&quot;  &quot;ArmIII_41&quot; &quot;Bla29&quot;     &quot;Bov40&quot;     &quot;Bre43&quot;    
+##  [7] &quot;Far44&quot;     &quot;Fla23&quot;     &quot;Han36&quot;     &quot;Lao40&quot;     &quot;Lio22&quot;     &quot;Lun22&quot;    
+## [13] &quot;Men43&quot;     &quot;Mew44&quot;     &quot;Moh30&quot;     &quot;PorI_42&quot;   &quot;PorII_35&quot;  &quot;Rag43&quot;    
+## [19] &quot;RosI_40&quot;   &quot;RosII_36&quot;  &quot;Sko39&quot;     &quot;Thu48&quot;     &quot;Vol24&quot;     &quot;Wtn43&quot;</code></pre>
+<p>Update the site labels so that the site code rather than the last individual label in the sample is used.</p>
+<pre class="r"><code># Use gsub to extract only letters from a vector
+popNames(seafan_gen) = gsub(&quot;[^a-zA-Z]&quot;, &quot;&quot;, popNames(seafan_gen))
+popNames(seafan_gen)
+##  [1] &quot;ArmI&quot;   &quot;ArmII&quot;  &quot;ArmIII&quot; &quot;Bla&quot;    &quot;Bov&quot;    &quot;Bre&quot;    &quot;Far&quot;    &quot;Fla&quot;   
+##  [9] &quot;Han&quot;    &quot;Lao&quot;    &quot;Lio&quot;    &quot;Lun&quot;    &quot;Men&quot;    &quot;Mew&quot;    &quot;Moh&quot;    &quot;PorI&quot;  
+## [17] &quot;PorII&quot;  &quot;Rag&quot;    &quot;RosI&quot;   &quot;RosII&quot;  &quot;Sko&quot;    &quot;Thu&quot;    &quot;Vol&quot;    &quot;Wtn&quot;</code></pre>
+<p><a href="#contents">Back to Contents</a></p>
+<div id="3"/>
+</div>
+</div>
+<div id="filtering" class="section level3">
+<h3>3. Filtering</h3>
+<div id="missing-data-loci" class="section level4">
+<h4>Missing data: loci</h4>
+<p>Calculate the percentage of complete genotypes per loci in the lobster SNP data set.</p>
+<pre class="r"><code>locmiss_lobster = propTyped(lobster_gen, by = &quot;loc&quot;)
+locmiss_lobster[which(locmiss_lobster &lt; 0.80)] # print loci with &lt; 80% complete genotypes
+## named numeric(0)
+
+# Barplot
+barplot(locmiss_lobster, ylim = c(0,1), ylab = &quot;Complete genotypes (proportion)&quot;, xlab = &quot;Locus&quot;, las = 2, cex.names = 0.7)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>Calculate the percentage of complete genotypes per loci in the pink sea fan microsatellite data set.</p>
+<pre class="r"><code>locmiss_seafan = propTyped(seafan_gen, by = &quot;loc&quot;)
+locmiss_seafan[which(locmiss_seafan &lt; 0.80)] # print loci with &lt; 80% complete genotypes
+##   Ever012 
+## 0.6294185
+
+# Barplot
+barplot(locmiss_seafan, ylim = c(0,1), ylab = &quot;Complete genotypes (proportion)&quot;, xlab = &quot;Locus&quot;, las = 2, cex.names = 0.7)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>Remove microsatellite loci with &gt; 20% missing data.</p>
+<pre class="r"><code>seafan_gen = missingno(seafan_gen, type = &quot;loci&quot;, cutoff = 0.20)
+## 
+## Found 6873 missing values.
+## 
+## 1 locus contained missing values greater than 20%
+## 
+## Removing 1 locus: , Ever012</code></pre>
+</div>
+<div id="missing-data-individuals" class="section level4">
+<h4>Missing data: individuals</h4>
+<p>Calculate the percentage of complete genotypes per individual in the lobster SNP data set.</p>
+<pre class="r"><code>indmiss_lobster = propTyped(lobster_gen, by = &quot;ind&quot;)
+indmiss_lobster[ which(indmiss_lobster &lt; 0.80) ] # print individuals with &lt; 80% complete genotypes
+##     Ale04     Ale06     Ale08     Ale13     Ale15     Ale16     Ale19     Sin65 
+## 0.4936709 0.5063291 0.5443038 0.5696203 0.4556962 0.5316456 0.4430380 0.7848101 
+##     The24 
+## 0.5696203</code></pre>
+<p>Remove individuals with &gt; 20% missing genotypes.</p>
+<pre class="r"><code>lobster_gen = missingno(lobster_gen, type = &quot;geno&quot;, cutoff = 0.20)
+## 
+## Found 2590 missing values.
+## 
+## 9 genotypes contained missing values greater than 20%
+## 
+## Removing 9 genotypes: Ale04, Ale06, Ale08, Ale13, Ale15, Ale16, Ale19,
+## Sin65, The24</code></pre>
+<p>Calculate the percentage of complete genotypes per individual in the pink sea fan microsatellite data set.</p>
+<pre class="r"><code>indmiss_seafan= propTyped(seafan_gen, by = &quot;ind&quot;)
+indmiss_seafan[ which(indmiss_seafan &lt; 0.80) ] # print individuals with &lt; 80% complete genotypes
+##  ArmIII_9 ArmIII_31      Bov1     Bov39     Lao11     Lao13     Lao16     Lao34 
+##      0.75      0.75      0.75      0.75      0.75      0.75      0.75      0.75 
+##     Lun19      Moh8     Moh29   PorI_25   PorI_33   PorI_40   PorII_7     Rag14 
+##      0.75      0.75      0.75      0.75      0.75      0.75      0.75      0.75 
+##   RosI_33  RosII_36     Vol21 
+##      0.75      0.75      0.75</code></pre>
+<p>Remove individuals with &gt; 20% missing genotypes.</p>
+<pre class="r"><code>seafan_gen = missingno(seafan_gen, type = &quot;geno&quot;, cutoff = 0.20)
+## 
+## Found 5248 missing values.
+## 
+## 19 genotypes contained missing values greater than 20%
+## 
+## Removing 19 genotypes: ArmIII_9, ArmIII_31, Bov1, Bov39, Lao11, Lao13,
+## Lao16, Lao34, Lun19, Moh8, Moh29, PorI_25, PorI_33, PorI_40, PorII_7,
+## Rag14, RosI_33, RosII_36, Vol21</code></pre>
+</div>
+<div id="check-genotypes-are-unique" class="section level4">
+<h4>Check genotypes are unique</h4>
+<p>Check all individual genotypes are unique. Duplicated genotypes can result from unintentionally sampling the same individual twice or from sampling clones.</p>
+<pre class="r"><code># Print the number of multilocus genotypes
+mlg(lobster_gen)
+## #############################
+## # Number of Individuals:  1296 
+## # Number of MLG:  1271 
+## #############################
+## [1] 1271
+
+mlg(seafan_gen)
+## #############################
+## # Number of Individuals:  858 
+## # Number of MLG:  857 
+## #############################
+## [1] 857</code></pre>
+<p>Identify duplicated genotypes.</p>
+<pre class="r"><code>dups_lobster = mlg.id(lobster_gen)
+for (i in dups_lobster){ # for each element in the list object
+  if (length(dups_lobster[i]) &gt; 1){ # if the length is greater than 1
+    print(i) # print individuals that are duplicates
+  }
+}
+## [1] &quot;Laz4&quot; &quot;Tar4&quot;
+## [1] &quot;Eye15&quot; &quot;Eye16&quot; &quot;Eye35&quot;
+## [1] &quot;Eye01&quot; &quot;Eye17&quot;
+## [1] &quot;Laz2&quot; &quot;Tar2&quot;
+## [1] &quot;Eye08&quot; &quot;Eye41&quot;
+## [1] &quot;Gul101&quot; &quot;Gul86&quot; 
+## [1] &quot;Eye25&quot; &quot;Eye29&quot;
+## [1] &quot;Iom02&quot; &quot;Iom22&quot;
+## [1] &quot;Hel07&quot; &quot;Hel09&quot;
+## [1] &quot;Eye27&quot; &quot;Eye42&quot;
+## [1] &quot;Eye05&quot; &quot;Eye06&quot; &quot;Eye23&quot; &quot;Eye40&quot;
+## [1] &quot;Eye22&quot; &quot;Eye38&quot;
+## [1] &quot;Eye11&quot; &quot;Eye32&quot;
+## [1] &quot;Cro08&quot; &quot;Cro15&quot;
+## [1] &quot;Laz1&quot; &quot;Tar1&quot;
+## [1] &quot;Eye14&quot; &quot;Eye31&quot;
+## [1] &quot;Laz3&quot; &quot;Tar3&quot;
+## [1] &quot;Lyn04&quot; &quot;Lyn15&quot; &quot;Lyn34&quot;
+## [1] &quot;Eye07&quot; &quot;Eye24&quot;
+## [1] &quot;Eye02&quot; &quot;Eye04&quot;
+## [1] &quot;Eye20&quot; &quot;Eye36&quot;
+
+dups_seafan = mlg.id(seafan_gen)
+for (i in dups_seafan){ # for each element in the list object
+  if (length(dups_seafan[i]) &gt; 1){ # if the length is greater than 1
+    print(i) # print individuals that are duplicates
+  }
+}
+## [1] &quot;ArmI_15&quot; &quot;ArmII_2&quot;</code></pre>
+<p>Remove duplicated genotypes.</p>
+<pre class="r"><code># Create a vector of individuals to remove
+lob_dups = c(&quot;Laz4&quot;,&quot;Eye15&quot;,&quot;Eye16&quot;,&quot;Eye01&quot;,&quot;Laz2&quot;,&quot;Eye08&quot;,&quot;Gul101&quot;,&quot;Eye25&quot;,&quot;Iom02&quot;,&quot;Hel07&quot;,&quot;Eye27&quot;,&quot;Eye05&quot;,&quot;Eye06&quot;,&quot;Eye23&quot;,&quot;Eye22&quot;,&quot;Eye11&quot;,&quot;Cro08&quot;,&quot;Tar1&quot;,&quot;Eye14&quot;,&quot;Tar3&quot;,&quot;Lyn04&quot;,&quot;Lyn15&quot;,&quot;Eye07&quot;,&quot;Eye02&quot;,&quot;Eye20&quot;)
+psf_dups = c(&quot;ArmI_15&quot;)</code></pre>
+<pre class="r"><code># Create a vector of individual names without the duplicates
+lob_Nodups = indNames(lobster_gen)[! indNames(lobster_gen) %in% lob_dups]
+psf_Nodups = indNames(seafan_gen)[! indNames(seafan_gen) %in% psf_dups]</code></pre>
+<pre class="r"><code># Create a new genind object without the duplicates
+lobster_gen = lobster_gen[lob_Nodups, ]
+seafan_gen = seafan_gen[psf_Nodups, ]</code></pre>
+<pre class="r"><code># Re-print the number of multilocus genotypes
+mlg(lobster_gen)
+## #############################
+## # Number of Individuals:  1271 
+## # Number of MLG:  1271 
+## #############################
+## [1] 1271
+
+mlg(seafan_gen)
+## #############################
+## # Number of Individuals:  857 
+## # Number of MLG:  857 
+## #############################
+## [1] 857</code></pre>
+</div>
+<div id="check-loci-are-still-polymorphic-after-filtering" class="section level4">
+<h4>Check loci are still polymorphic after filtering</h4>
+<pre class="r"><code>isPoly(lobster_gen) %&gt;% summary
+##    Mode    TRUE 
+## logical      79
+
+isPoly(seafan_gen) %&gt;% summary
+##    Mode   FALSE    TRUE 
+## logical       1      11</code></pre>
+<p>Remove loci that are not polymorphic.</p>
+<pre class="r"><code>poly_loci = names(which(isPoly(seafan_gen) == TRUE))
+seafan_gen = seafan_gen[loc = poly_loci]
+isPoly(seafan_gen) %&gt;% summary
+##    Mode    TRUE 
+## logical      11</code></pre>
+<p><a href="#contents">Back to Contents</a></p>
+<div id="4"/>
+</div>
+</div>
+<div id="summary-statistics" class="section level3">
+<h3>4. Summary statistics</h3>
+<div id="print-basic-info" class="section level4">
+<h4>Print basic info</h4>
+<pre class="r"><code>lobster_gen
+## /// GENIND OBJECT /////////
+## 
+##  // 1,271 individuals; 79 loci; 158 alleles; size: 921.5 Kb
+## 
+##  // Basic content
+##    @tab:  1271 x 158 matrix of allele counts
+##    @loc.n.all: number of alleles per locus (range: 2-2)
+##    @loc.fac: locus factor for the 158 columns of @tab
+##    @all.names: list of allele names for each locus
+##    @ploidy: ploidy of each individual  (range: 2-2)
+##    @type:  codom
+##    @call: .local(x = x, i = i, j = j, drop = drop)
+## 
+##  // Optional content
+##    @pop: population of each individual (group size range: 5-40)
+
+seafan_gen
+## /// GENIND OBJECT /////////
+## 
+##  // 857 individuals; 11 loci; 106 alleles; size: 439.8 Kb
+## 
+##  // Basic content
+##    @tab:  857 x 106 matrix of allele counts
+##    @loc.n.all: number of alleles per locus (range: 2-18)
+##    @loc.fac: locus factor for the 106 columns of @tab
+##    @all.names: list of allele names for each locus
+##    @ploidy: ploidy of each individual  (range: 2-2)
+##    @type:  codom
+##    @call: .local(x = x, i = i, j = j, loc = ..1, drop = drop)
+## 
+##  // Optional content
+##    @pop: population of each individual (group size range: 21-48)</code></pre>
+</div>
+<div id="print-the-number-of-alleles-per-locus" class="section level4">
+<h4>Print the number of alleles per locus</h4>
+<pre class="r"><code>table(lobster_gen$loc.fac)
+## 
+##  3441  4173  6157  7502  7892  9441 11071 11183 11291 12971 14047 14742 15109 
+##     2     2     2     2     2     2     2     2     2     2     2     2     2 
+## 15128 15435 15581 18512 18652 19266 19460 20354 23146 23447 23481 23677 23787 
+##     2     2     2     2     2     2     2     2     2     2     2     2     2 
+## 24020 25229 25608 27329 29410 29801 29889 30339 31462 31618 31967 31979 32358 
+##     2     2     2     2     2     2     2     2     2     2     2     2     2 
+## 32435 33784 34443 34818 35584 36910 39107 39876 42395 42529 42821 44670 45154 
+##     2     2     2     2     2     2     2     2     2     2     2     2     2 
+## 45217 51159 53314 53720 53935 54240 54762 55111 55142 55564 56423 56785 57131 
+##     2     2     2     2     2     2     2     2     2     2     2     2     2 
+## 57989 58053 59503 59586 59967 60546 63140 63267 63581 63605 63771 63798 65064 
+##     2     2     2     2     2     2     2     2     2     2     2     2     2 
+## 65576 
+##     2
+
+table(seafan_gen$loc.fac)
+## 
+## Ever001 Ever002 Ever003 Ever004 Ever006 Ever007 Ever008 Ever010 Ever011 Ever013 
+##      15       5       5      13      18      11       2       9       5      14 
+## Ever014 
+##       9</code></pre>
+</div>
+<div id="print-the-sample-size-for-each-site" class="section level4">
+<h4>Print the sample size for each site</h4>
+<pre class="r"><code>summary(lobster_gen$pop)
+##   Ale   Ber   Brd   Cor   Cro   Eye   Flo   Gul   Heb   Hel   Hoo Idr16 Idr17 
+##    28    33    36    32    35    26    36    35    36    35    36    32    29 
+##   Iom   Ios   Jer   Kav   Kil   Laz   Loo   Lyn   Lys   Mul   Oos   Ork   Pad 
+##    35    36    36    36    35     5    36    34    36    36    40    36    36 
+##   Pem Sar13 Sar17   Sbs   She   Sin   Sky   Sul   Tar   The   Tor   Tro   Ven 
+##    36     7    15    36    36    35    37    36     5    36    37    17    36 
+##   Vig 
+##    36
+
+summary(seafan_gen$pop)
+##   ArmI  ArmII ArmIII    Bla    Bov    Bre    Far    Fla    Han    Lao    Lio 
+##     26     43     39     29     38     43     44     23     36     36     22 
+##    Lun    Men    Mew    Moh   PorI  PorII    Rag   RosI  RosII    Sko    Thu 
+##     21     43     44     28     39     34     42     39     35     39     48 
+##    Vol    Wtn 
+##     23     43</code></pre>
+</div>
+<div id="print-the-number-of-private-alleles-per-site-across-all-loci" class="section level4">
+<h4>Print the number of private alleles per site across all loci</h4>
+<pre class="r"><code>private_alleles(seafan_gen) %&gt;% apply(MARGIN = 1, FUN = sum)
+##   ArmI  ArmII ArmIII    Bla    Bov    Bre    Far    Fla    Han    Lao    Lio 
+##      1      1      0      0      0      0      1      0      0      1      0 
+##    Lun    Men    Mew    Moh   PorI  PorII    Rag   RosI  RosII    Sko    Thu 
+##      1      1      1      0      1      4      0      2      1      0      2 
+##    Vol    Wtn 
+##      0      0</code></pre>
+</div>
+<div id="print-mean-allelic-richness-per-site-across-all-loci" class="section level4">
+<h4>Print mean allelic richness per site across all loci</h4>
+<pre class="r"><code>allelic.richness(genind2hierfstat(seafan_gen))$Ar %&gt;%
+  apply(MARGIN = 2, FUN = mean) %&gt;% 
+  round(digits = 3)
+##   ArmI  ArmII ArmIII    Bla    Bov    Bre    Far    Fla    Han    Lao    Lio 
+##  2.771  2.720  2.748  2.635  2.784  2.837  2.807  2.698  3.030  2.809  2.957 
+##    Lun    Men    Mew    Moh   PorI  PorII    Rag   RosI  RosII    Sko    Thu 
+##  2.915  2.824  2.895  2.791  2.900  2.833  2.895  2.831  2.966  2.905  2.650 
+##    Vol    Wtn 
+##  2.767  3.032</code></pre>
+</div>
+<div id="calculate-heterozygosity-per-site" class="section level4">
+<h4>Calculate heterozygosity per site</h4>
+<pre class="r"><code># Calculate basic stats using hierfstat
+basic_lobster = basic.stats(lobster_gen, diploid = TRUE)
+basic_seafan = basic.stats(seafan_gen, diploid = TRUE)</code></pre>
+<pre class="r"><code># Mean observed heterozygosity per site
+Ho_lobster = apply(basic_lobster$Ho, MARGIN = 2, FUN = mean, na.rm = TRUE) %&gt;%
+  round(digits = 2)
+Ho_lobster
+##   Ale   Ber   Brd   Cor   Cro   Eye   Flo   Gul   Heb   Hel   Hoo Idr16 Idr17 
+##  0.32  0.36  0.37  0.38  0.37  0.37  0.35  0.38  0.39  0.35  0.39  0.39  0.39 
+##   Iom   Ios   Jer   Kav   Kil   Laz   Loo   Lyn   Lys   Mul   Oos   Ork   Pad 
+##  0.39  0.39  0.38  0.37  0.38  0.38  0.39  0.40  0.34  0.37  0.32  0.36  0.37 
+##   Pem Sar13 Sar17   Sbs   She   Sin   Sky   Sul   Tar   The   Tor   Tro   Ven 
+##  0.38  0.32  0.34  0.38  0.37  0.35  0.33  0.36  0.42  0.33  0.33  0.33  0.39 
+##   Vig 
+##  0.39
+
+Ho_seafan = apply(basic_seafan$Ho, MARGIN = 2, FUN = mean, na.rm = TRUE) %&gt;%
+  round(digits = 2)
+Ho_seafan
+##   ArmI  ArmII ArmIII    Bla    Bov    Bre    Far    Fla    Han    Lao    Lio 
+##   0.41   0.45   0.44   0.44   0.45   0.46   0.43   0.47   0.50   0.45   0.50 
+##    Lun    Men    Mew    Moh   PorI  PorII    Rag   RosI  RosII    Sko    Thu 
+##   0.49   0.47   0.51   0.41   0.44   0.45   0.51   0.49   0.49   0.53   0.40 
+##    Vol    Wtn 
+##   0.47   0.50</code></pre>
+<pre class="r"><code># Mean expected heterozygosity per site
+He_lobster = apply(basic_lobster$Hs, MARGIN = 2, FUN = mean, na.rm = TRUE) %&gt;%
+  round(digits = 2)
+He_lobster
+##   Ale   Ber   Brd   Cor   Cro   Eye   Flo   Gul   Heb   Hel   Hoo Idr16 Idr17 
+##  0.34  0.36  0.37  0.39  0.37  0.37  0.35  0.36  0.38  0.35  0.39  0.39  0.39 
+##   Iom   Ios   Jer   Kav   Kil   Laz   Loo   Lyn   Lys   Mul   Oos   Ork   Pad 
+##  0.39  0.39  0.38  0.36  0.38  0.34  0.37  0.39  0.35  0.38  0.33  0.37  0.37 
+##   Pem Sar13 Sar17   Sbs   She   Sin   Sky   Sul   Tar   The   Tor   Tro   Ven 
+##  0.38  0.32  0.35  0.37  0.37  0.35  0.33  0.37  0.36  0.34  0.33  0.36  0.38 
+##   Vig 
+##  0.39
+
+He_seafan = apply(basic_seafan$Hs, MARGIN = 2, FUN = mean, na.rm = TRUE) %&gt;%
+  round(digits = 2)
+He_seafan
+##   ArmI  ArmII ArmIII    Bla    Bov    Bre    Far    Fla    Han    Lao    Lio 
+##   0.48   0.47   0.48   0.44   0.50   0.49   0.48   0.47   0.54   0.50   0.52 
+##    Lun    Men    Mew    Moh   PorI  PorII    Rag   RosI  RosII    Sko    Thu 
+##   0.52   0.50   0.53   0.49   0.51   0.50   0.51   0.50   0.53   0.53   0.43 
+##    Vol    Wtn 
+##   0.49   0.54</code></pre>
+</div>
+<div id="visualise-heterozygosity-per-site" class="section level4">
+<h4>Visualise heterozygosity per site</h4>
+<pre class="r"><code># Create a data.frame of site names, Ho and He and then convert to long format
+Het_lobster_df = data.frame(Site = names(Ho_lobster), Ho = Ho_lobster, He = He_lobster) %&gt;%
+  melt(id.vars = &quot;Site&quot;)
+Het_seafan_df = data.frame(Site = names(Ho_seafan), Ho = Ho_seafan, He = He_seafan) %&gt;%
+  melt(id.vars = &quot;Site&quot;)</code></pre>
+<pre class="r"><code># Custom theme for ggplot2
+custom_theme = theme(
+  axis.text.x = element_text(size = 10, angle = 90, vjust = 0.5, face = &quot;bold&quot;),
+  axis.text.y = element_text(size = 10),
+  axis.title.y = element_text(size = 12),
+  axis.title.x = element_blank(),
+  axis.line.y = element_line(size = 0.5),
+  legend.title = element_blank(),
+  legend.text = element_text(size = 12),
+  panel.grid = element_blank(),
+  panel.background = element_blank(),
+  plot.title = element_text(hjust = 0.5, size = 15, face=&quot;bold&quot;)
+  )
+
+# Italic label
+hetlab.o = expression(italic(&quot;H&quot;)[o])
+hetlab.e = expression(italic(&quot;H&quot;)[e])</code></pre>
+<pre class="r"><code># Lobster heterozygosity barplot
+ggplot(data = Het_lobster_df, aes(x = Site, y = value, fill = variable))+
+  geom_bar(stat = &quot;identity&quot;, position = position_dodge(width = 0.6), colour = &quot;black&quot;)+
+  scale_y_continuous(expand = c(0,0), limits = c(0,0.50))+
+  scale_fill_manual(values = c(&quot;royalblue&quot;, &quot;#bdbdbd&quot;), labels = c(hetlab.o, hetlab.e))+
+  ylab(&quot;Heterozygosity&quot;)+
+  ggtitle(&quot;European lobster&quot;)+
+  custom_theme</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<pre class="r"><code># Pink sea fan heterozygosity barplot
+ggplot(data = Het_seafan_df, aes(x = Site, y = value, fill = variable))+
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, colour = &quot;black&quot;)+
+  scale_y_continuous(expand = c(0,0), limits = c(0,0.60), breaks = c(0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60))+
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;#bdbdbd&quot;), labels = c(hetlab.o, hetlab.e))+
+  ylab(&quot;Heterozygosity&quot;)+
+  ggtitle(&quot;Pink sea fan&quot;)+
+  custom_theme</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-36-2.png" width="672" /></p>
+</div>
+<div id="inbreeding-coefficient-fis" class="section level4">
+<h4>Inbreeding coefficient (<em>F</em><sub>IS</sub>)</h4>
+<p>Calculate mean <em>F</em><sub>IS</sub> per site.</p>
+<pre class="r"><code># European lobster
+apply(basic_lobster$Fis, MARGIN = 2, FUN = mean, na.rm = TRUE) %&gt;%
+  round(digits = 3)
+##    Ale    Ber    Brd    Cor    Cro    Eye    Flo    Gul    Heb    Hel    Hoo 
+##  0.057  0.003  0.003  0.021 -0.006 -0.004  0.005 -0.044 -0.034  0.013 -0.016 
+##  Idr16  Idr17    Iom    Ios    Jer    Kav    Kil    Laz    Loo    Lyn    Lys 
+## -0.007 -0.001 -0.024 -0.007  0.004 -0.024 -0.016 -0.115 -0.043 -0.032  0.018 
+##    Mul    Oos    Ork    Pad    Pem  Sar13  Sar17    Sbs    She    Sin    Sky 
+##  0.040  0.023  0.017 -0.010 -0.004 -0.009  0.018 -0.017 -0.006 -0.013  0.006 
+##    Sul    Tar    The    Tor    Tro    Ven    Vig 
+##  0.033 -0.153  0.029  0.010  0.066 -0.024  0.013
+
+# Pink sea fan
+apply(basic_seafan$Fis, MARGIN = 2, FUN = mean, na.rm = TRUE) %&gt;%
+  round(digits = 3)
+##   ArmI  ArmII ArmIII    Bla    Bov    Bre    Far    Fla    Han    Lao    Lio 
+##  0.166  0.085  0.076 -0.006  0.075  0.039  0.116  0.014  0.042  0.064  0.029 
+##    Lun    Men    Mew    Moh   PorI  PorII    Rag   RosI  RosII    Sko    Thu 
+##  0.057  0.067  0.030  0.153  0.137  0.089  0.010  0.048  0.077  0.013  0.056 
+##    Vol    Wtn 
+##  0.057  0.058</code></pre>
+<p><a href="#contents">Back to Contents</a></p>
+<div id="5"/>
+</div>
+</div>
+<div id="fst-pca-dapc" class="section level3">
+<h3>5. <em>F</em><sub>ST</sub>, PCA &amp; DAPC</h3>
+<div id="fst" class="section level4">
+<h4><em>F</em><sub>ST</sub></h4>
+<p>Compute pairwise <em>F</em><sub>ST</sub> (Weir &amp; Cockerham 1984).</p>
+<pre class="r"><code># Subset data sets to reduce computation time
+lobster_gen_sub = popsub(lobster_gen, sublist = c(&quot;Ale&quot;,&quot;Ber&quot;,&quot;Brd&quot;,&quot;Pad&quot;,&quot;Sar17&quot;,&quot;Vig&quot;))
+seafan_gen_sub = popsub(seafan_gen, sublist = c(&quot;Bla&quot;,&quot;Bov&quot;,&quot;Bre&quot;,&quot;Lun&quot;,&quot;PorI&quot;,&quot;Sko&quot;))
+
+# Compute pairwise Fsts
+lobster_fst = genet.dist(lobster_gen_sub, method = &quot;WC84&quot;)
+lobster_fst %&gt;% round(digits = 3)
+##         Ale   Ber   Brd   Pad Sar17
+## Ber   0.120                        
+## Brd   0.131 0.007                  
+## Pad   0.140 0.025 0.008            
+## Sar17 0.066 0.174 0.171 0.161      
+## Vig   0.117 0.064 0.038 0.018 0.112
+
+seafan_fst = genet.dist(seafan_gen_sub, method = &quot;WC84&quot;)
+seafan_fst %&gt;% round(digits = 3)
+##         Bla    Bov    Bre    Lun   PorI
+## Bov   0.099                            
+## Bre   0.105  0.005                     
+## Lun   0.095 -0.002  0.012              
+## PorI  0.114  0.052  0.045  0.045       
+## Sko   0.094 -0.002  0.006 -0.001  0.041</code></pre>
+<p>Visualise pairwise <em>F</em><sub>ST</sub> for lobster.</p>
+<pre class="r"><code># Convert dist object to data.frame
+fst.matrix = as.matrix(lobster_fst)
+ind = which( upper.tri(fst.matrix), arr.ind = TRUE)
+fst.df = data.frame(Site1 = dimnames(fst.matrix)[[2]][ind[,2]],
+                    Site2 = dimnames(fst.matrix)[[1]][ind[,1]],
+                    Fst = fst.matrix[ ind ] %&gt;% round(digits = 3))
+
+# Convert minus values to zero
+fst.df$Fst[fst.df$Fst &lt; 0] = 0
+
+# Print data.frame summary
+fst.df %&gt;% str
+## &#39;data.frame&#39;:    15 obs. of  3 variables:
+##  $ Site1: chr  &quot;Ber&quot; &quot;Brd&quot; &quot;Brd&quot; &quot;Pad&quot; ...
+##  $ Site2: chr  &quot;Ale&quot; &quot;Ale&quot; &quot;Ber&quot; &quot;Ale&quot; ...
+##  $ Fst  : num  0.12 0.131 0.007 0.14 0.025 0.008 0.066 0.174 0.171 0.161 ...
+
+# Fst italic label
+fst.label = expression(italic(&quot;F&quot;)[ST])
+
+# Extract middle Fst value for gradient argument
+mid = max(fst.df$Fst) / 2
+
+# Plot heatmap
+ggplot(data = fst.df, aes(x = Site1, y = Site2, fill = Fst))+
+  geom_tile(colour = &quot;black&quot;)+
+  geom_text(aes(label = Fst), color=&quot;black&quot;, size = 3)+
+  scale_fill_gradient2(low = &quot;blue&quot;, mid = &quot;pink&quot;, high = &quot;red&quot;, midpoint = mid, name = fst.label, limits = c(0, max(fst.df$Fst)), breaks = c(0, 0.05, 0.10, 0.15))+
+  scale_x_discrete(expand = c(0,0))+
+  scale_y_discrete(expand = c(0,0), position = &quot;right&quot;)+
+  theme(axis.text = element_text(colour = &quot;black&quot;, size = 10, face = &quot;bold&quot;),
+        axis.title = element_blank(),
+        panel.grid = element_blank(),
+        panel.background = element_blank(),
+        legend.position = &quot;right&quot;,
+        legend.title = element_text(size = 14, face = &quot;bold&quot;),
+        legend.text = element_text(size = 10)
+        )</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p>Visualise pairwise <em>F</em><sub>ST</sub> for pink sea fan.</p>
+<pre class="r"><code># Convert dist object to data.frame
+fst.matrix = as.matrix(seafan_fst)
+ind = which( upper.tri(fst.matrix), arr.ind = TRUE)
+fst.df = data.frame(Site1 = dimnames(fst.matrix)[[2]][ind[,2]],
+                    Site2 = dimnames(fst.matrix)[[1]][ind[,1]],
+                    Fst = fst.matrix[ ind ] %&gt;% round(digits = 3))
+
+# Convert minus values to zero
+fst.df$Fst[fst.df$Fst &lt; 0] = 0
+
+# Print data.frame summary
+fst.df %&gt;% str
+## &#39;data.frame&#39;:    15 obs. of  3 variables:
+##  $ Site1: chr  &quot;Bov&quot; &quot;Bre&quot; &quot;Bre&quot; &quot;Lun&quot; ...
+##  $ Site2: chr  &quot;Bla&quot; &quot;Bla&quot; &quot;Bov&quot; &quot;Bla&quot; ...
+##  $ Fst  : num  0.099 0.105 0.005 0.095 0 0.012 0.114 0.052 0.045 0.045 ...
+
+# Fst italic label
+fst.label = expression(italic(&quot;F&quot;)[ST])
+
+# Extract middle Fst value for gradient argument
+mid = max(fst.df$Fst) / 2
+
+# Plot heatmap
+ggplot(data = fst.df, aes(x = Site1, y = Site2, fill = Fst))+
+  geom_tile(colour = &quot;black&quot;)+
+  geom_text(aes(label = Fst), color=&quot;black&quot;, size = 3)+
+  scale_fill_gradient2(low = &quot;blue&quot;, mid = &quot;pink&quot;, high = &quot;red&quot;, midpoint = mid, name = fst.label, limits = c(0, max(fst.df$Fst)), breaks = c(0, 0.05, 0.10))+
+  scale_x_discrete(expand = c(0,0))+
+  scale_y_discrete(expand = c(0,0), position = &quot;right&quot;)+
+  theme(axis.text = element_text(colour = &quot;black&quot;, size = 10, face = &quot;bold&quot;),
+        axis.title = element_blank(),
+        panel.grid = element_blank(),
+        panel.background = element_blank(),
+        legend.position = &quot;right&quot;,
+        legend.title = element_text(size = 14, face = &quot;bold&quot;),
+        legend.text = element_text(size = 10)
+        )</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+</div>
+<div id="pca" class="section level4">
+<h4>PCA</h4>
+<p>Perform a PCA (principle components analysis) on the lobster data set.</p>
+<pre class="r"><code># Replace missing data with the mean allele frequencies
+x = tab(lobster_gen_sub, NA.method = &quot;mean&quot;)
+
+# Perform PCA
+pca1 = dudi.pca(x, scannf = FALSE, scale = FALSE, nf = 3)
+
+# Analyse how much percent of genetic variance is explained by each axis
+percent = pca1$eig/sum(pca1$eig)*100
+barplot(percent, ylab = &quot;Genetic variance explained by eigenvectors (%)&quot;, ylim = c(0,12),
+        names.arg = round(percent, 1))</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p>Visualise PCA results.</p>
+<pre class="r"><code># Create a data.frame containing individual coordinates
+ind_coords = as.data.frame(pca1$li)
+
+# Rename columns of dataframe
+colnames(ind_coords) = c(&quot;Axis1&quot;,&quot;Axis2&quot;,&quot;Axis3&quot;)
+
+# Add a column containing individuals
+ind_coords$Ind = indNames(lobster_gen_sub)
+
+# Add a column with the site IDs
+ind_coords$Site = lobster_gen_sub$pop
+
+# Calculate centroid (average) position for each population
+centroid = aggregate(cbind(Axis1, Axis2, Axis3) ~ Site, data = ind_coords, FUN = mean)
+
+# Add centroid coordinates to ind_coords dataframe
+ind_coords = left_join(ind_coords, centroid, by = &quot;Site&quot;, suffix = c(&quot;&quot;,&quot;.cen&quot;))
+
+# Define colour palette
+cols = brewer.pal(nPop(lobster_gen_sub), &quot;Set1&quot;)
+
+# Custom x and y labels
+xlab = paste(&quot;Axis 1 (&quot;, format(round(percent[1], 1), nsmall=1),&quot; %)&quot;, sep=&quot;&quot;)
+ylab = paste(&quot;Axis 2 (&quot;, format(round(percent[2], 1), nsmall=1),&quot; %)&quot;, sep=&quot;&quot;)
+
+# Custom theme for ggplot2
+ggtheme = theme(axis.text.y = element_text(colour=&quot;black&quot;, size=12),
+                axis.text.x = element_text(colour=&quot;black&quot;, size=12),
+                axis.title = element_text(colour=&quot;black&quot;, size=12),
+                panel.border = element_rect(colour=&quot;black&quot;, fill=NA, size=1),
+                panel.background = element_blank(),
+                plot.title = element_text(hjust=0.5, size=15) 
+)
+
+# Scatter plot axis 1 vs. 2
+ggplot(data = ind_coords, aes(x = Axis1, y = Axis2))+
+  geom_hline(yintercept = 0)+
+  geom_vline(xintercept = 0)+
+  # spider segments
+  geom_segment(aes(xend = Axis1.cen, yend = Axis2.cen, colour = Site), show.legend = FALSE)+
+  # points
+  geom_point(aes(fill = Site), shape = 21, size = 3, show.legend = FALSE)+
+  # centroids
+  geom_label(data = centroid, aes(label = Site, fill = Site), size = 4, show.legend = FALSE)+
+  # colouring
+  scale_fill_manual(values = cols)+
+  scale_colour_manual(values = cols)+
+  # custom labels
+  labs(x = xlab, y = ylab)+
+  ggtitle(&quot;Lobster PCA&quot;)+
+  # custom theme
+  ggtheme</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<pre class="r"><code># Export plot
+# ggsave(&quot;Figure1.png&quot;, width = 12, height = 8, dpi = 600)</code></pre>
+</div>
+<div id="dapc" class="section level4">
+<h4>DAPC</h4>
+<p>Perform a DAPC (discriminant analysis of principal components) on the seafan data set.</p>
+<pre class="r"><code># Perform cross validation to find the optimal number of PCs to retain in DAPC
+set.seed(123)
+x = tab(seafan_gen_sub, NA.method = &quot;mean&quot;)
+crossval = xvalDapc(x, seafan_gen_sub$pop, result = &quot;groupMean&quot;, xval.plot = TRUE)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<pre class="r"><code># Number of PCs with best stats (lower score = better)
+crossval$`Root Mean Squared Error by Number of PCs of PCA`
+##        10        20        30        40        50        60        70 
+## 0.6252777 0.6326131 0.6380681 0.6057849 0.6587395 0.6412447 0.6113320
+crossval$`Number of PCs Achieving Highest Mean Success`
+## [1] &quot;40&quot;
+crossval$`Number of PCs Achieving Lowest MSE`
+## [1] &quot;40&quot;
+numPCs = as.numeric(crossval$`Number of PCs Achieving Lowest MSE`)</code></pre>
+<pre class="r"><code># Run a DAPC using site IDs as priors
+dapc1 = dapc(seafan_gen_sub, seafan_gen_sub$pop, n.pca = numPCs, n.da = 3)
+
+# Analyse how much percent of genetic variance is explained by each axis
+percent = dapc1$eig/sum(dapc1$eig)*100
+barplot(percent, ylab = &quot;Genetic variance explained by eigenvectors (%)&quot;, ylim = c(0,60),
+        names.arg = round(percent, 1))</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<p>Visualise DAPC results.</p>
+<pre class="r"><code># Create a data.frame containing individual coordinates
+ind_coords = as.data.frame(dapc1$ind.coord)
+
+# Rename columns of dataframe
+colnames(ind_coords) = c(&quot;Axis1&quot;,&quot;Axis2&quot;,&quot;Axis3&quot;)
+
+# Add a column containing individuals
+ind_coords$Ind = indNames(seafan_gen_sub)
+
+# Add a column with the site IDs
+ind_coords$Site = seafan_gen_sub$pop
+
+# Calculate centroid (average) position for each population
+centroid = aggregate(cbind(Axis1, Axis2, Axis3) ~ Site, data = ind_coords, FUN = mean)
+
+# Add centroid coordinates to ind_coords dataframe
+ind_coords = left_join(ind_coords, centroid, by = &quot;Site&quot;, suffix = c(&quot;&quot;,&quot;.cen&quot;))
+
+# Define colour palette
+cols = brewer.pal(nPop(seafan_gen_sub), &quot;Set2&quot;)
+
+# Custom x and y labels
+xlab = paste(&quot;Axis 1 (&quot;, format(round(percent[1], 1), nsmall=1),&quot; %)&quot;, sep=&quot;&quot;)
+ylab = paste(&quot;Axis 2 (&quot;, format(round(percent[2], 1), nsmall=1),&quot; %)&quot;, sep=&quot;&quot;)
+
+# Scatter plot axis 1 vs. 2
+ggplot(data = ind_coords, aes(x = Axis1, y = Axis2))+
+  geom_hline(yintercept = 0)+
+  geom_vline(xintercept = 0)+
+  # spider segments
+  geom_segment(aes(xend = Axis1.cen, yend = Axis2.cen, colour = Site), show.legend = FALSE)+
+  # points
+  geom_point(aes(fill = Site), shape = 21, size = 3, show.legend = FALSE)+
+  # centroids
+  geom_label(data = centroid, aes(label = Site, fill = Site), size = 4, show.legend = FALSE)+
+  # colouring
+  scale_fill_manual(values = cols)+
+  scale_colour_manual(values = cols)+
+  # custom labels
+  labs(x = xlab, y = ylab)+
+  ggtitle(&quot;Pink sea fan DAPC&quot;)+
+  # custom theme
+  ggtheme</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+<pre class="r"><code># Export plot
+# ggsave(&quot;Figure2.png&quot;, width = 12, height = 8, dpi = 600)</code></pre>
+<p><a href="#contents">Back to Contents</a></p>
+<div id="6"/>
+</div>
+</div>
+<div id="extras" class="section level3">
+<h3>6. Extras</h3>
+<div id="vcf"/>
+<div id="import-vcf-file" class="section level4">
+<h4>Import VCF file</h4>
+<p>To illustrate importing VCF files and conducting OutFLANK outlier selection tests in R, we will use an <a href="https://doi.org/10.5061/dryad.q771r">American lobster SNP data set</a> available from the Dryad Digital Repository.</p>
+<pre class="r"><code># Load vcfR package
+library(vcfR)
+
+# Import only 3,000 variants to reduce computation time
+american = read.vcfR(&quot;10156-586.recode.vcf&quot;, nrows = 3000, verbose = FALSE)
+american
+## ***** Object of Class vcfR *****
+## 586 samples
+## 1 CHROMs
+## 3,000 variants
+## Object size: 16.6 Mb
+## 0 percent missing data
+## *****        *****         *****
+
+# Convert to genind object
+american = vcfR2genind(american)
+
+# Add site IDs to genind object
+american$pop = as.factor(substr(indNames(american), 1, 3))</code></pre>
+<p><a href="#contents">Back to Contents</a></p>
+<div id="outlier"/>
+</div>
+<div id="conduct-outlier-tests-using-outflank" class="section level4">
+<h4>Conduct outlier tests using OutFLANK</h4>
+<p>Conduct <em>F</em><sub>ST</sub> differentiation-based outlier tests on <code>genind</code> object using <a href="https://github.com/whitlock/OutFLANK">OutFLANK</a> using a wrapper script from the <a href="https://cran.r-project.org/web/packages/dartR/vignettes/IntroTutorial_dartR.pdf">dartR</a> package.</p>
+<pre class="r"><code># Load packages
+library(OutFLANK)
+library(qvalue)
+library(dartR)</code></pre>
+<pre class="r"><code># Run OutFLANK using dartR wrapper script
+outflnk = gl.outflank(american, qthreshold = 0.05, plot = FALSE)
+## Calculating FSTs, may take a few minutes...
+
+# Extract OutFLANK results
+outflnk.df = outflnk$outflank$results
+
+# Remove duplicated rows for each SNP locus
+rowsToRemove = seq(1, nrow(outflnk.df), by = 2)
+outflnk.df = outflnk.df[-rowsToRemove, ]
+
+# Print number of outliers (TRUE)
+outflnk.df$OutlierFlag %&gt;% summary
+##    Mode   FALSE    TRUE 
+## logical    2968      32</code></pre>
+<pre class="r"><code># Extract outlier IDs
+outlier_indexes = which(outflnk.df$OutlierFlag == TRUE)
+outlierID = locNames(american)[outlier_indexes]
+outlierID
+##  [1] &quot;un-11566&quot;  &quot;un-69080&quot;  &quot;un-111790&quot; &quot;un-111865&quot; &quot;un-125908&quot; &quot;un-172034&quot;
+##  [7] &quot;un-186923&quot; &quot;un-201848&quot; &quot;un-205435&quot; &quot;un-243757&quot; &quot;un-253632&quot; &quot;un-257077&quot;
+## [13] &quot;un-288280&quot; &quot;un-288327&quot; &quot;un-342055&quot; &quot;un-395275&quot; &quot;un-395276&quot; &quot;un-424882&quot;
+## [19] &quot;un-433799&quot; &quot;un-493905&quot; &quot;un-525474&quot; &quot;un-531991&quot; &quot;un-541424&quot; &quot;un-561940&quot;
+## [25] &quot;un-581802&quot; &quot;un-631261&quot; &quot;un-631875&quot; &quot;un-649002&quot; &quot;un-676856&quot; &quot;un-679035&quot;
+## [31] &quot;un-691876&quot; &quot;un-734068&quot;</code></pre>
+<pre class="r"><code># Convert Fsts &lt;0 to zero
+outflnk.df$FST[outflnk.df$FST &lt; 0] = 0 
+
+# Italic labels
+fstlab = expression(italic(&quot;F&quot;)[ST])
+hetlab = expression(italic(&quot;H&quot;)[e])
+
+# Plot He versus Fst
+ggplot(data = outflnk.df)+
+  geom_point(aes(x = He, y = FST, colour = OutlierFlag))+
+  scale_colour_manual(values = c(&quot;black&quot;,&quot;red&quot;), labels = c(&quot;Neutral SNP&quot;,&quot;Outlier SNP&quot;))+
+  ggtitle(&quot;OutFLANK outlier test&quot;)+
+  xlab(hetlab)+
+  ylab(fstlab)+
+  theme(legend.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, size = 15, face = &quot;bold&quot;)
+        )</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
+<p><a href="#contents">Back to Contents</a></p>
+<div id="export"/>
+</div>
+<div id="export-biallelic-snp-genind-object" class="section level4">
+<h4>Export biallelic SNP genind object</h4>
+<p>Load required packages.</p>
+<pre class="r"><code>library(devtools)
+library(miscTools)
+library(stringr)</code></pre>
+<p>Export genind object in genepop format.</p>
+<pre class="r"><code>source_url(&quot;https://raw.githubusercontent.com/Tom-Jenkins/utility_scripts/master/TJ_genind2genepop_function.R&quot;)
+genind2genepop(lobster_gen_sub, file = &quot;lobster_genotypes.gen&quot;)</code></pre>
+<p>Export genind object in STRUCTURE format. If you want to run STRUCTURE in Linux then use <code>unix = TRUE</code> which exports a Unix text file (Windows text file by default).</p>
+<pre class="r"><code>source_url(&quot;https://raw.githubusercontent.com/Tom-Jenkins/utility_scripts/master/TJ_genind2structure_function.R&quot;)
+genind2structure(lobster_gen_sub, file = &quot;lobster_genotypes.str&quot;, pops = TRUE, markers = TRUE, unix = FALSE)</code></pre>
+<p><a href="#contents">Back to Contents</a></p>
+<div id="resources"/>
+</div>
+<div id="further-resources" class="section level4">
+<h4>Further resources</h4>
+<p><a href="https://github.com/Tom-Jenkins/admixture_pie_chart_map_tutorial">Conduct and visualise admixture analyses in R</a><br />
+<a href="https://grunwaldlab.github.io/Population_Genetics_in_R/TOC.html">Population genetics and genomics in R</a><br />
+<a href="https://popgen.nescent.org/2018-03-27_RDA_GEA.html">Detecting multilocus adaptation using redundancy analysis</a><br />
+<a href="https://bcm-uga.github.io/pcadapt/articles/pcadapt.html">Using pcadapt to detect local adaptation</a><br />
+<a href="https://grunwaldlab.github.io/poppr/articles/mlg.html">Analysis of multilocus genotypes and lineages in poppr</a><br />
+<a href="http://adegenet.r-forge.r-project.org/files/tutorial-spca.pdf">Spatial analysis of principal components analysis using adegenet</a></p>
+</div>
+<div id="download-a-pdf-of-this-post" class="section level4">
+<h4>Download a PDF of this post</h4>
+<p><a href="/files/r-popgen-getting-started-pdf.pdf">Download PDF</a></p>
+</div>
+<div id="r-session-info" class="section level4">
+<h4>R session info</h4>
+<pre class="r"><code>sessionInfo()
+## R version 4.1.1 (2021-08-10)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 19043)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=English_United Kingdom.1252 
+## [2] LC_CTYPE=English_United Kingdom.1252   
+## [3] LC_MONETARY=English_United Kingdom.1252
+## [4] LC_NUMERIC=C                           
+## [5] LC_TIME=English_United Kingdom.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] stringr_1.4.0      miscTools_0.6-26   devtools_2.4.3     usethis_2.1.2     
+##  [5] dartR_1.9.9.1      OutFLANK_0.2       qvalue_2.15.0      vcfR_1.12.0       
+##  [9] scales_1.1.1       RColorBrewer_1.1-2 ggplot2_3.3.5      reshape2_1.4.4    
+## [13] hierfstat_0.5-10   dplyr_1.0.7        poppr_2.9.3        adegenet_2.1.5    
+## [17] ade4_1.7-18       
+## 
+## loaded via a namespace (and not attached):
+##   [1] StAMPP_1.6.3        plyr_1.8.6          igraph_1.2.7       
+##   [4] sp_1.4-5            splines_4.1.1       digest_0.6.28      
+##   [7] foreach_1.5.1       htmltools_0.5.2     gdata_2.18.0       
+##  [10] fansi_0.5.0         magrittr_2.0.1      memoise_2.0.0      
+##  [13] cluster_2.1.2       doParallel_1.0.16   PopGenReport_3.0.4 
+##  [16] remotes_2.4.1       R.utils_2.11.0      prettyunits_1.1.1  
+##  [19] colorspace_2.0-2    mmod_1.3.3          xfun_0.27          
+##  [22] rgdal_1.5-27        callr_3.7.0         crayon_1.4.2       
+##  [25] jsonlite_1.7.2      iterators_1.0.13    ape_5.5            
+##  [28] glue_1.4.2          gtable_0.3.0        seqinr_4.2-8       
+##  [31] polysat_1.7-6       pkgbuild_1.2.0      DEoptimR_1.0-9     
+##  [34] mvtnorm_1.1-3       DBI_1.1.1           GGally_2.1.2       
+##  [37] Rcpp_1.0.7          viridisLite_0.4.0   xtable_1.8-4       
+##  [40] dismo_1.3-5         genetics_1.3.8.1.3  calibrate_1.7.7    
+##  [43] ellipsis_0.3.2      pkgconfig_2.0.3     reshape_0.8.8      
+##  [46] R.methodsS3_1.8.1   farver_2.1.0        sass_0.4.0         
+##  [49] utf8_1.2.2          tidyselect_1.1.1    labeling_0.4.2     
+##  [52] rlang_0.4.12        later_1.3.0         munsell_0.5.0      
+##  [55] tools_4.1.1         cachem_1.0.6        cli_3.0.1          
+##  [58] generics_0.1.0      evaluate_0.14       fastmap_1.1.0      
+##  [61] yaml_2.2.1          processx_3.5.2      knitr_1.36         
+##  [64] fs_1.5.0            gdsfmt_1.30.0       robustbase_0.93-9  
+##  [67] purrr_0.3.4         RgoogleMaps_1.4.5.3 nlme_3.1-152       
+##  [70] mime_0.12           R.oo_1.24.0         gap_1.2.3-1        
+##  [73] compiler_4.1.1      rstudioapi_0.13     png_0.1-7          
+##  [76] testthat_3.1.0      tibble_3.1.5        bslib_0.3.1        
+##  [79] stringi_1.7.5       gdistance_1.3-6     highr_0.9          
+##  [82] ps_1.6.0            blogdown_1.6        desc_1.4.0         
+##  [85] memuse_4.2-1        lattice_0.20-44     Matrix_1.3-4       
+##  [88] vegan_2.5-7         permute_0.9-5       vctrs_0.3.8        
+##  [91] pillar_1.6.4        lifecycle_1.0.1     combinat_0.0-8     
+##  [94] jquerylib_0.1.4     data.table_1.14.2   SNPRelate_1.28.0   
+##  [97] raster_3.5-2        httpuv_1.6.3        R6_2.5.1           
+## [100] bookdown_0.24       promises_1.2.0.1    gridExtra_2.3      
+## [103] KernSmooth_2.23-20  sessioninfo_1.1.1   codetools_0.2-18   
+## [106] boot_1.3-28         MASS_7.3-54         gtools_3.9.2       
+## [109] assertthat_0.2.1    pkgload_1.2.3       rprojroot_2.0.2    
+## [112] withr_2.4.2         pinfsc50_1.2.0      pegas_1.0-1        
+## [115] mgcv_1.8-36         parallel_4.1.1      terra_1.4-11       
+## [118] grid_4.1.1          tidyr_1.1.4         rmarkdown_2.11     
+## [121] shiny_1.7.1</code></pre>
+<p><a href="#contents">Back to Contents</a></p>
+</div>
+</div>
+</div>

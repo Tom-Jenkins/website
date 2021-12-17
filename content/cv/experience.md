@@ -3,7 +3,7 @@
 widget = "experience"  # See https://sourcethemes.com/academic/docs/page-builder/
 headless = true  # This file represents a page section.
 active = true  # Activate this widget? true/false
-weight = 1  # Order that this section will appear.
+weight = 2  # Order that this section will appear.
 
 title = "Experience"
 subtitle = ""
@@ -14,7 +14,7 @@ date_format = "Jan 2006"
 
 [design.spacing]
   # Customize the section spacing. Order is top, right, bottom, left.
-  padding = ["15px", "0", "15px", "0"]
+  padding = ["50px", "0", "25px", "0"]
   
 # Experiences.
 #   Add/remove as many `[[experience]]` blocks below as you like.
@@ -29,7 +29,7 @@ date_format = "Jan 2006"
   location = "Exeter, UK"
   date_start = "2021-06-01"
   date_end = ""
-  description = "Senior Advisor in data analysis, modelling and statistics working on the Natural Capital & Ecosystems Assessment project"
+  description = "Senior Advisor in data analysis, modelling and statistics working on the Natural Capital & Ecosystems Assessment programme."
   #* bullet1
   #* bullet2
   #"""
