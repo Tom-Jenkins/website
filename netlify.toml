@@ -19,3 +19,19 @@ HUGO_ENV = "production"
   status = 200
   force = true
   headers = {X-From = "Netlify"}
+
+[[redirects]]
+  from = "https://tomjenkins.netlify.app/2020/09/21/r-popgen-getting-started/"
+  to = "https://tomjenkins.netlify.app/tutorials/r-popgen-getting-started/"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
+
+[[redirects]]
+  from = "https://tomjenkins.netlify.app/2020/10/26/r-extract-marine-data/"
+  to = "https://tomjenkins.netlify.app/tutorials/r-extract-marine-data/"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
+  
+  
