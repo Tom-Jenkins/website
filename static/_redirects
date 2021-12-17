@@ -1,4 +1,1 @@
-https://yihui.netlify.com/*  https://yihui.org/:splat  301!
-https://tomjenkins.netlify.app/2020/08/17/dna-extraction/ https://tomjenkins.netlify.app/project/dna-extraction/:splat 301!
-https://tomjenkins.netlify.app/2020/09/21/r-popgen-getting-started/ https://tomjenkins.netlify.app/tutorials/r-popgen-getting-started/:splat 301!
-https://tomjenkins.netlify.app/2020/10/26/r-extract-marine-data/ https://tomjenkins.netlify.app/tutorials/r-extract-marine-data/:splat 301!
+https://tomjenkins.netlify.app/2020/*  https://tomjenkins.netlify.app/tutorials/:splat  301!
