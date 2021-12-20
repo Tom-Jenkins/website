@@ -8,6 +8,7 @@ date: "2021-08-01"
 # To use, add an image named `featured.jpg/png` to your page's folder. 
 tags: ["R", "Leaflet"]
 weight: 2
+featured: false
 image:
   preview_only: true
 

@@ -17,9 +17,10 @@ url_code: "https://github.com/Tom-Jenkins/maerl_genomics"
 url_dataset: "https://www.ncbi.nlm.nih.gov/bioproject/PRJNA682082"
 url_pdf: ""
 url_poster: ""
-url_project: ""
+url_project: "https://tomjenkins.netlify.app/research-projects/maerl"
 url_slides: ""
 url_source: ""
 url_video: ""
+url_media: "tomjenkins.netlify.app"
 ---
 

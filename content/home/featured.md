@@ -6,14 +6,14 @@
 widget = "featured"  # See https://sourcethemes.com/academic/docs/page-builder/
 headless = true  # This file represents a page section.
 active = true  # Activate this widget? true/false
-weight = 1  # Order that this section will appear.
+weight = 2  # Order that this section will appear.
 
-title = "Featured"
+title = "Featured Project"
 subtitle = ""
 
 [content]
   # Page type to display. E.g. post, talk, or publication.
-  page_type = "publication"
+  page_type = "data-vis-projects"
   
   # Choose how much pages you would like to display (0 = all pages)
   count = 0
@@ -37,11 +37,11 @@ subtitle = ""
   #   2 = Compact
   #   3 = Card
   #   4 = Citation (publication only)
-  view = 3
+  view = 2
   
 [design.spacing]
   # Customize the section spacing. Order is top, right, bottom, left.
-  padding = ["20px", "0", "20px", "0"]
+  padding = ["50px", "0", "0", "0"]
   
 [design.background]
   # Apply a background color, gradient, or image.
