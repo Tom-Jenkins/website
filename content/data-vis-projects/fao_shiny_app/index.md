@@ -3,7 +3,7 @@
 title: "FAO Shiny App"
 summary: "Visualise and download global fisheries capture data from the FAO."
 author: "Tom Jenkins"
-date: "2021-08-01"
+date: "2021-11-05"
 # Header image (featured.png)
 tags: ["R", "Shiny", "Plotly"]
 weight: 1

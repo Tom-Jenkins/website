@@ -21,6 +21,5 @@ url_project: "https://tomjenkins.netlify.app/research-projects/maerl"
 url_slides: ""
 url_source: ""
 url_video: ""
-url_media: "tomjenkins.netlify.app"
 ---
 
