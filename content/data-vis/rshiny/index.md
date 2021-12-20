@@ -3,7 +3,7 @@
 widget = "blank"
 headless = true
 active = false
-weight = 2
+weight = 3
 
 title = "R Shiny Apps"
 subtitle = ""

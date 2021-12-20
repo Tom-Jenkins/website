@@ -1,16 +1,17 @@
 +++
 # A Projects section created with the Portfolio widget.
 widget = "portfolio"  # See https://sourcethemes.com/academic/docs/page-builder/
-headless = true  # This file represents a page section.
+headless = false  # This file represents a page section.
 active = true  # Activate this widget? true/false
 weight = 1  # Order that this section will appear.
 
-title = "Research"
-subtitle = ""
+title = "Data Visualisation"
+# subtitle = "📕 Projects"
 
 [content]
   # Page type to display. E.g. project.
-  # page_type = "project"
+  # TLJ: folder name in home/page_type
+  page_type = "data-vis-projects"
   
   # Filter toolbar (optional).
   # Add or remove as many filters (`[[content.filter_button]]` instances) as you like.
@@ -26,16 +27,28 @@ subtitle = ""
     tag = "*"
 	
   [[content.filter_button]]
-    name = "Lobster"
-    tag = "Lobster"
-  
+    name = "R"
+    tag = "R"
+
   [[content.filter_button]]
-    name = "Maerl"
-    tag = "Maerl"
-    
+    name = "Leaflet"
+    tag = "Leaflet"
+	
   [[content.filter_button]]
-    name = "Pink sea fan"
-    tag = "Pink sea fan"
+    name = "Plotly"
+    tag = "Plotly"			
+
+  [[content.filter_button]]
+    name = "Highcharts"
+    tag = "Highcharts"			
+	
+  [[content.filter_button]]
+    name = "JavaScript"
+    tag = "JavaScript"		
+	
+  [[content.filter_button]]
+    name = "Shiny"
+    tag = "Shiny"												
 
 [design]
   # Choose how many columns the section has. Valid values: 1 or 2.
@@ -56,24 +69,27 @@ subtitle = ""
   #   Uncomment (by removing `#`) an option to apply it.
   #   Choose a light or dark text color by setting `text_color_light`.
   #   Any HTML color name or Hex value is valid.
-  
+
   # Background color.
-  # color = "navy"
+  color = "FFFFF8"
   
   # Background gradient.
-  # gradient_start = "DeepSkyBlue"
-  # gradient_end = "SkyBlue"
+  # gradient_start = "#BBCCEE"
+  # gradient_end = "#FFFFF8"
   
   # Background image.
-  # image = "background.jpg"  # Name of image in `static/img/`.
-  # image_darken = 0.6  # Darken the image? Range 0-1 where 0 is transparent and 1 is opaque.
-
+  # image = "apuntes.jpg"  # Name of image in `static/media/`.
+  # image_darken = 0.5  # Darken the image? Range 0-1 where 0 is transparent and 1 is opaque.
+  image_size = "cover"  #  Options are `cover` (default), `contain`, or `actual` size.
+  image_position = "center"  # Options include `left`, `center` (default), or `right`.
+  image_parallax = true  # Use a fun parallax-like fixed background effect? true/false
+  
   # Text color (true=light or false=dark).
-  # text_color_light = true  
+  text_color_light = false
   
 [advanced]
  # Custom CSS. 
- css_style = ""
+ css_style = "padding-bottom: 0px;"
  
  # CSS class.
  css_class = ""
