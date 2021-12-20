@@ -29,6 +29,10 @@ title = "Data Visualisation"
   [[content.filter_button]]
     name = "R"
     tag = "R"
+  
+  [[content.filter_button]]
+    name = "Shiny"
+    tag = "Shiny"	
 
   [[content.filter_button]]
     name = "Leaflet"
@@ -41,14 +45,7 @@ title = "Data Visualisation"
   [[content.filter_button]]
     name = "Highcharts"
     tag = "Highcharts"			
-	
-  [[content.filter_button]]
-    name = "JavaScript"
-    tag = "JavaScript"		
-	
-  [[content.filter_button]]
-    name = "Shiny"
-    tag = "Shiny"												
+
 
 [design]
   # Choose how many columns the section has. Valid values: 1 or 2.
