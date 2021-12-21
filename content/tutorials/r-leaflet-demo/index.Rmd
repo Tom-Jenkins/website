@@ -1,6 +1,6 @@
 ---
 title: "An introduction to Leaflet for R"
-date: '2021-11-24'
+date: '2021-12-21'
 diagram: yes
 math: yes
 slug: r-leaflet-introduction
@@ -315,8 +315,8 @@ l5 = l4 %>%
   addLayersControl(
     position = "topright",
     baseGroups = c("Open Street Map","ESRI World Imagery","ESRI Ocean Basemap"),
-    # Add an option in layer control to toggle polygon layer
-    overlayGroups = c("Polygon 1","Circle point 1","Circle point 2"),
+    # Add an option in layer control to toggle layers
+    overlayGroups = c("Polygon 1","Circle point 1","Circle point 2","Tree icons"),
     # Choose to permanently display or collapse layers control switch
     options = layersControlOptions(collapsed = TRUE)
     ) %>% 
