@@ -325,7 +325,7 @@ l5 = l4 %>%
 ```
 
 <div id="6"/>
-### 5. Final map
+### 6. Final map
 ```{r echo=FALSE}
 frameWidget(l5, width = "100%", height = "500")
 ```
@@ -333,7 +333,7 @@ frameWidget(l5, width = "100%", height = "500")
 
 
 <div id="7"/>
-### 6. Further resources and R session info
+### 7. Further resources and R session info
 
 Leaflet for R: [vignette](https://rstudio.github.io/leaflet/)  
 R package: [leaflet.extras](https://bhaskarvk.github.io/leaflet.extras/reference/index.html)  
