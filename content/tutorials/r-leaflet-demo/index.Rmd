@@ -36,7 +36,7 @@ pre {
 <div id="1"/>
 ### 1. My first Leaflet map
 
-[Leaflet](https://leafletjs.com/) is an open-source JavaScript library for creating interactive maps. It supports vector and raster GIS data and has lots of plugins, widgets and customisation options. R users can access most of the features of Leaflet though the RStudio [leaflet package](https://github.com/rstudio/leaflet). In this tutorial, we will cover some of the basics of Leaflet for R and introduce adding and customising features, layers and interactive widgets to your Leaflet map.
+[Leaflet](https://leafletjs.com/) is an open-source JavaScript library for creating interactive maps. It supports vector and raster GIS data and has lots of plugins, widgets and customisation options. R users can access most of the features of Leaflet though the RStudio [leaflet package](https://github.com/rstudio/leaflet). In this tutorial, we will cover some of the basics of Leaflet for R and introduce adding and customising basemaps, feature layers and interactive widgets to your Leaflet map.
 
 #### Install and load R packages
 ```{r warning=FALSE, message=FALSE}
@@ -213,7 +213,7 @@ plot(uk_pts, pch = 21, col = "black", bg = "yellow", add = TRUE)
 plot(uk_pts2, pch = 21, col = "black", bg = "red", add = TRUE)
 ```
 
-#### Prepare graph and image examples to popup on click
+#### Prepare graph and image examples to popup on mouse click
 ```{r}
 # Example graph to show
 graph1 = levelplot(t(volcano), col.regions = terrain.colors(100), xlab = "", ylab = "")
@@ -249,10 +249,10 @@ l4 = l3 %>%
     graph = list(graph1), width = 200, height = 200,
     group = "Circle point 1"
     )%>%
-  # Add circle points with a popup image on mouse click
+  # Add red circle point with a popup image on mouse click
   addCircles(
     data = uk_pts2[2],
-    # group argument essential for linking to popup graph
+    # group argument essential for linking to popup image
     group = "Circle point 2",
     # circle size
     radius = 10000,
@@ -279,6 +279,14 @@ frameWidget(l4, width = "100%", height = "500")
 
 <div id="5"/>
 ### 5. Add extra customisation and widgets
+This code enables the following:
+
+- Button to reset the map view to its default setting
+- Minimap display which can be toggled on or off
+- Measurement widget to compute distances and areas
+- Scale bar
+- Layers control switch to toggle layers on or off
+- Define the zoom levels for which layers are displayed
 
 ```{r}
 l5 = l4 %>%
@@ -298,7 +306,7 @@ l5 = l4 %>%
     secondaryLengthUnit = "kilometers",
     primaryAreaUnit = "sqmeters"
     ) %>%
-  # Add scalebar
+  # Add scale bar
   addScaleBar(
     position = "bottomright",
     options = scaleBarOptions(imperial = FALSE)
@@ -333,14 +341,6 @@ R package: [leaflet.extras2](https://trafficonese.github.io/leaflet.extras2/)
 R package: [leafpop](https://github.com/r-spatial/leafpop)  
 R package: [leafem](https://github.com/r-spatial/leafem)  
 R package: [leafgl](https://github.com/r-spatial/leafgl)  
-
-```{css, echo=FALSE}
-.scroll-100 {
-  max-height: 100px;
-  overflow-y: auto;
-  background-color: inherit;
-}
-```
 
 
 ```{r}

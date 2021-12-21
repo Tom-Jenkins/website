@@ -39,7 +39,7 @@ pre {
 <div id="1"/>
 <div id="my-first-leaflet-map" class="section level3">
 <h3>1. My first Leaflet map</h3>
-<p><a href="https://leafletjs.com/">Leaflet</a> is an open-source JavaScript library for creating interactive maps. It supports vector and raster GIS data and has lots of plugins, widgets and customisation options. R users can access most of the features of Leaflet though the RStudio <a href="https://github.com/rstudio/leaflet">leaflet package</a>. In this tutorial, we will cover some of the basics of Leaflet for R and introduce adding and customising features, layers and interactive widgets to your Leaflet map.</p>
+<p><a href="https://leafletjs.com/">Leaflet</a> is an open-source JavaScript library for creating interactive maps. It supports vector and raster GIS data and has lots of plugins, widgets and customisation options. R users can access most of the features of Leaflet though the RStudio <a href="https://github.com/rstudio/leaflet">leaflet package</a>. In this tutorial, we will cover some of the basics of Leaflet for R and introduce adding and customising basemaps, feature layers and interactive widgets to your Leaflet map.</p>
 <div id="install-and-load-r-packages" class="section level4">
 <h4>Install and load R packages</h4>
 <pre class="r"><code>library(leaflet)
@@ -215,8 +215,8 @@ plot(uk_pts, pch = 21, col = &quot;black&quot;, bg = &quot;yellow&quot;, add = T
 plot(uk_pts2, pch = 21, col = &quot;black&quot;, bg = &quot;red&quot;, add = TRUE)</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
-<div id="prepare-graph-and-image-examples-to-popup-on-click" class="section level4">
-<h4>Prepare graph and image examples to popup on click</h4>
+<div id="prepare-graph-and-image-examples-to-popup-on-mouse-click" class="section level4">
+<h4>Prepare graph and image examples to popup on mouse click</h4>
 <pre class="r"><code># Example graph to show
 graph1 = levelplot(t(volcano), col.regions = terrain.colors(100), xlab = &quot;&quot;, ylab = &quot;&quot;)
 
@@ -249,10 +249,10 @@ img1 = &quot;https://www.r-project.org/logo/Rlogo.png&quot;
     graph = list(graph1), width = 200, height = 200,
     group = &quot;Circle point 1&quot;
     )%&gt;%
-  # Add circle points with a popup image on mouse click
+  # Add red circle point with a popup image on mouse click
   addCircles(
     data = uk_pts2[2],
-    # group argument essential for linking to popup graph
+    # group argument essential for linking to popup image
     group = &quot;Circle point 2&quot;,
     # circle size
     radius = 10000,
@@ -281,6 +281,15 @@ frameWidget(l4, width = &quot;100%&quot;, height = &quot;500&quot;)</code></pre>
 </div>
 <div id="add-extra-customisation-and-widgets" class="section level3">
 <h3>5. Add extra customisation and widgets</h3>
+<p>This code enables the following:</p>
+<ul>
+<li>Button to reset the map view to its default setting</li>
+<li>Minimap display which can be toggled on or off</li>
+<li>Measurement widget to compute distances and areas</li>
+<li>Scale bar</li>
+<li>Layers control switch to toggle layers on or off</li>
+<li>Define the zoom levels for which layers are displayed</li>
+</ul>
 <pre class="r"><code>l5 = l4 %&gt;%
   # Reset map to default setting
   leaflet.extras::addResetMapButton() %&gt;% 
@@ -298,7 +307,7 @@ frameWidget(l4, width = &quot;100%&quot;, height = &quot;500&quot;)</code></pre>
     secondaryLengthUnit = &quot;kilometers&quot;,
     primaryAreaUnit = &quot;sqmeters&quot;
     ) %&gt;%
-  # Add scalebar
+  # Add scale bar
   addScaleBar(
     position = &quot;bottomright&quot;,
     options = scaleBarOptions(imperial = FALSE)
@@ -331,13 +340,6 @@ R package: <a href="https://trafficonese.github.io/leaflet.extras2/">leaflet.ext
 R package: <a href="https://github.com/r-spatial/leafpop">leafpop</a><br />
 R package: <a href="https://github.com/r-spatial/leafem">leafem</a><br />
 R package: <a href="https://github.com/r-spatial/leafgl">leafgl</a></p>
-<style type="text/css">
-.scroll-100 {
-  max-height: 100px;
-  overflow-y: auto;
-  background-color: inherit;
-}
-</style>
 <pre class="r"><code>sessionInfo()
 ## R version 4.1.1 (2021-08-10)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
