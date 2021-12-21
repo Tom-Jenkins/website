@@ -3,7 +3,7 @@
 title: "Leaflet Demo Map"
 summary: "Leaflet interactive map from demo."
 author: "Tom Jenkins"
-date: "2021-08-01"
+date: "2021-12-21"
 # Header image (featured.png)
 # To use, add an image named `featured.jpg/png` to your page's folder. 
 tags: ["R", "Leaflet"]
