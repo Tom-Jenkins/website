@@ -13,6 +13,13 @@ weight: 2
 knitr::opts_chunk$set(collapse = TRUE)
 ```
 
+```{css, echo=FALSE}
+pre {
+  max-height: 300px;
+  overflow-y: auto;
+}
+```
+
 <div id="contents"/>
 ## Contents
 1. [Why bother with R?](#1)

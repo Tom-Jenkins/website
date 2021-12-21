@@ -20,6 +20,13 @@ image:
 knitr::opts_chunk$set(collapse = TRUE)
 ```
 
+```{css, echo=FALSE}
+pre {
+  max-height: 300px;
+  overflow-y: auto;
+}
+```
+
 <div id="contents"/>
 ## Contents
 1. [Explore Bio-ORACLE data sets](#1)

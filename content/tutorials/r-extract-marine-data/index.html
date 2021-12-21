@@ -19,6 +19,12 @@ image:
 <script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
 
 
+<style type="text/css">
+pre {
+  max-height: 300px;
+  overflow-y: auto;
+}
+</style>
 <div id="contents"/>
 <div id="contents" class="section level2">
 <h2>Contents</h2>
@@ -90,7 +96,7 @@ temp.bottom.surface = c(temp.bottom, temp.surface)
 
 # Check correlation between sea temperature layers
 layers_correlation(temp.bottom.surface) %&gt;% plot_correlation</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <pre class="r"><code># Re-examine layers that are not correlated (-0.6 &gt; x &lt; 0.6)
 temp.present = c(&quot;BO2_tempmean_bdmean&quot;,&quot;BO2_temprange_bdmean&quot;,&quot;BO2_tempmean_ss&quot;,&quot;BO2_temprange_ss&quot;)
 layers_correlation(temp.present) %&gt;% round(digits = 2)
@@ -105,7 +111,7 @@ layers_correlation(temp.present) %&gt;% round(digits = 2)
 ## BO2_tempmean_ss                 -0.11
 ## BO2_temprange_ss                 1.00
 layers_correlation(temp.present) %&gt;% plot_correlation</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>Note that the version of the <code>layers_correlation()</code> function used in this post does not accept version 2.1 of the layers (e.g. BO21_tempmean_bdmean) so version 2.0 was used to illustrate the code above.</p>
 <p><a href="#contents">Back to Contents</a></p>
 <div id="2"/>
@@ -155,20 +161,20 @@ cols = colorRampPalette(c(&quot;#5E85B8&quot;,&quot;#EDF0C0&quot;,&quot;#C13127&
 # Plot mean bottom mean temperature
 raster::subset(temp.rasters, grep(&quot;tempmean_bdmean&quot;, names(temp.rasters), value = TRUE)) %&gt;%
   plot(col = cols(100), zlim = c(0,17), axes = FALSE, box = FALSE)</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <pre class="r"><code># Plot sea surface mean temperature
 raster::subset(temp.rasters, grep(&quot;tempmean_ss&quot;, names(temp.rasters), value = TRUE)) %&gt;%
   plot(col = cols(100), zlim = c(9,17), axes = FALSE, box = FALSE)</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <pre class="r"><code># Plot mean bottom temperature range
 raster::subset(temp.rasters, grep(&quot;temprange_bdmean&quot;, names(temp.rasters), value = TRUE)) %&gt;%
   plot(col = cols(100), zlim = c(0,16), axes = FALSE, box = FALSE)</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>Plot rasters using <code>sp::spplot()</code> function.</p>
 <pre class="r"><code># Plot bathymetry up to 200 m depth
 sp::spplot(bathy.raster, zlim = c(-200, 0), main = names(bathy.raster),
            scales = list(draw=TRUE), col.regions = topo.colors(100))</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <p><a href="#contents">Back to Contents</a></p>
 <div id="4"/>
 </div>
@@ -196,7 +202,7 @@ sp::spplot(bathy.raster, zlim = c(-200, 0), main = names(bathy.raster),
            scales = list(draw=TRUE), col.regions = topo.colors(100),
            sp.layout = c(&quot;sp.points&quot;, random.pts, pch = 21, cex = 1, fill = &quot;yellow&quot;, col = &quot;black&quot;)
            )</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <p>Create a <code>tibble</code> or <code>data.frame</code> to store Bio-ORACLE marine data for each point.</p>
 <pre class="r"><code>marine.data = tibble(ID = 1:nrow(random.pts@coords),
                      Lon = random.pts$x,
@@ -288,7 +294,7 @@ marine.data %&gt;%
     xlab(&quot;Raster layer&quot;)+
     ylab(expression(bold(&quot;Temperature (&quot;^o*&quot;C)&quot;)))+
     theme1</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <p>Calculate the deepest and shallowest point.</p>
 <pre class="r"><code>marine.data %&gt;%
   summarise(deepest = min(MS_bathy_5m), shallowest = max(MS_bathy_5m))
@@ -323,28 +329,29 @@ marine.data %&gt;%
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] dismo_1.3-5          sdmpredictors_0.2.10 rgdal_1.5-27        
-##  [4] raster_3.5-2         sp_1.4-5             forcats_0.5.1       
-##  [7] stringr_1.4.0        dplyr_1.0.7          purrr_0.3.4         
-## [10] readr_2.0.2          tidyr_1.1.4          tibble_3.1.5        
-## [13] ggplot2_3.3.5        tidyverse_1.3.1     
+##  [1] dismo_1.3-5          raster_3.5-2         sp_1.4-5            
+##  [4] sdmpredictors_0.2.11 forcats_0.5.1        stringr_1.4.0       
+##  [7] dplyr_1.0.7          purrr_0.3.4          readr_2.1.1         
+## [10] tidyr_1.1.4          tibble_3.1.5         ggplot2_3.3.5       
+## [13] tidyverse_1.3.1     
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_1.0.7       lubridate_1.8.0  lattice_0.20-44  assertthat_0.2.1
 ##  [5] digest_0.6.28    utf8_1.2.2       plyr_1.8.6       R6_2.5.1        
-##  [9] cellranger_1.1.0 backports_1.2.1  reprex_2.0.1     evaluate_0.14   
+##  [9] cellranger_1.1.0 backports_1.4.1  reprex_2.0.1     evaluate_0.14   
 ## [13] highr_0.9        httr_1.4.2       blogdown_1.6     pillar_1.6.4    
 ## [17] rlang_0.4.12     readxl_1.3.1     rstudioapi_0.13  jquerylib_0.1.4 
-## [21] rmarkdown_2.11   munsell_0.5.0    broom_0.7.9      compiler_4.1.1  
-## [25] modelr_0.1.8     xfun_0.27        pkgconfig_2.0.3  htmltools_0.5.2 
-## [29] tidyselect_1.1.1 bookdown_0.24    codetools_0.2-18 fansi_0.5.0     
-## [33] crayon_1.4.2     tzdb_0.1.2       dbplyr_2.1.1     withr_2.4.2     
-## [37] grid_4.1.1       jsonlite_1.7.2   gtable_0.3.0     lifecycle_1.0.1 
-## [41] DBI_1.1.1        magrittr_2.0.1   scales_1.1.1     cli_3.0.1       
-## [45] stringi_1.7.5    farver_2.1.0     reshape2_1.4.4   fs_1.5.0        
-## [49] xml2_1.3.2       bslib_0.3.1      ellipsis_0.3.2   generics_0.1.0  
-## [53] vctrs_0.3.8      tools_4.1.1      glue_1.4.2       hms_1.1.1       
-## [57] fastmap_1.1.0    yaml_2.2.1       colorspace_2.0-2 terra_1.4-11    
-## [61] rvest_1.0.2      knitr_1.36       haven_2.4.3      sass_0.4.0</code></pre>
+## [21] rmarkdown_2.11   rgdal_1.5-28     munsell_0.5.0    broom_0.7.10    
+## [25] compiler_4.1.1   modelr_0.1.8     xfun_0.27        pkgconfig_2.0.3 
+## [29] htmltools_0.5.2  tidyselect_1.1.1 bookdown_0.24    codetools_0.2-18
+## [33] fansi_0.5.0      crayon_1.4.2     tzdb_0.2.0       dbplyr_2.1.1    
+## [37] withr_2.4.3      grid_4.1.1       jsonlite_1.7.2   gtable_0.3.0    
+## [41] lifecycle_1.0.1  DBI_1.1.2        magrittr_2.0.1   scales_1.1.1    
+## [45] cli_3.1.0        stringi_1.7.6    farver_2.1.0     reshape2_1.4.4  
+## [49] fs_1.5.2         xml2_1.3.3       bslib_0.3.1      ellipsis_0.3.2  
+## [53] generics_0.1.1   vctrs_0.3.8      tools_4.1.1      glue_1.4.2      
+## [57] hms_1.1.1        fastmap_1.1.0    yaml_2.2.1       terra_1.4-11    
+## [61] colorspace_2.0-2 rvest_1.0.2      knitr_1.37       haven_2.4.3     
+## [65] sass_0.4.0</code></pre>
 </div>
 </div>
