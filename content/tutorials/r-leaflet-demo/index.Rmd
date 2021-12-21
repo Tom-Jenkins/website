@@ -1,11 +1,11 @@
 ---
-title: "An introduction to Leaflet for R"
+title: "An introduction to R Leaflet"
 date: '2021-12-21'
 diagram: yes
 math: yes
 slug: r-leaflet-introduction
-summary: This tutorial covers how to develop interactive maps using R and Leaflet.
-categories: ["R","Leaflet"]
+summary: This demo covers how to develop interactive maps using R and Leaflet.
+categories: ["R"]
 weight: 1
 image:
   placement: 1
@@ -36,7 +36,7 @@ pre {
 <div id="1"/>
 ### 1. My first Leaflet map
 
-[Leaflet](https://leafletjs.com/) is an open-source JavaScript library for creating interactive maps. It supports vector and raster GIS data and has lots of plugins, widgets and customisation options. R users can access most of the features of Leaflet though the RStudio [leaflet package](https://github.com/rstudio/leaflet). In this tutorial, we will cover some of the basics of Leaflet for R and introduce adding and customising basemaps, feature layers and interactive widgets to your Leaflet map.
+[Leaflet](https://leafletjs.com/) is an open-source JavaScript library for creating interactive maps. It supports vector and raster GIS data and has lots of plugins, widgets and customisation options. R users can access most of the features of Leaflet though the RStudio [leaflet package](https://github.com/rstudio/leaflet). In this demo, we will cover some of the basics of R Leaflet and introduce adding and customising basemaps, feature layers and interactive widgets to your Leaflet map, with a particular focus on code that I've found most useful to-date.
 
 #### Install and load R packages
 ```{r warning=FALSE, message=FALSE}
