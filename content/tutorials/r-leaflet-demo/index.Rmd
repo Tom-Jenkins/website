@@ -216,7 +216,7 @@ plot(uk_pts2, pch = 21, col = "black", bg = "red", add = TRUE)
 #### Prepare graph and image examples to popup on mouse click
 ```{r}
 # Example graph to show
-graph1 = levelplot(t(volcano), col.regions = terrain.colors(100), xlab = "", ylab = "")
+graph1 = levelplot(t(volcano), col.regions = heat.colors(100), xlab = "", ylab = "")
 
 # Example image to show (GIFs can also be used)
 img1 = "https://www.r-project.org/logo/Rlogo.png"
