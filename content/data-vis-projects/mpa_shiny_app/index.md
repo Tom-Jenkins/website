@@ -1,6 +1,6 @@
 ---
 
-title: "Shiny MPA App"
+title: "MPA Shiny App"
 summary: "Visualise and retrieve information about inshore Marine Protected Areas (MPAs) designated around SW England."
 author: "Tom Jenkins"
 date: "2021-04-13"
