@@ -23,12 +23,21 @@ date_format = "Jan 2006"
 #   Begin/end multi-line descriptions with 3 quotes `"""`.
 
 [[experience]]
+  title = "Bioinformatician and Software Developer"
+  company = "Animal and Plant Health Agency"
+  company_url = "https://www.gov.uk/government/organisations/animal-and-plant-health-agency"
+  location = "Exeter, UK"
+  date_start = "2022-04-01"
+  date_end = ""
+  description = ""
+  
+[[experience]]
   title = "Senior Data Analyst"
   company = "Natural England"
   company_url = "https://www.gov.uk/government/organisations/natural-england"
   location = "Exeter, UK"
   date_start = "2021-06-01"
-  date_end = ""
+  date_end = "2022-03-31"
   description = "Senior Advisor in data analysis, modelling and statistics working on the Natural Capital & Ecosystems Assessment programme."
   #* bullet1
   #* bullet2

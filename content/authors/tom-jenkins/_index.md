@@ -13,14 +13,14 @@ education:
     
 interests:
 - Marine biology
-- Genetics
+- Genomics
 - R programming
 - Data visualisation
 
 organizations:
-- name: Natural England
-  url: "https://www.gov.uk/government/organisations/natural-england"
-role: Senior Data Analyst
+- name: Animal and Plant Health Agency
+  url: "https://www.gov.uk/government/organisations/animal-and-plant-health-agency"
+role: Bioinformatician and Software Developer
 
 social:
 - icon: envelope
@@ -45,6 +45,6 @@ superuser: true
 title: Tom Jenkins
 ---
 
-I am a research scientist and analyst with a broad range of interests in marine biology, genetics, programming and data science. 
+I am a research scientist and analyst with a broad range of interests in marine biology, genomics, programming and data science. 
 
-I currently work for Natural England as a data analyst where I mainly do geocomputation, data visualisation and statistics. Prior to this, I worked as a research scientist for the University of Exeter where I studied the genetics and biology of marine invertebrates and algae using DNA sequencing data and bioinformatics.
+I currently work for the Animal and Plant Health Agency as a bioinformatician and software developer where I support the Central Unit for Sequencing and PCR in the Surveillance and Laboratory Services Department. Prior to this, I worked in the academic sector as a research scientist in population genomics, marine connectivity and whole genome sequencing, and for Natural England as an advisor for nature recovery and a data analyst in geocomputation, statistics and data visualisation.

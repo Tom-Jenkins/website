@@ -29,12 +29,12 @@ subtitle = " "
 #   icon_pack = "fas"
 #   name = "Data analysis"
 #   description = ""
-  
+
 [[feature]]
-  icon = "chart-bar"
+  icon = "dna"
   icon_pack = "fas"
-  name = "Data Visualisation"
-  description = ""
+  name = "Bioinformatics"
+  description = "" 
  
 [[feature]]
   icon = "layer-group"
@@ -49,10 +49,10 @@ subtitle = " "
   description = "" 
   
 [[feature]]
-  icon = "dna"
+  icon = "chart-bar"
   icon_pack = "fas"
-  name = "Bioinformatics"
-  description = "" 
+  name = "Data Visualisation"
+  description = ""
 
 # [[feature]]
 #   icon = "microsoft"

@@ -103,11 +103,11 @@ contact_links = [
 
 # Address
 # For country_code, use the 2-letter ISO code (see https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2 )
-address = {street = "Sterling House, Dix's Field", city = "Exeter", region = "Devon", postcode = "EX1 1QA", country = "United Kingdom"}
+address = {street = "Manley House, Sowton Industrial Estate", city = "Exeter", region = "Devon", postcode = "EX2 7LQ", country = "United Kingdom"}
 
 # Geographic coordinates
 # To get your coordinates, right-click on Google Maps and choose "What's here?". The coords will show up at the bottom.
-coordinates = {latitude = "50.72416626935505", longitude = "-3.525238919244449"}
+coordinates = {latitude = "50.71613676581114", longitude = "-3.4665864442102188"}
 
 # Directions for visitors to locate you.
 #directions = "Enter Building 1 and take the stairs to Office 200 on Floor 2"
