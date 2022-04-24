@@ -4,7 +4,9 @@ date: '2020-09-21'
 diagram: yes
 math: yes
 slug: r-popgen-getting-started
-summary: R provides a wealth of packages and resources for analysing population genetic data. This tutorial aims to help scientists at any research level get started with analysis of genetic data using R and its packages.
+summary: R provides a wealth of packages and resources for analysing population genetic
+  data. This tutorial aims to help scientists at any research level get started with
+  analysis of genetic data using R and its packages.
 categories: R
 weight: 2
 ---
@@ -404,21 +406,32 @@ lobster_gen_sub = popsub(lobster_gen, sublist = c("Ale","Ber","Brd","Pad","Sar17
 seafan_gen_sub = popsub(seafan_gen, sublist = c("Bla","Bov","Bre","Lun","PorI","Sko"))
 
 # Compute pairwise Fsts
-lobster_fst = genet.dist(lobster_gen_sub, method = "WC84")
-lobster_fst %>% round(digits = 3)
+lobster_fst = genet.dist(lobster_gen_sub, method = "WC84") %>% round(digits = 3)
+lobster_fst
 
-seafan_fst = genet.dist(seafan_gen_sub, method = "WC84")
-seafan_fst %>% round(digits = 3)
+seafan_fst = genet.dist(seafan_gen_sub, method = "WC84") %>% round(digits = 3)
+seafan_fst 
 ```
 
 Visualise pairwise _F_~ST~ for lobster.
 ```{r}
-# Convert dist object to data.frame
-fst.matrix = as.matrix(lobster_fst)
-ind = which( upper.tri(fst.matrix), arr.ind = TRUE)
-fst.df = data.frame(Site1 = dimnames(fst.matrix)[[2]][ind[,2]],
-                    Site2 = dimnames(fst.matrix)[[1]][ind[,1]],
-                    Fst = fst.matrix[ ind ] %>% round(digits = 3))
+# Desired order of labels
+lab_order = c("Ber","Brd","Pad","Vig","Sar17","Ale")
+
+# Change order of rows and cols
+fst.mat = as.matrix(lobster_fst)
+fst.mat1 = fst.mat[lab_order, ]
+fst.mat2 = fst.mat1[, lab_order]
+
+# Create a data.frame
+ind = which(upper.tri(fst.mat2), arr.ind = TRUE)
+fst.df = data.frame(Site1 = dimnames(fst.mat2)[[2]][ind[,2]],
+                    Site2 = dimnames(fst.mat2)[[1]][ind[,1]],
+                    Fst = fst.mat2[ ind ])
+
+# Keep the order of the levels in the data.frame for plotting 
+fst.df$Site1 = factor(fst.df$Site1, levels = unique(fst.df$Site1))
+fst.df$Site2 = factor(fst.df$Site2, levels = unique(fst.df$Site2))
 
 # Convert minus values to zero
 fst.df$Fst[fst.df$Fst < 0] = 0
@@ -451,12 +464,23 @@ ggplot(data = fst.df, aes(x = Site1, y = Site2, fill = Fst))+
 
 Visualise pairwise _F_~ST~ for pink sea fan.
 ```{r}
-# Convert dist object to data.frame
-fst.matrix = as.matrix(seafan_fst)
-ind = which( upper.tri(fst.matrix), arr.ind = TRUE)
-fst.df = data.frame(Site1 = dimnames(fst.matrix)[[2]][ind[,2]],
-                    Site2 = dimnames(fst.matrix)[[1]][ind[,1]],
-                    Fst = fst.matrix[ ind ] %>% round(digits = 3))
+# Desired order of labels
+lab_order = c("Sko","Lun","Bov","Bla","Bre","PorI")
+
+# Change order of rows and cols
+fst.mat = as.matrix(seafan_fst)
+fst.mat1 = fst.mat[lab_order, ]
+fst.mat2 = fst.mat1[, lab_order]
+
+# Create a data.frame
+ind = which(upper.tri(fst.mat2), arr.ind = TRUE)
+fst.df = data.frame(Site1 = dimnames(fst.mat2)[[2]][ind[,2]],
+                    Site2 = dimnames(fst.mat2)[[1]][ind[,1]],
+                    Fst = fst.mat2[ ind ])
+
+# Keep the order of the levels in the data.frame for plotting 
+fst.df$Site1 = factor(fst.df$Site1, levels = unique(fst.df$Site1))
+fst.df$Site2 = factor(fst.df$Site2, levels = unique(fst.df$Site2))
 
 # Convert minus values to zero
 fst.df$Fst[fst.df$Fst < 0] = 0

@@ -4,12 +4,13 @@ date: '2020-09-21'
 diagram: yes
 math: yes
 slug: r-popgen-getting-started
-summary: R provides a wealth of packages and resources for analysing population genetic data. This tutorial aims to help scientists at any research level get started with analysis of genetic data using R and its packages.
+summary: R provides a wealth of packages and resources for analysing population genetic
+  data. This tutorial aims to help scientists at any research level get started with
+  analysis of genetic data using R and its packages.
 categories: R
 weight: 2
 ---
 
-<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
 
 
 <style type="text/css">
@@ -583,8 +584,8 @@ lobster_gen_sub = popsub(lobster_gen, sublist = c(&quot;Ale&quot;,&quot;Ber&quot
 seafan_gen_sub = popsub(seafan_gen, sublist = c(&quot;Bla&quot;,&quot;Bov&quot;,&quot;Bre&quot;,&quot;Lun&quot;,&quot;PorI&quot;,&quot;Sko&quot;))
 
 # Compute pairwise Fsts
-lobster_fst = genet.dist(lobster_gen_sub, method = &quot;WC84&quot;)
-lobster_fst %&gt;% round(digits = 3)
+lobster_fst = genet.dist(lobster_gen_sub, method = &quot;WC84&quot;) %&gt;% round(digits = 3)
+lobster_fst
 ##         Ale   Ber   Brd   Pad Sar17
 ## Ber   0.120                        
 ## Brd   0.131 0.007                  
@@ -592,8 +593,8 @@ lobster_fst %&gt;% round(digits = 3)
 ## Sar17 0.066 0.174 0.171 0.161      
 ## Vig   0.117 0.064 0.038 0.018 0.112
 
-seafan_fst = genet.dist(seafan_gen_sub, method = &quot;WC84&quot;)
-seafan_fst %&gt;% round(digits = 3)
+seafan_fst = genet.dist(seafan_gen_sub, method = &quot;WC84&quot;) %&gt;% round(digits = 3)
+seafan_fst 
 ##         Bla    Bov    Bre    Lun   PorI
 ## Bov   0.099                            
 ## Bre   0.105  0.005                     
@@ -601,12 +602,23 @@ seafan_fst %&gt;% round(digits = 3)
 ## PorI  0.114  0.052  0.045  0.045       
 ## Sko   0.094 -0.002  0.006 -0.001  0.041</code></pre>
 <p>Visualise pairwise <em>F</em><sub>ST</sub> for lobster.</p>
-<pre class="r"><code># Convert dist object to data.frame
-fst.matrix = as.matrix(lobster_fst)
-ind = which( upper.tri(fst.matrix), arr.ind = TRUE)
-fst.df = data.frame(Site1 = dimnames(fst.matrix)[[2]][ind[,2]],
-                    Site2 = dimnames(fst.matrix)[[1]][ind[,1]],
-                    Fst = fst.matrix[ ind ] %&gt;% round(digits = 3))
+<pre class="r"><code># Desired order of labels
+lab_order = c(&quot;Ber&quot;,&quot;Brd&quot;,&quot;Pad&quot;,&quot;Vig&quot;,&quot;Sar17&quot;,&quot;Ale&quot;)
+
+# Change order of rows and cols
+fst.mat = as.matrix(lobster_fst)
+fst.mat1 = fst.mat[lab_order, ]
+fst.mat2 = fst.mat1[, lab_order]
+
+# Create a data.frame
+ind = which(upper.tri(fst.mat2), arr.ind = TRUE)
+fst.df = data.frame(Site1 = dimnames(fst.mat2)[[2]][ind[,2]],
+                    Site2 = dimnames(fst.mat2)[[1]][ind[,1]],
+                    Fst = fst.mat2[ ind ])
+
+# Keep the order of the levels in the data.frame for plotting 
+fst.df$Site1 = factor(fst.df$Site1, levels = unique(fst.df$Site1))
+fst.df$Site2 = factor(fst.df$Site2, levels = unique(fst.df$Site2))
 
 # Convert minus values to zero
 fst.df$Fst[fst.df$Fst &lt; 0] = 0
@@ -614,9 +626,9 @@ fst.df$Fst[fst.df$Fst &lt; 0] = 0
 # Print data.frame summary
 fst.df %&gt;% str
 ## &#39;data.frame&#39;:    15 obs. of  3 variables:
-##  $ Site1: chr  &quot;Ber&quot; &quot;Brd&quot; &quot;Brd&quot; &quot;Pad&quot; ...
-##  $ Site2: chr  &quot;Ale&quot; &quot;Ale&quot; &quot;Ber&quot; &quot;Ale&quot; ...
-##  $ Fst  : num  0.12 0.131 0.007 0.14 0.025 0.008 0.066 0.174 0.171 0.161 ...
+##  $ Site1: Factor w/ 5 levels &quot;Brd&quot;,&quot;Pad&quot;,&quot;Vig&quot;,..: 1 2 2 3 3 3 4 4 4 4 ...
+##  $ Site2: Factor w/ 5 levels &quot;Ber&quot;,&quot;Brd&quot;,&quot;Pad&quot;,..: 1 1 2 1 2 3 1 2 3 4 ...
+##  $ Fst  : num  0.007 0.025 0.008 0.064 0.038 0.018 0.174 0.171 0.161 0.112 ...
 
 # Fst italic label
 fst.label = expression(italic(&quot;F&quot;)[ST])
@@ -641,12 +653,23 @@ ggplot(data = fst.df, aes(x = Site1, y = Site2, fill = Fst))+
         )</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
 <p>Visualise pairwise <em>F</em><sub>ST</sub> for pink sea fan.</p>
-<pre class="r"><code># Convert dist object to data.frame
-fst.matrix = as.matrix(seafan_fst)
-ind = which( upper.tri(fst.matrix), arr.ind = TRUE)
-fst.df = data.frame(Site1 = dimnames(fst.matrix)[[2]][ind[,2]],
-                    Site2 = dimnames(fst.matrix)[[1]][ind[,1]],
-                    Fst = fst.matrix[ ind ] %&gt;% round(digits = 3))
+<pre class="r"><code># Desired order of labels
+lab_order = c(&quot;Sko&quot;,&quot;Lun&quot;,&quot;Bov&quot;,&quot;Bla&quot;,&quot;Bre&quot;,&quot;PorI&quot;)
+
+# Change order of rows and cols
+fst.mat = as.matrix(seafan_fst)
+fst.mat1 = fst.mat[lab_order, ]
+fst.mat2 = fst.mat1[, lab_order]
+
+# Create a data.frame
+ind = which(upper.tri(fst.mat2), arr.ind = TRUE)
+fst.df = data.frame(Site1 = dimnames(fst.mat2)[[2]][ind[,2]],
+                    Site2 = dimnames(fst.mat2)[[1]][ind[,1]],
+                    Fst = fst.mat2[ ind ])
+
+# Keep the order of the levels in the data.frame for plotting 
+fst.df$Site1 = factor(fst.df$Site1, levels = unique(fst.df$Site1))
+fst.df$Site2 = factor(fst.df$Site2, levels = unique(fst.df$Site2))
 
 # Convert minus values to zero
 fst.df$Fst[fst.df$Fst &lt; 0] = 0
@@ -654,9 +677,9 @@ fst.df$Fst[fst.df$Fst &lt; 0] = 0
 # Print data.frame summary
 fst.df %&gt;% str
 ## &#39;data.frame&#39;:    15 obs. of  3 variables:
-##  $ Site1: chr  &quot;Bov&quot; &quot;Bre&quot; &quot;Bre&quot; &quot;Lun&quot; ...
-##  $ Site2: chr  &quot;Bla&quot; &quot;Bla&quot; &quot;Bov&quot; &quot;Bla&quot; ...
-##  $ Fst  : num  0.099 0.105 0.005 0.095 0 0.012 0.114 0.052 0.045 0.045 ...
+##  $ Site1: Factor w/ 5 levels &quot;Lun&quot;,&quot;Bov&quot;,&quot;Bla&quot;,..: 1 2 2 3 3 3 4 4 4 4 ...
+##  $ Site2: Factor w/ 5 levels &quot;Sko&quot;,&quot;Lun&quot;,&quot;Bov&quot;,..: 1 1 2 1 2 3 1 2 3 4 ...
+##  $ Fst  : num  0 0 0 0.094 0.095 0.099 0.006 0.012 0.005 0.105 ...
 
 # Fst italic label
 fst.label = expression(italic(&quot;F&quot;)[ST])
@@ -940,7 +963,7 @@ genind2structure(lobster_gen_sub, file = &quot;lobster_genotypes.str&quot;, pops
 <div id="r-session-info" class="section level4">
 <h4>R session info</h4>
 <pre class="r"><code>sessionInfo()
-## R version 4.1.1 (2021-08-10)
+## R version 4.1.2 (2021-11-01)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
 ## Running under: Windows 10 x64 (build 19043)
 ## 
@@ -958,53 +981,54 @@ genind2structure(lobster_gen_sub, file = &quot;lobster_genotypes.str&quot;, pops
 ## 
 ## other attached packages:
 ##  [1] stringr_1.4.0      miscTools_0.6-26   devtools_2.4.3     usethis_2.1.5     
-##  [5] dartR_1.9.9.1      OutFLANK_0.2       qvalue_2.15.0      vcfR_1.12.0       
+##  [5] dartR_2.0.3        OutFLANK_0.2       qvalue_2.26.0      vcfR_1.12.0       
 ##  [9] scales_1.1.1       RColorBrewer_1.1-2 ggplot2_3.3.5      reshape2_1.4.4    
-## [13] hierfstat_0.5-10   dplyr_1.0.7        poppr_2.9.3        adegenet_2.1.5    
+## [13] hierfstat_0.5-10   dplyr_1.0.8        poppr_2.9.3        adegenet_2.1.5    
 ## [17] ade4_1.7-18       
 ## 
 ## loaded via a namespace (and not attached):
-##   [1] StAMPP_1.6.3        plyr_1.8.6          igraph_1.2.10      
-##   [4] sp_1.4-5            splines_4.1.1       digest_0.6.28      
-##   [7] foreach_1.5.1       htmltools_0.5.2     gdata_2.18.0       
-##  [10] fansi_0.5.0         magrittr_2.0.1      memoise_2.0.1      
-##  [13] cluster_2.1.2       doParallel_1.0.16   PopGenReport_3.0.4 
-##  [16] remotes_2.4.2       R.utils_2.11.0      prettyunits_1.1.1  
-##  [19] colorspace_2.0-2    mmod_1.3.3          xfun_0.27          
-##  [22] rgdal_1.5-28        callr_3.7.0         crayon_1.4.2       
-##  [25] jsonlite_1.7.2      iterators_1.0.13    ape_5.5            
-##  [28] glue_1.4.2          gtable_0.3.0        seqinr_4.2-8       
-##  [31] polysat_1.7-6       pkgbuild_1.3.1      DEoptimR_1.0-9     
-##  [34] mvtnorm_1.1-3       DBI_1.1.2           GGally_2.1.2       
-##  [37] Rcpp_1.0.7          viridisLite_0.4.0   xtable_1.8-4       
-##  [40] dismo_1.3-5         genetics_1.3.8.1.3  calibrate_1.7.7    
-##  [43] ellipsis_0.3.2      pkgconfig_2.0.3     reshape_0.8.8      
-##  [46] R.methodsS3_1.8.1   farver_2.1.0        sass_0.4.0         
-##  [49] utf8_1.2.2          tidyselect_1.1.1    labeling_0.4.2     
-##  [52] rlang_0.4.12        later_1.3.0         munsell_0.5.0      
-##  [55] tools_4.1.1         cachem_1.0.6        cli_3.1.0          
-##  [58] generics_0.1.1      evaluate_0.14       fastmap_1.1.0      
-##  [61] yaml_2.2.1          processx_3.5.2      knitr_1.37         
-##  [64] fs_1.5.2            gdsfmt_1.30.0       robustbase_0.93-9  
-##  [67] purrr_0.3.4         RgoogleMaps_1.4.5.3 nlme_3.1-153       
-##  [70] mime_0.12           R.oo_1.24.0         gap_1.2.3-1        
-##  [73] compiler_4.1.1      rstudioapi_0.13     png_0.1-7          
-##  [76] testthat_3.1.1      tibble_3.1.5        bslib_0.3.1        
-##  [79] stringi_1.7.6       gdistance_1.3-6     highr_0.9          
-##  [82] ps_1.6.0            blogdown_1.6        desc_1.4.0         
-##  [85] memuse_4.2-1        lattice_0.20-44     Matrix_1.4-0       
-##  [88] vegan_2.5-7         permute_0.9-5       vctrs_0.3.8        
-##  [91] pillar_1.6.4        lifecycle_1.0.1     combinat_0.0-8     
-##  [94] jquerylib_0.1.4     data.table_1.14.2   SNPRelate_1.28.0   
-##  [97] raster_3.5-2        httpuv_1.6.4        R6_2.5.1           
-## [100] bookdown_0.24       promises_1.2.0.1    gridExtra_2.3      
-## [103] KernSmooth_2.23-20  sessioninfo_1.2.2   codetools_0.2-18   
-## [106] boot_1.3-28         MASS_7.3-54         gtools_3.9.2       
-## [109] assertthat_0.2.1    pkgload_1.2.4       rprojroot_2.0.2    
-## [112] withr_2.4.3         pinfsc50_1.2.0      pegas_1.1          
-## [115] mgcv_1.8-38         parallel_4.1.1      terra_1.4-11       
-## [118] grid_4.1.1          tidyr_1.1.4         rmarkdown_2.11     
-## [121] shiny_1.7.1</code></pre>
+##   [1] spam_2.8-0          StAMPP_1.6.3        plyr_1.8.6         
+##   [4] igraph_1.3.0        sp_1.4-6            splines_4.1.2      
+##   [7] digest_0.6.29       foreach_1.5.2       htmltools_0.5.2    
+##  [10] viridis_0.6.2       gdata_2.18.0        fansi_1.0.2        
+##  [13] magrittr_2.0.2      memoise_2.0.1       cluster_2.1.2      
+##  [16] doParallel_1.0.17   PopGenReport_3.0.4  remotes_2.4.2      
+##  [19] R.utils_2.11.0      prettyunits_1.1.1   colorspace_2.0-2   
+##  [22] mmod_1.3.3          xfun_0.29           rgdal_1.5-29       
+##  [25] callr_3.7.0         crayon_1.5.0        jsonlite_1.7.3     
+##  [28] iterators_1.0.14    ape_5.6-1           glue_1.6.1         
+##  [31] gtable_0.3.0        seqinr_4.2-8        polysat_1.7-6      
+##  [34] pkgbuild_1.3.1      maps_3.4.0          mvtnorm_1.1-3      
+##  [37] DBI_1.1.2           GGally_2.1.2        Rcpp_1.0.8         
+##  [40] viridisLite_0.4.0   xtable_1.8-4        dotCall64_1.0-1    
+##  [43] dismo_1.3-5         genetics_1.3.8.1.3  calibrate_1.7.7    
+##  [46] ellipsis_0.3.2      pkgconfig_2.0.3     reshape_0.8.8      
+##  [49] R.methodsS3_1.8.1   farver_2.1.0        sass_0.4.0         
+##  [52] utf8_1.2.2          tidyselect_1.1.1    labeling_0.4.2     
+##  [55] rlang_1.0.1         later_1.3.0         munsell_0.5.0      
+##  [58] tools_4.1.2         cachem_1.0.6        cli_3.1.1          
+##  [61] generics_0.1.2      evaluate_0.14       fastmap_1.1.0      
+##  [64] yaml_2.2.2          processx_3.5.2      knitr_1.37         
+##  [67] fs_1.5.2            gdsfmt_1.30.0       purrr_0.3.4        
+##  [70] RgoogleMaps_1.4.5.3 nlme_3.1-153        mime_0.12          
+##  [73] R.oo_1.24.0         brio_1.1.3          gap_1.2.3-1        
+##  [76] compiler_4.1.2      rstudioapi_0.13     png_0.1-7          
+##  [79] testthat_3.1.2      tibble_3.1.6        bslib_0.3.1        
+##  [82] stringi_1.7.6       ps_1.6.0            gdistance_1.3-6    
+##  [85] highr_0.9           blogdown_1.9        desc_1.4.0         
+##  [88] fields_13.3         memuse_4.2-1        lattice_0.20-45    
+##  [91] Matrix_1.3-4        vegan_2.5-7         permute_0.9-7      
+##  [94] vctrs_0.3.8         pillar_1.7.0        lifecycle_1.0.1    
+##  [97] combinat_0.0-8      jquerylib_0.1.4     data.table_1.14.2  
+## [100] SNPRelate_1.28.0    raster_3.5-15       httpuv_1.6.5       
+## [103] patchwork_1.1.1     R6_2.5.1            bookdown_0.25      
+## [106] promises_1.2.0.1    KernSmooth_2.23-20  gridExtra_2.3      
+## [109] sessioninfo_1.2.2   codetools_0.2-18    pkgload_1.2.4      
+## [112] boot_1.3-28         MASS_7.3-54         gtools_3.9.2       
+## [115] assertthat_0.2.1    rprojroot_2.0.2     withr_2.4.3        
+## [118] pinfsc50_1.2.0      pegas_1.1           mgcv_1.8-38        
+## [121] parallel_4.1.2      terra_1.5-21        grid_4.1.2         
+## [124] tidyr_1.2.0         rmarkdown_2.13      shiny_1.7.1</code></pre>
 <p><a href="#contents">Back to Contents</a></p>
 </div>
 </div>
