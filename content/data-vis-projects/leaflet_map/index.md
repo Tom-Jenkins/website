@@ -1,7 +1,7 @@
 ---
 
 title: "Leaflet Demo Map"
-summary: "Leaflet interactive map from demo."
+summary: "Leaflet interactive map demo."
 author: "Tom Jenkins"
 date: "2021-12-21"
 # Header image (featured.png)
