@@ -8,7 +8,7 @@ date: "2018-05-29"
 # To use, add an image named `featured.jpg/png` to your page's folder. 
 tags: ["R", "TidyTuesday", "ECharts"]
 weight: 2
-featured: false
+featured: true
 image:
   preview_only: true
 
@@ -134,19 +134,16 @@ df_to_hier = function(df, pub){
   # First level
   first_level = df %>%
     count(sex)
-  # first_level
   
   # Second level
   second_level = df %>% 
     group_by(sex) %>% 
     count(align)
-  # second_level
   
   # Third level
   third_level = df %>%
     group_by(sex, align) %>%
     count(alive)
-  # third_level
   
   # Create hierarchical nested tibble from data
   df_nest = tibble(
