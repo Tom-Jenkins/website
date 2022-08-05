@@ -3,7 +3,7 @@
 title: "Comic-Book Characters"
 summary: "TidyTuesday Week 9 data visualisations."
 author: "Tom Jenkins"
-date: "2018-05-29"
+date: "2022-08-05"
 # Header image (featured.png)
 # To use, add an image named `featured.jpg/png` to your page's folder. 
 tags: ["R", "TidyTuesday", "ECharts"]
