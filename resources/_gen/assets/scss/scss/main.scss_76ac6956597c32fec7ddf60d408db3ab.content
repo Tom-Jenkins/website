@@ -9165,3 +9165,6 @@ div.mermaid {
  **************************************************/
 html[dir="rtl"] body {
   text-align: right; }
+
+.article-container {
+  max-width: 1000px; }

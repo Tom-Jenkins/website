@@ -14,8 +14,9 @@ image:
 
 ---
 
-
 <br/>
 
 <iframe height="600" width="100%" frameborder="yes"
 src="final_map_leaflet_demo.html"></iframe>
+
+Click [here](https://tomjenkins.netlify.app/tutorials/r-leaflet-introduction/) to view the demo.

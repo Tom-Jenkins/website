@@ -29,22 +29,22 @@ title = "Data Visualisation"
   [[content.filter_button]]
     name = "R"
     tag = "R"
-  
+    
+  [[content.filter_button]]
+    name = "TidyTuesday"
+    tag = "TidyTuesday"  
+    
   [[content.filter_button]]
     name = "Shiny"
     tag = "Shiny"	
-
+    
   [[content.filter_button]]
     name = "Leaflet"
     tag = "Leaflet"
-	
-  [[content.filter_button]]
-    name = "Plotly"
-    tag = "Plotly"			
 
   [[content.filter_button]]
-    name = "Highcharts"
-    tag = "Highcharts"			
+    name = "ECharts"
+    tag = "ECharts"			
 
 
 [design]
