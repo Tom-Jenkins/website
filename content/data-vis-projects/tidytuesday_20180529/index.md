@@ -16,7 +16,7 @@ image:
 
 <br/>
 
-Data visualisations for [TidyTuesday](https://github.com/rfordatascience/tidytuesday) Week 9 2018. The data are available on the TidyTuesday GitHub [page](https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-05-29) and the R code used to create the graphics is available at the end of this page.
+Data visualisations for [TidyTuesday](https://github.com/rfordatascience/tidytuesday) Week 9 2018. The data are available on the TidyTuesday GitHub [page](https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-05-29) and the R code used to create the interactive graphics is available at the end of this page.
 
 <br/>
 
@@ -280,6 +280,6 @@ dc_line = create_chart(comics_line, "DC") %>% e_connect_group("comics_line")
 # Arrange both plots on same grid
 e_arrange(mv_line, dc_line, cols = 2)
 ```
-
+<br/>
 
 
