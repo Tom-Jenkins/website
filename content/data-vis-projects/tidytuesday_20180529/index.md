@@ -1,7 +1,7 @@
 ---
 
 title: "Comic-Book Characters"
-summary: "TidyTuesday Week 9 data visualisations."
+summary: "TidyTuesday Week 9 2018 data visualisations."
 author: "Tom Jenkins"
 date: "2022-08-05"
 # Header image (featured.png)

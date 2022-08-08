@@ -20,7 +20,7 @@ interests:
 organizations:
 - name: Animal and Plant Health Agency
   url: "https://www.gov.uk/government/organisations/animal-and-plant-health-agency"
-role: Bioinformatician and Software Developer
+role: Bioinformatician & Software Developer
 
 social:
 - icon: envelope
@@ -29,6 +29,9 @@ social:
 - icon: twitter
   icon_pack: fab
   link: https://twitter.com/Tom__Jenkins
+- icon: linkedin
+  icon_pack: fab
+  link: https://www.linkedin.com/in/tom-l-jenkins/
 - icon: google-scholar
   icon_pack: ai
   link: https://scholar.google.co.uk/citations?user=k7oAuGgAAAAJ&hl=en

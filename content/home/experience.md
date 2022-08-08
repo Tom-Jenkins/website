@@ -23,7 +23,7 @@ date_format = "Jan 2006"
 #   Begin/end multi-line descriptions with 3 quotes `"""`.
 
 [[experience]]
-  title = "Bioinformatician and Software Developer"
+  title = "Bioinformatician & Software Developer"
   company = "Animal and Plant Health Agency"
   company_url = "https://www.gov.uk/government/organisations/animal-and-plant-health-agency"
   location = "Exeter, UK"
