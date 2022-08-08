@@ -29,10 +29,9 @@ src="01_sunburst_marvel.html"></iframe>
 <iframe height="500px" width="50%" align="left" frameborder="no"
 src="01_sunburst_dc.html"></iframe>
 
-<iframe height="1040px" width="100%" frameborder="no"
+<iframe height="1000px" width="100%" frameborder="no"
 src="01_line_chart.html"></iframe>
 
-<br/>
 
 <style>
 pre {
@@ -254,7 +253,7 @@ create_chart = function(data, pub){
   data %>% 
     filter(publisher == pub) %>% 
     group_by(align) %>%
-    e_charts(x = year_group, renderer = "svg") %>% 
+    e_charts(x = year_group, renderer = "svg", height = "400px") %>% 
     e_line(serie = appearances_yr) %>% 
     e_title(
       text = pub,
