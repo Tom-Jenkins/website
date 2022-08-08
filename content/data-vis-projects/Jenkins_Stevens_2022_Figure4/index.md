@@ -1,6 +1,6 @@
 ---
 
-title: "Habitat Suitability"
+title: "Octocoral Habitat Suitability"
 summary: "Interactive version of Figure 4 from Jenkins and Stevens (2022)."
 author: "Tom Jenkins"
 date: "2022-05-27"
