@@ -275,7 +275,7 @@ mv_line = create_chart(comics_line, "Marvel") %>% e_connect_group("comics_line")
 dc_line = create_chart(comics_line, "DC") %>% e_connect_group("comics_line")
 
 # Arrange both plots on same grid
-e_arrange(mv_line, dc_line, cols = 2)
+e_arrange(mv_line, dc_line, rows = 2)
 ```
 <br/>
 
