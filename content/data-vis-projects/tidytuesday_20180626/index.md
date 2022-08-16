@@ -16,7 +16,7 @@ image:
 
 <br/>
 
-Data visualisation for [TidyTuesday](https://github.com/rfordatascience/tidytuesday) Week 13 2018. The data are available on the TidyTuesday GitHub [page](https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-06-26) and the R code used to create the interactive map is available at the end of this page.
+Data visualisation for [TidyTuesday](https://github.com/rfordatascience/tidytuesday) Week 13 2018. The data set is available on the TidyTuesday GitHub [page](https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-06-26) and the R code used to create the interactive map is available at the end of this page.
 
 <br/>
 
@@ -248,4 +248,5 @@ saveWidget(l1, file = "widgets/02_choropleth.html")
 ```
 <br/>
 
-
+Data source: [FiveThirtyEight package](https://github.com/rudeboybert/fivethirtyeight)  
+Article: [FiveThirtyEight.com](https://fivethirtyeight.com/features/dear-mona-followup-where-do-people-drink-the-most-beer-wine-and-spirits/)

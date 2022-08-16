@@ -16,7 +16,7 @@ image:
 
 <br/>
 
-Data visualisations for [TidyTuesday](https://github.com/rfordatascience/tidytuesday) Week 9 2018. The data are available on the TidyTuesday GitHub [page](https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-05-29) and the R code used to create the interactive graphics is available at the end of this page.
+Data visualisations for [TidyTuesday](https://github.com/rfordatascience/tidytuesday) Week 9 2018. The data set is available on the TidyTuesday GitHub [page](https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-05-29) and the R code used to create the interactive graphics is available at the end of this page.
 
 <br/>
 
@@ -278,4 +278,5 @@ e_arrange(mv_line, dc_line, rows = 2)
 ```
 <br/>
 
-
+Data source: [FiveThirtyEight package](https://github.com/rudeboybert/fivethirtyeight)  
+Article: [FiveThirtyEight.com](https://fivethirtyeight.com/features/dear-mona-followup-where-do-people-drink-the-most-beer-wine-and-spirits/)
