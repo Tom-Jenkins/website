@@ -9,7 +9,7 @@ active = true  # Activate this widget? true/false
 weight = 2  # Order that this section will appear.
 
 title = ""
-subtitle = "Featured Project"
+subtitle = "Featured Projects"
 
 [content]
   # Page type to display. E.g. post, talk, or publication.
