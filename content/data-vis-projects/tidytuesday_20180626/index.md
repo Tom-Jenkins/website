@@ -16,11 +16,11 @@ image:
 
 <br/>
 
-Data visualisations for [TidyTuesday](https://github.com/rfordatascience/tidytuesday) Week 13 2018. The data are available on the TidyTuesday GitHub [page](https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-06-26) and the R code used to create the interactive map is available at the end of this page.
+Data visualisation for [TidyTuesday](https://github.com/rfordatascience/tidytuesday) Week 13 2018. The data are available on the TidyTuesday GitHub [page](https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-06-26) and the R code used to create the interactive map is available at the end of this page.
 
 <br/>
 
-<iframe height="700px" width="100%" frameborder="no" 
+<iframe height="650px" width="100%" frameborder="no" 
 src="02_choropleth.html"></iframe>
 
 <style>
