@@ -1,7 +1,7 @@
 ---
 
 title: "Alcohol Consumption"
-summary: "TidyTuesday Week 13 2018 data visualisation."
+summary: "TidyTuesday Week 13 2018 interactive map."
 author: "Tom Jenkins"
 date: "2022-08-16"
 # Header image (featured.png)
