@@ -143,7 +143,7 @@ info_content <- HTML(paste0(
     '<h4><strong>Information</strong></h4>
 <p>This map presents how many cans of beer, shots of spirits and glasses of wine were consumed on average per person per country in 2010. 
 More information on how these servings were calculated is available via the links below. 
-The total amount pure alcohol consumed (in litres) is also presented per person per country in 2010.</p>
+The total amount of pure alcohol consumed (in litres) is also presented per person per country in 2010.</p>
 <hr>
 <h4><strong>Links</strong></h4>
 <p>Data source: <a href="https://github.com/rudeboybert/fivethirtyeight">FiveThirtyEight package</a>
