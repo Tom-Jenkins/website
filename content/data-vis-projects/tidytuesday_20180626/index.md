@@ -126,6 +126,34 @@ tooltip_options = labelOptions(
   )
 )
 
+# Model information icon content
+info_content <- HTML(paste0(
+  HTML(
+    '<div class="modal fade" id="infobox" role="dialog"><div class="modal-dialog"><!-- Modal content--><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button>'
+  ),
+  
+  # Header / Title
+  HTML("<h3>Alcohol Consumption in Europe</h3>"),
+  HTML(
+    '</div><div class="modal-body">'
+  ),
+  
+  # Body
+  HTML(
+    '<h4><strong>Information</strong></h4>
+<p>This map presents how many cans of beer, shots of spirits and glasses of wine were consumed on average per person per country in 2010. 
+More information on how these servings were calculated is available via the links below. 
+The total amount pure alcohol consumed (in litres) is also presented per person per country in 2010.</p>
+<hr>
+<h4><strong>Links</strong></h4>
+<p>Data source: <a href="https://github.com/rudeboybert/fivethirtyeight">FiveThirtyEight package</a>
+<br>
+Article: <a href="https://fivethirtyeight.com/features/dear-mona-followup-where-do-people-drink-the-most-beer-wine-and-spirits/">FiveThirtyEight.com</a></p>'),
+  
+  # Closing divs
+  HTML('</div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div>')
+))
+
 # Colour bins
 bins_servings = c(0, 50, 100, 150, 200, 250, 300, 400)
 bins_total = c(0, 3, 6, 9, 12, 15)
@@ -161,7 +189,9 @@ add_choropleth = function(map, var_id, var_pal, ...){
     "<b>%s</b><br/>%g %s",
     europe_sf$country,
     europe_sf[[var_colname]],
-    ifelse(var_colname == "total_litres_of_pure_alcohol", "Litres", "Servings")
+    ifelse(var_colname == "beer_servings", "cans",
+           ifelse(var_colname == "spirit_servings", "shots",
+                  ifelse(var_colname == "wine_servings", "glasses", "litres")))
   ) %>% lapply(htmltools::HTML)
   # Polygons
   addPolygons(
@@ -182,10 +212,10 @@ add_choropleth = function(map, var_id, var_pal, ...){
 }
 
 # Variable IDs
-beer_id = "Beer"
-spirit_id = "Spirits"
-wine_id = "Wine"
-total_id = "Total Consumed (Litres)"
+beer_id = "Beer (cans)"
+spirit_id = "Spirits (shots)"
+wine_id = "Wine (glasses)"
+total_id = "Total (litres)"
 
 # Plot map
 l1 = leaflet() %>%
@@ -215,13 +245,13 @@ l1 = leaflet() %>%
     ) %>% 
   # Base group title
   htmlwidgets::onRender(
-    jsCode = "function() { $('.leaflet-control-layers-base').prepend('<label style=\"text-align:left\"><strong><font size=\"4\">Alcohol Consumption</font></strong></label>');}"
+    jsCode = "function() { $('.leaflet-control-layers-base').prepend('<label style=\"text-align:left\"><strong><font size=\"4\">Alcohol Consumption</font></strong><br>Average Per Person in 2010</label>');}"
     ) %>% 
   # Switch legends when a different base group is selected
   # Code from here: https://gist.github.com/noamross/98c2053d81085517e686407096ec0a69
   htmlwidgets::onRender("
     function(el, x) {
-      var initialLegend = 'Beer' // Set the initial legend to be displayed by layerId
+      var initialLegend = 'Beer (cans)' // Set the initial legend to be displayed by layerId
       var myMap = this;
       for (var legend in myMap.controls._controlsById) {
         var el = myMap.controls.get(legend.toString())._container;
@@ -242,8 +272,16 @@ l1 = leaflet() %>%
           };
         };
       });
-    }")
-# l1
+    }") %>% 
+  # Add information icon (model onclick)
+  # Code from here: https://stackoverflow.com/questions/68995343/r-leaflet-adding-an-information-popup-using-easybutton
+  addBootstrapDependency() %>% 
+  addEasyButton(easyButton(
+    icon = "fa-info-circle", title = "Map Information",
+    onClick = JS("function(btn, map){ $('#infobox').modal('show'); }")
+  )) %>% 
+  htmlwidgets::appendContent(info_content)
+l1
 saveWidget(l1, file = "widgets/02_choropleth.html")
 ```
 <br/>
