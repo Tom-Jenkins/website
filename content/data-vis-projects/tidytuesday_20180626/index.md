@@ -96,7 +96,6 @@ europe_sf = country_poly %>%
   filter(continent == "Europe") %>%
   select(country = name_long) %>%
   left_join(europe_alcohol, by = "country") %>%
-  drop_na %>%
   st_transform(crs = 4326)
 
 
@@ -170,6 +169,7 @@ add_legend = function(map, var_id, var_pal, ...){
     map = map,
     data = europe_sf,
     opacity = 0.7,
+    na.label = "No data",
     position = "bottomright",
     layerId = var_id,
     title = var_id,
