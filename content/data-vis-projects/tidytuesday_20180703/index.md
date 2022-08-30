@@ -393,7 +393,7 @@ plt_europe = life_europe %>%
   e_legend(show = FALSE) %>% 
   e_flip_coords() %>% 
   e_y_axis(inverse = TRUE, axisLabel = list (fontWeight = "bold", fontSize = 13)) %>% 
-  e_title(paste0("Life Expectancy in European Countries"), 
+  e_title(paste0("Life Expectancy in European Countries (1900–2015)"), 
           subtext = "Source: ourworldindata.org", 
           sublink = "https://ourworldindata.org/life-expectancy", 
           left = "center", top = 0) %>% 
