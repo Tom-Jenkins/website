@@ -9168,3 +9168,8 @@ html[dir="rtl"] body {
 
 .article-container {
   max-width: 1100px; }
+
+pre, code {
+  font-family: monospace;
+  color: inherit;
+  background-color: #f8f8f8; }
