@@ -9173,3 +9173,6 @@ pre, code {
   font-family: monospace;
   color: inherit;
   background-color: #f8f8f8; }
+
+div > ul > li {
+  list-style: none; }

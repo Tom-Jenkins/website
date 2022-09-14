@@ -7,10 +7,6 @@ pre, code {
     background-color: #f8f8f8;
 }
 
-#toc ul { 
-  list-style-type: none; 
-}
-
-#toc ul ul { 
-  list-style-type: disc; 
+div > ul > li {
+  list-style: none;
 }
