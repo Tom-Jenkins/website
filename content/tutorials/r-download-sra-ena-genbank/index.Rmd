@@ -7,7 +7,6 @@ output:
   blogdown::html_page:
     toc: true
     number_sections: yes
-    highlight: google-light
 slug: r-download-sra-ena-genbank
 summary: Download data from the SRA, ENA, and GenBank via the Linux command-line.
 weight: 1
