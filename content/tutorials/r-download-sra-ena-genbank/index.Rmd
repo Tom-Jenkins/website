@@ -38,12 +38,8 @@ pre {
 }
 ```
 
-<br>
-
 <!-- START OF RMARKDOWN DOCUMENT -->
 The aim of this tutorial is to demonstrate how you can download data from the Sequence Read Archive, the European Nucleotide Archive, and GenBank via the Linux command-line. 
-
-<br>
 
 **Prerequisites for this tutorial:**  
 
