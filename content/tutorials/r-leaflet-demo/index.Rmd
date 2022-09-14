@@ -3,6 +3,9 @@ title: "An introduction to R Leaflet"
 date: '2021-12-21'
 diagram: yes
 math: yes
+output:
+  blogdown::html_page:
+    highlight: tango
 slug: r-leaflet-introduction
 summary: This demo covers how to develop interactive maps using R and Leaflet.
 categories: ["R"]
