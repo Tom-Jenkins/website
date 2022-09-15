@@ -66,7 +66,7 @@ Accession ID for each level:
 ## fastq-dl
 
 **Installation**  
-One way to install fastq-dl is to via conda from the [Bioconda](https://bioconda.github.io/) channel. By following the commands below, you will set up a conda environmental called fastq-dl which downloads fastq-dl and all of its dependencies to the fastq-dl environment.
+One way to install [fastq-dl](https://github.com/rpetit3/fastq-dl) is via conda from the [Bioconda](https://bioconda.github.io/) channel. By following the commands below, you will set up a conda environmental called fastq-dl which downloads fastq-dl and all of its dependencies to the fastq-dl environment.
 
 ```{bash, eval=FALSE}
 conda create -n fastq-dl -c conda-forge -c bioconda fastq-dl
