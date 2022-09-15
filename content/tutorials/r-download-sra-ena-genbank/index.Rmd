@@ -203,7 +203,7 @@ Download [multiple](https://www.ncbi.nlm.nih.gov/protein/?term=Homo+sapiens) pro
 efetch -db protein -id NP_001186746,AAB51177,AAB51171,AAF88103,AAF88103 -format fasta > Human_proteins.fa
 ```
 
-**Multiple 16S rRNA sequences --- text file containing IDs**  
+**Multiple protein sequences --- text file containing IDs**  
 Same as above but instead submit a text file containing the IDs to download.
 ```
 # Text file called protein_ids.txt
